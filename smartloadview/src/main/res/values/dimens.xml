@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dp_14">14dp</dimen>
+    <dimen name="dp_35">35dp</dimen>
+    <dimen name="dp_17_5">17.5dp</dimen>
+    <dimen name="dp_150">150dp</dimen>
+    <dimen name="default_corner">0dp</dimen>
+</resources>
