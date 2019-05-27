@@ -382,7 +382,7 @@ public class SmartLoadingView extends View {
         paint.setStrokeWidth(4);
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
-        paint.setColor(cannotclick_color);
+        paint.setColor(normal_color);
 
 
         //文字画笔
@@ -538,7 +538,7 @@ public class SmartLoadingView extends View {
     }
 
 
-    private boolean isCanClick = false;//是否可以被点击
+    private boolean isCanClick = true;//是否可以被点击
 
     /**
      * 点击启动动画，
