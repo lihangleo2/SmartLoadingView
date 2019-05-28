@@ -537,8 +537,29 @@ public class SmartLoadingView extends View {
         pathMeasure = new PathMeasure(path, true);
     }
 
-
     private boolean isCanClick = true;//是否可以被点击
+
+
+    private boolean isAnimRuning = false;
+
+    private int clickIndex = 1;//用于判断重复点击的时间
+
+    public boolean isCanRest() {
+        if (clickIndex % 2 == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isAnimRuning() {
+        return isAnimRuning;
+    }
+
+    public boolean isCanClick() {
+        return isCanClick;
+    }
+
 
     /**
      * 点击启动动画，
@@ -546,9 +567,11 @@ public class SmartLoadingView extends View {
      */
     public void start() {
         if (isCanClick) {
+            clickIndex++;
             paint.setColor(normal_color);
             animatorSet.start();
             isCanClick = false;
+            isAnimRuning = true;
         }
     }
 
@@ -558,6 +581,27 @@ public class SmartLoadingView extends View {
         buttonString = errorString;
         paint.setColor(error_color);
         animatorNetfail.start();
+        animatorNetfail.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isAnimRuning = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     //加载失败运行(文案自定义)
@@ -566,6 +610,27 @@ public class SmartLoadingView extends View {
         buttonString = errorString;
         paint.setColor(error_color);
         animatorNetfail.start();
+        animatorNetfail.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isAnimRuning = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
 
@@ -581,6 +646,12 @@ public class SmartLoadingView extends View {
         int alpha = 255;
         textPaint.setAlpha(alpha);
         invalidate();
+
+        animator_draw_ok.cancel();
+        animatorSet.cancel();
+        animatorNetfail.cancel();
+        clickIndex++;
+
     }
 
 
@@ -633,6 +704,8 @@ public class SmartLoadingView extends View {
      * 绘制打勾动画
      */
     public void loginSuccess(final AnimationOKListener animationOKListener) {
+        //这个思路是对的，然后就是看clickindex是否一致
+        animator_draw_ok.cancel();
         animator_draw_ok.start();
         animator_draw_ok.addListener(new Animator.AnimatorListener() {
             @Override
@@ -643,6 +716,7 @@ public class SmartLoadingView extends View {
             @Override
             public void onAnimationEnd(Animator animation) {
                 animationOKListener.animationOKFinish();
+                isAnimRuning = false;
             }
 
             @Override
@@ -655,6 +729,7 @@ public class SmartLoadingView extends View {
 
             }
         });
+
     }
 
 
