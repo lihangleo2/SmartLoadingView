@@ -1,61 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@mipmap/main_bg"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:fitsSystemWindows="true"
+    >
 
-    <com.lihang.smartloadview.SmartLoadingView
-        android:id="@+id/animButton"
+    <TextView
+        android:id="@+id/text_style_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:cannotclickBg="#818180"
-        app:cornerRaius="30dp"
-        app:errorBg="#ff0000"
-        app:normalBg="#08f2c7"
-        app:textColor="#000"
-        app:textSize="14dp"
-        app:errorStr="错误信息呗"
-        app:textStr="要实现我已经超过了一条直线" />
+        android:background="@drawable/shape_button"
+        android:paddingLeft="15dp"
+        android:paddingTop="7dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="7dp"
+        android:text="样式--1 （常见登录场景）"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="35dp"
+        />
 
-    <Button
-        android:id="@+id/button_canClick"
+
+    <TextView
+        android:id="@+id/text_style_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="可以点击了" />
-
-    <Button
-        android:id="@+id/button_cannotClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_canClick"
-        android:text="不可点击" />
-
-
-    <Button
-        android:id="@+id/button_netError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_cannotClick"
-        android:text="加载失败" />
+        android:background="@drawable/shape_button"
+        android:paddingLeft="15dp"
+        android:paddingTop="7dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="7dp"
+        android:text="  样式--2  "
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        />
 
 
-    <Button
-        android:id="@+id/button_success"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_netError"
-        android:text="加载成功:mode 1" />
-
-
-    <Button
-        android:id="@+id/button_successOther"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_success"
-        android:text="加载成功:mode 2" />
-
-
-</RelativeLayout>
+</LinearLayout>

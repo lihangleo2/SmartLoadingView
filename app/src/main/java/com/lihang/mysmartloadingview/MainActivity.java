@@ -5,102 +5,37 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.lihang.smartloadview.SmartLoadingView;
 
+//startActivity(new Intent(MainActivity.this, SecondActivity.class));
+//        finish();
+//        overridePendingTransition(R.anim.scale_test_home, R.anim.scale_test2);
 public class MainActivity extends AppCompatActivity {
-    private SmartLoadingView animButton;
+    //沉浸式状态栏
+    protected ImmersionBar mImmersionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        animButton = findViewById(R.id.animButton);
-
-
-
-        findViewById(R.id.button_canClick).setOnClickListener(new View.OnClickListener() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.init();
+        findViewById(R.id.text_style_two).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animButton.reset();
+                startActivity(new Intent(MainActivity.this, FollowActivity.class));
             }
         });
 
-        findViewById(R.id.button_cannotClick).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animButton.cannotClick();
-            }
-        });
+    }
 
-        findViewById(R.id.button_netError).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animButton.netFaile();
-            }
-        });
-
-        findViewById(R.id.button_successOther).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //这是打勾动画
-                animButton.loginSuccess(new SmartLoadingView.AnimationOKListener() {
-                    @Override
-                    public void animationOKFinish() {
-                        Toast.makeText(MainActivity.this, "这是打勾结束的了", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-            }
-        });
-
-
-        findViewById(R.id.button_success).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                //这是扩散动画
-                animButton.loginSuccess(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        startActivity(new Intent(MainActivity.this, SecondActivity.class));
-                        finish();
-                        overridePendingTransition(R.anim.scale_test_home, R.anim.scale_test2);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-
-
-            }
-        });
-
-
-        animButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                animButton.start();
-            }
-        });
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mImmersionBar.destroy();
     }
 }
