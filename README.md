@@ -1,3 +1,6 @@
 # SmartLoadingView多效果按钮
-<img width="300"  src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/login_normal.gif"/>
-<img width="300"  src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow.gif"/>
+
+
+|滑动改变item|滑动到列表不可见，列表下滑|
+|:---:|:---:|
+|![]("https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/login_normal.gif")|![]("https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow.gif")|
