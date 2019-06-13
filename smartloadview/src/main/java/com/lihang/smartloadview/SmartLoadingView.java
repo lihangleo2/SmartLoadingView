@@ -17,6 +17,7 @@ import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -268,7 +269,7 @@ public class SmartLoadingView extends View {
             result = specSize;
         } else {
 //           result = (int) getContext().getResources().getDimension(R.dimen.dp_35);
-           result = textSize+(int) getContext().getResources().getDimension(R.dimen.dp_20);
+            result = textSize + (int) getContext().getResources().getDimension(R.dimen.dp_20);
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
             }
@@ -308,8 +309,32 @@ public class SmartLoadingView extends View {
         set_draw_ok_animation();
         animatorSet
                 .play(animator_rect_to_square).with(animator_rect_to_angle);
-
         animatorNetfail.play(animator_squareToRect).with(animator_angle_to_rect);
+        animatorNetfail.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
+                    isShowLongText = true;
+                } else {
+                    isShowLongText = false;
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
 
@@ -365,7 +390,13 @@ public class SmartLoadingView extends View {
                 isLoading = false;
                 startDrawOk = false;
                 int alpha = 255 - (current_left * 255) / default_all_distance;
-                textPaint.setAlpha(alpha);
+                if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
+                    if (current_left == 0) {
+                        textPaint.setAlpha(255);
+                    }
+                } else {
+                    textPaint.setAlpha(alpha);
+                }
                 invalidate();
             }
         });
@@ -527,13 +558,14 @@ public class SmartLoadingView extends View {
         Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
         int baseline = (textRect.bottom + textRect.top - fontMetrics.bottom - fontMetrics.top) / 2;
         if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
+
             textPath.reset();
             textPath.moveTo(height / 3, baseline);
             textPath.lineTo(width - height / 3, baseline);
             textPaint.setTextAlign(Paint.Align.RIGHT);
             canvas.drawTextOnPath(buttonString, textPath, scrollSize, 0, textPaint);
-
             if (isShowLongText) {
+
                 canvas.drawRect(new Rect(width - height / 2 - textSize / 3, 0, width - height / 2, height), paintOval);
                 canvas.drawRect(new Rect(height / 2, 0, height / 2 + textSize / 3, height), paintOval);
                 //这里有个bug 有个小点-5  因画笔粗细产生
@@ -558,6 +590,7 @@ public class SmartLoadingView extends View {
             }
         } else {
             isShowLongText = false;
+
             /**
              * 简单的绘制文字，没有考虑文字长度超过控件长度
              * */
@@ -613,6 +646,7 @@ public class SmartLoadingView extends View {
         if (isCanClick) {
             clickIndex++;
             paint.setColor(normal_color);
+            paintOval.setColor(normal_color);
             animatorSet.start();
             isCanClick = false;
             isAnimRuning = true;
@@ -627,6 +661,7 @@ public class SmartLoadingView extends View {
 
     //加载失败运行(默认加载失败文案)
     public void netFaile() {
+        paintOval.setColor(error_color);
         buttonString = errorString;
         paint.setColor(error_color);
         animatorNetfail.start();
@@ -655,6 +690,7 @@ public class SmartLoadingView extends View {
 
     //加载失败运行(文案自定义)
     public void netFaile(String message) {
+        paintOval.setColor(error_color);
         errorString = message;
         buttonString = errorString;
         paint.setColor(error_color);
@@ -697,6 +733,7 @@ public class SmartLoadingView extends View {
         startDrawOk = false;
         int alpha = 255;
         textPaint.setAlpha(alpha);
+        paintOval.setColor(normal_color);
         invalidate();
 
         animator_draw_ok.cancel();
