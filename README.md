@@ -1,8 +1,8 @@
 ## SmartLoadingView多效果按钮，先展示效果
 
-|登录效果展示|关注效果展示|敬请关注|
+|登录效果展示|关注效果展示|非圆角按钮|
 |:---:|:---:|:---:|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/login_normal.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow.gif)|![]()
+|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/login_normal.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/otherfollow.gif)
 
 ## 添加依赖
 
@@ -141,23 +141,27 @@ private Handler mhandler = new Handler() {
 ```
 
  # Api说明
- ## ① app:cornerRaius="30dp"   按钮圆角属性
- 
- ## ② app:normalBg="#08f2c7"   按钮正常背景颜色值
- 
+ ## ① 圆角属性
+  - app:cornerRaius="30dp"  按钮圆角大小
+  
+ ## ② 正常背景颜色值
+  - app:normalBg="#08f2c7"  按钮正常背景颜色值
+  
  ## ③ 按钮字体
  - app:textColor="#fff"  字体颜色
  - app:textSize="14dp"   字体大小
  - app:textStr="登录"    字体文案
 
- ## ④ app:cannotclickBg="#bcb6b6"  按钮不可点击状态下的背景颜色值（设置不可点击：smartLoadingView.cannotClick();）
+ ## ④ 按钮不可点击状态下的背景颜色值（设置不可点击：smartLoadingView.cannotClick();）
+ - app:cannotclickBg="#bcb6b6"    按钮不可点击状态背景颜色值
  
  ## ③ 按钮联网错误状态
  - app:errorBg="#f57676"    错误背景颜色值
  - app:errorStr="错误信息"   错误文案
 
- ## ⑥  app:scrollSpeed="500"   按钮文案过程的文字滚动速度
-            
- ## ⑦  想恢复所有初始值通过：smartLoadingView.reset();
-           
+ ## ⑥ 按钮文案过程的文字滚动速度
+ - app:scrollSpeed="500"    文字滚动速度,每个文字滚动屏幕外所需的时间
+ 
+ ## ⑦  想恢复所有初始值通过：
+ - smartLoadingView.reset();    
 
