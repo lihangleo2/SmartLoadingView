@@ -14,10 +14,12 @@ import android.graphics.PathEffect;
 import android.graphics.PathMeasure;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 
 
 /**
@@ -80,6 +82,11 @@ public class SmartLoadingView extends View {
     private RectF rectf = new RectF();
 
     /**
+     * 文字滚动2遍遮挡
+     */
+    private Paint paintOval;
+
+    /**
      * 动画集
      */
     private AnimatorSet animatorSet = new AnimatorSet();//这是开始的启动
@@ -107,6 +114,12 @@ public class SmartLoadingView extends View {
      * 圆角矩形到矩形的动画
      */
     private ValueAnimator animator_angle_to_rect;
+
+
+    /**
+     * 文字长度过长时，开启的文字滚动动画
+     */
+    private ValueAnimator animator_text_scroll;
 
 
     /**
@@ -172,6 +185,11 @@ public class SmartLoadingView extends View {
      */
     private int textSize;
 
+    /**
+     * 文字滚动速度
+     */
+    private int scrollSpeed;
+
 
     /**
      * 按钮文字字符串
@@ -193,8 +211,6 @@ public class SmartLoadingView extends View {
      * 用于绘画文字
      */
     private Path textPath = new Path();
-    private int textLength;
-    private int addLength = 0;//自增长的长度
     private boolean directionFlag = true;
 
 
@@ -215,7 +231,9 @@ public class SmartLoadingView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(measureWidth(widthMeasureSpec), measuredHeight(heightMeasureSpec));
+        height = measuredHeight(heightMeasureSpec);
+        width = measureWidth(widthMeasureSpec);
+        setMeasuredDimension(width, height);
     }
 
 
@@ -230,7 +248,8 @@ public class SmartLoadingView extends View {
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else {//这是wrap的模式，给一个固定大小
-            result = (int) getContext().getResources().getDimension(R.dimen.dp_150);
+//            result = (int) getContext().getResources().getDimension(R.dimen.dp_150);
+            result = buttonString.length() * textSize + height * 5 / 3;
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
             }
@@ -248,7 +267,8 @@ public class SmartLoadingView extends View {
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
         } else {
-            result = result = (int) getContext().getResources().getDimension(R.dimen.dp_35);
+//           result = (int) getContext().getResources().getDimension(R.dimen.dp_35);
+           result = textSize+(int) getContext().getResources().getDimension(R.dimen.dp_20);
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
             }
@@ -272,9 +292,13 @@ public class SmartLoadingView extends View {
         textColor = typedArray.getColor(R.styleable.SmartLoadingView_textColor, getResources().getColor(R.color.text_color));
         obtainCircleAngle = (int) typedArray.getDimension(R.styleable.SmartLoadingView_cornerRaius, getResources().getDimension(R.dimen.default_corner));
         textSize = (int) typedArray.getDimension(R.styleable.SmartLoadingView_textSize, getResources().getDimension(R.dimen.dp_14));
-
+        scrollSpeed = typedArray.getInteger(R.styleable.SmartLoadingView_scrollSpeed, 500);
     }
 
+    public int dip2px(Context context, float dipValue) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
 
     /**
      * 初始化所有动画
@@ -307,7 +331,12 @@ public class SmartLoadingView extends View {
                     isLoading = true;
                 }
                 int alpha = 255 - (current_left * 255) / default_all_distance;
-                textPaint.setAlpha(alpha);
+
+                if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
+                    textPaint.setAlpha(0);
+                } else {
+                    textPaint.setAlpha(alpha);
+                }
                 invalidate();
             }
         });
@@ -384,6 +413,12 @@ public class SmartLoadingView extends View {
         paint.setAntiAlias(true);
         paint.setColor(normal_color);
 
+        paintOval = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintOval.setStrokeWidth(4);
+        paintOval.setStyle(Paint.Style.FILL);
+        paintOval.setAntiAlias(true);
+        paintOval.setColor(normal_color);
+
 
         //文字画笔
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -418,10 +453,14 @@ public class SmartLoadingView extends View {
             textSize = height * 3 / 4;
             textPaint.setTextSize(textSize);
         }
-        textLength = textSize;
         circleAngle = obtainCircleAngle;
         default_all_distance = (w - h) / 2;
-
+        scrollSize = buttonString.length() * textSize - width + height * 2 / 3;
+        if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
+            isShowLongText = true;
+        } else {
+            isShowLongText = false;
+        }
         initOk();
         initAnimation();
 
@@ -438,7 +477,7 @@ public class SmartLoadingView extends View {
 
         //绘制加载进度
         if (isLoading) {
-            canvas.drawArc(new RectF(width / 2 - height / 2 + UIUtil.dip2px(getContext(), 10), UIUtil.dip2px(getContext(), 10), width / 2 + height / 2 - UIUtil.dip2px(getContext(), 10), height / 2 + height / 2 - UIUtil.dip2px(getContext(), 10)), startAngle, progAngle, false, okPaint);
+            canvas.drawArc(new RectF(width / 2 - height / 2 + height / 4, height / 4, width / 2 + height / 2 - height / 4, height / 2 + height / 2 - height / 4), startAngle, progAngle, false, okPaint);
             startAngle += 6;
             if (progAngle >= 270) {
                 progAngle -= 2;
@@ -474,6 +513,9 @@ public class SmartLoadingView extends View {
     }
 
 
+    private int scrollSize;
+    private boolean isShowLongText;//是否是长文字状态
+
     /**
      * 绘制文字
      */
@@ -484,36 +526,38 @@ public class SmartLoadingView extends View {
         textRect.bottom = height;
         Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
         int baseline = (textRect.bottom + textRect.top - fontMetrics.bottom - fontMetrics.top) / 2;
-
-        int canScrollLenthRight = (buttonString.length() * textSize) - width - 2 * textSize;
-        int canScrollLenthLeft = (buttonString.length() * textSize) - width + (2 * textSize);
-
-        if ((buttonString.length() * textSize) > (width - (2 * textSize))) {
-            //如果文字超过控件长度
-            Log.e("加载失败走的呢", buttonString + "====111111111111111");
-            if (Math.abs(addLength) >= canScrollLenthRight && addLength >= 0) {
-                directionFlag = !directionFlag;
-            } else if (Math.abs(addLength) >= canScrollLenthLeft && addLength < 0) {
-                directionFlag = !directionFlag;
-            }
-
-
-            if (directionFlag) {
-                addLength -= 1;
-                textLength -= 1;
-            } else {
-                addLength += 1;
-                textLength += 1;
-            }
-
+        if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
             textPath.reset();
-            textPath.moveTo(textLength, baseline);
-            textPath.lineTo((buttonString.length() * textSize) + textLength, baseline);
+            textPath.moveTo(height / 3, baseline);
+            textPath.lineTo(width - height / 3, baseline);
             textPaint.setTextAlign(Paint.Align.RIGHT);
-            canvas.drawTextOnPath(buttonString, textPath, 0, 0, textPaint);
-            postInvalidate();
+            canvas.drawTextOnPath(buttonString, textPath, scrollSize, 0, textPaint);
+
+            if (isShowLongText) {
+                canvas.drawRect(new Rect(width - height / 2 - textSize / 3, 0, width - height / 2, height), paintOval);
+                canvas.drawRect(new Rect(height / 2, 0, height / 2 + textSize / 3, height), paintOval);
+                //这里有个bug 有个小点-5  因画笔粗细产生
+                canvas.drawArc(new RectF(width - height, 0, width - 5, height), -90, 180, true, paintOval);
+                canvas.drawArc(new RectF(0, 0, height, height), 90, 180, true, paintOval);
+            }
+
+            if (animator_text_scroll == null) {
+                animator_text_scroll = ValueAnimator.ofInt(buttonString.length() * textSize - width + height * 2 / 3, -textSize);
+                animator_text_scroll.setDuration(buttonString.length() * scrollSpeed);
+                animator_text_scroll.setRepeatMode(ValueAnimator.REVERSE);
+                animator_text_scroll.setInterpolator(new LinearInterpolator());
+                animator_text_scroll.setRepeatCount(-1);
+                animator_text_scroll.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        scrollSize = (int) animation.getAnimatedValue();
+                        postInvalidate();
+                    }
+                });
+                animator_text_scroll.start();
+            }
         } else {
-            Log.e("加载失败走的呢", buttonString + "====222");
+            isShowLongText = false;
             /**
              * 简单的绘制文字，没有考虑文字长度超过控件长度
              * */
@@ -572,6 +616,11 @@ public class SmartLoadingView extends View {
             animatorSet.start();
             isCanClick = false;
             isAnimRuning = true;
+            if (animator_text_scroll != null) {
+                animator_text_scroll.cancel();
+                animator_text_scroll = null;
+            }
+            isShowLongText = false;
         }
     }
 
@@ -636,6 +685,9 @@ public class SmartLoadingView extends View {
 
     //重置所有状态
     public void reset() {
+        if (animator_draw_ok == null) {
+            return;
+        }
         buttonString = normalString;
         circleAngle = obtainCircleAngle;
         paint.setColor(normal_color);
@@ -651,7 +703,15 @@ public class SmartLoadingView extends View {
         animatorSet.cancel();
         animatorNetfail.cancel();
         clickIndex++;
-
+        if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
+            isShowLongText = true;
+        } else {
+            isShowLongText = false;
+        }
+        scrollSize = buttonString.length() * textSize - width + height * 2 / 3;
+        if (circlBigView != null) {
+            circlBigView.setCircleR(0);
+        }
     }
 
 
@@ -662,6 +722,19 @@ public class SmartLoadingView extends View {
         invalidate();
     }
 
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 11:
+                    Animator.AnimatorListener endListener = (Animator.AnimatorListener) msg.obj;
+                    toBigCircle(endListener);
+                    break;
+            }
+        }
+    };
 
     /**
      * mode:1
@@ -674,28 +747,10 @@ public class SmartLoadingView extends View {
         } else {
             //当点击按钮的时候请求网络，加入动画执行时间大于网络请求时间，
             //那么咱们默认，执行完加载动画后，立即执行加载成功动画
-            animatorSet.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    toBigCircle(endListener);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-
+            Message message = new Message();
+            message.what = 11;
+            message.obj = endListener;
+            mHandler.sendMessageDelayed(message, 1000);
         }
     }
 
@@ -732,19 +787,21 @@ public class SmartLoadingView extends View {
 
     }
 
+    CirclBigView circlBigView = new CirclBigView(getContext());
 
     public void toBigCircle(Animator.AnimatorListener endListener) {
-        CirclBigView circlBigView = new CirclBigView(getContext());
         circlBigView.setRadius(this.getMeasuredHeight() / 2);
         circlBigView.setColorBg(normal_color);
         int[] location = new int[2];
         this.getLocationOnScreen(location);
         circlBigView.setXY(location[0] + this.getMeasuredWidth() / 2, location[1]);
-
-        ViewGroup activityDecorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        activityDecorView.addView(circlBigView, layoutParams);
+        if (circlBigView.getParent() == null) {
+            ViewGroup activityDecorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            activityDecorView.addView(circlBigView, layoutParams);
+        }
         circlBigView.startShowAni(endListener);
+        isAnimRuning = false;
     }
 
 
@@ -757,6 +814,60 @@ public class SmartLoadingView extends View {
          * 动画完成回调
          */
         void animationOKFinish();
+    }
+
+
+    /**
+     * 关注点击事件回调
+     */
+    public interface FollowClickListener {
+        void followClick();
+    }
+
+    public void setFollowClickListener(final FollowClickListener followClickListener) {
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (followClickListener != null) {
+                    //防止重复点击
+                    if (!isAnimRuning) {
+
+                        if (!isCanRest()) {
+                            start();
+                            followClickListener.followClick();
+                        } else {
+                            reset();
+                        }
+
+                    }
+
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 登录点击事件回调
+     */
+    public interface LoginClickListener {
+        void click();
+    }
+
+    public void setLoginClickListener(final LoginClickListener loginClickListener) {
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (loginClickListener != null) {
+                    //防止重复点击
+                    if (!isAnimRuning) {
+                        start();
+                        loginClickListener.click();
+                    }
+
+                }
+            }
+        });
     }
 
 

@@ -44,6 +44,8 @@ public class CirclBigView extends View {
         int left_big = left_top >= left_bottom ? left_top : left_bottom;
         int right_big = right_top >= right_bottom ? right_top : right_bottom;
         maxRadius = left_big >= right_big ? left_big : right_big;
+        //这里虚拟键有个bug，我们把半径大小稍加长
+        maxRadius = maxRadius + UIUtil.getWidth(getContext()) / 6;
 
 
         animator_big = ValueAnimator.ofInt(myRadius, maxRadius);
@@ -64,6 +66,12 @@ public class CirclBigView extends View {
         fatherRadius = radius;
     }
 
+    public void setCircleR(int currentR) {
+        myRadius = currentR;
+        postInvalidate();
+    }
+
+
     public CirclBigView(Context context) {
         this(context, null);
     }
@@ -81,7 +89,7 @@ public class CirclBigView extends View {
     }
 
 
-    public void setColorBg(int colorBg){
+    public void setColorBg(int colorBg) {
         showPaint.setColor(colorBg);
     }
 
@@ -92,13 +100,18 @@ public class CirclBigView extends View {
         canvas.drawCircle(x, y + fatherRadius, myRadius, showPaint);
     }
 
+    Animator.AnimatorListener myAnimatorListener;
 
     public void startShowAni(Animator.AnimatorListener circleEndListener) {
+        if (myAnimatorListener == null) {
+            myAnimatorListener = circleEndListener;
+        }
+
         if (!animator_big.isRunning()) {
             animator_big.start();
         }
-        if (circleEndListener != null) {
-            animator_big.addListener(circleEndListener);
+        if (myAnimatorListener != null) {
+            animator_big.addListener(myAnimatorListener);
         }
     }
 
