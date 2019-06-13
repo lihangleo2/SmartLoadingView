@@ -1,2 +1,2 @@
-# SmartLoadingView
-一款酷炫的加载按钮
+# SmartLoadingView多效果按钮
+<img width="300"  src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/login_normal.gif"/>
