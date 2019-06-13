@@ -155,7 +155,7 @@ private Handler mhandler = new Handler() {
  ## ④ 按钮不可点击状态下的背景颜色值（设置不可点击：smartLoadingView.cannotClick();）
  - app:cannotclickBg="#bcb6b6"    按钮不可点击状态背景颜色值
  
- ## ③ 按钮联网错误状态
+ ## ⑤ 按钮联网错误状态
  - app:errorBg="#f57676"    错误背景颜色值
  - app:errorStr="错误信息"   错误文案
 
