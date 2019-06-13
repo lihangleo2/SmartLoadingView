@@ -41,7 +41,7 @@ public class FollowActivity extends AppCompatActivity {
                     break;
 
                 case 13:
-                    animButtonThree.netFaile("关注成功");
+                    animButtonThree.netFaile("关注成功关注成功关注成功关注成功关注成功关注成功关注成功关注成功");
                     break;
             }
         }

@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements SmartLoadingView.
         text_style_one = findViewById(R.id.text_style_one);
         text_style_one.setLoginClickListener(this);
         text_style_two = findViewById(R.id.text_style_two);
+
         text_style_two.setLoginClickListener(new SmartLoadingView.LoginClickListener() {
             @Override
             public void click() {

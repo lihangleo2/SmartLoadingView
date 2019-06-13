@@ -229,6 +229,10 @@
             app:textColor="#fff"
             app:textSize="14dp"
             app:textStr="登录"
+            app:cannotclickBg="#bcb6b6"
+            app:errorBg="#f57676"
+            app:errorStr="错误信息"
+            app:scrollSpeed="500"
             />
 
 
