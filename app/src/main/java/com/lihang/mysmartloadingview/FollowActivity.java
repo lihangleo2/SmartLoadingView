@@ -5,10 +5,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.lihang.smartloadview.SmartLoadingView;
 
 /**
@@ -18,6 +17,9 @@ import com.lihang.smartloadview.SmartLoadingView;
 public class FollowActivity extends AppCompatActivity {
     private SmartLoadingView animButton;
     private SmartLoadingView animButtonTwo;
+    private SmartLoadingView animButtonThree;
+    //沉浸式状态栏
+    protected ImmersionBar mImmersionBar;
 
     private Handler mhandler = new Handler() {
         @Override
@@ -32,12 +34,14 @@ public class FollowActivity extends AppCompatActivity {
                             Toast.makeText(FollowActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
                     });
-
                     break;
-
 
                 case 12:
                     animButtonTwo.netFaile("关注成功");
+                    break;
+
+                case 13:
+                    animButtonThree.netFaile("关注成功");
                     break;
             }
         }
@@ -47,45 +51,46 @@ public class FollowActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.init();
         animButton = findViewById(R.id.animButton);
         animButtonTwo = findViewById(R.id.animButtonTwo);
-        animButton.setOnClickListener(new View.OnClickListener() {
+        animButtonThree = findViewById(R.id.animButtonThree);
+
+        animButton.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
             @Override
-            public void onClick(View v) {
+            public void followClick() {
+                //按钮点击后去进行联网操作
+                //这里是模拟联网情况
+                mhandler.sendEmptyMessageDelayed(11, 2000);
+            }
+        });
 
-                if (!animButton.isAnimRuning()) {
-
-                    if (!animButton.isCanRest()) {
-                        animButton.start();
-                        //这里是模拟联网情况
-                        mhandler.sendEmptyMessageDelayed(11, 1500);
-                    } else {
-                        animButton.reset();
-                    }
-
-                }
+        animButtonTwo.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
+            @Override
+            public void followClick() {
+                //按钮点击后去进行联网操作
+                //这里是模拟联网情况
+                mhandler.sendEmptyMessageDelayed(12, 2000);
             }
         });
 
 
-        animButtonTwo.setOnClickListener(new View.OnClickListener() {
+        animButtonThree.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
             @Override
-            public void onClick(View v) {
-
-                if (!animButtonTwo.isAnimRuning()) {
-
-                    if (!animButtonTwo.isCanRest()) {
-                        animButtonTwo.start();
-                        //这里是模拟联网情况
-                        mhandler.sendEmptyMessageDelayed(12, 1500);
-                    } else {
-                        animButtonTwo.reset();
-                    }
-
-                }
-
+            public void followClick() {
+                //按钮点击后去进行联网操作
+                //这里是模拟联网情况
+                mhandler.sendEmptyMessageDelayed(13, 2000);
             }
         });
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mImmersionBar.destroy();
     }
 }

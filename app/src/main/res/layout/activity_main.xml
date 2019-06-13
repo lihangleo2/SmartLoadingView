@@ -10,31 +10,29 @@
     android:fitsSystemWindows="true"
     >
 
-    <TextView
+    <com.lihang.smartloadview.SmartLoadingView
         android:id="@+id/text_style_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_button"
-        android:paddingLeft="15dp"
-        android:paddingTop="7dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="7dp"
-        android:text="样式--1 （常见登录场景）"
+        app:cornerRaius="30dp"
+        app:normalBg="#fff"
+        app:textColor="#000"
+        app:textSize="14dp"
+        app:textStr="样式--1 （常见登录场景）"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="35dp"
         />
 
 
-    <TextView
+    <com.lihang.smartloadview.SmartLoadingView
         android:id="@+id/text_style_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_button"
-        android:paddingLeft="15dp"
-        android:paddingTop="7dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="7dp"
-        android:text="  样式--2  "
+        app:cornerRaius="30dp"
+        app:normalBg="#fff"
+        app:textColor="#000"
+        app:textSize="14dp"
+        app:textStr="样式--2"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         />

@@ -23,7 +23,9 @@
 
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitlescreen"
+            />
 
         <activity
             android:name=".SecondActivity"
@@ -31,6 +33,7 @@
 
         <activity android:name=".FollowActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/NoTitlescreen"
             />
     </application>
 

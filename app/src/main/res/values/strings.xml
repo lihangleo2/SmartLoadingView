@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MySmartLoadingView</string>
+    <string name="filter_vcode">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 </resources>

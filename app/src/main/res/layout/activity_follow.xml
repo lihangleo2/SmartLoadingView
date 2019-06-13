@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/main_bg"
+    android:gravity="center"
     >
 
 
     <RelativeLayout
         android:id="@+id/relative"
-        android:layout_marginTop="25dp"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
@@ -36,9 +37,8 @@
     </RelativeLayout>
 
 
-
-
     <RelativeLayout
+        android:id="@+id/relative_"
         android:layout_below="@+id/relative"
         android:layout_marginTop="35dp"
         android:layout_width="wrap_content"
@@ -68,5 +68,35 @@
             />
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:layout_below="@+id/relative_"
+        android:layout_marginTop="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        >
+
+        <com.lihang.mysmartloadingview.customview.CircleImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/girl_head"
+            android:layout_centerHorizontal="true"
+            />
+
+        <com.lihang.smartloadview.SmartLoadingView
+            android:id="@+id/animButtonThree"
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            app:cornerRaius="30dp"
+            app:normalBg="#08f2c7"
+            app:textColor="#fff"
+            app:textSize="12dp"
+            app:textStr="文案长度超过了控件长度,文字自动回滚！！"
+            app:errorBg="#ff7e7e"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>
