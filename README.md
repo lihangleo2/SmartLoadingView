@@ -1,4 +1,5 @@
 ## SmartLoadingView多效果按钮，先展示效果
+[我的博客,关于smartLoadingView的讲解](https://blog.csdn.net/leol_2/article/details/92564600)  
 
 |登录效果展示|关注效果展示|非圆角按钮|
 |:---:|:---:|:---:|
@@ -164,4 +165,5 @@ private Handler mhandler = new Handler() {
  
  ## ⑦  想恢复所有初始值通过：
  - smartLoadingView.reset();    
+ 
 
