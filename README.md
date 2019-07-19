@@ -164,6 +164,8 @@ private Handler mhandler = new Handler() {
  - app:scrollSpeed="500"    文字滚动速度,每个文字滚动屏幕外所需的时间
  
  ## ⑦  想恢复所有初始值通过：
- - smartLoadingView.reset();    
+ - smartLoadingView.reset();   
+ 
+ [SmartLoadingView较详细讲解](https://blog.csdn.net/leol_2/article/details/92564600)  
  
 
