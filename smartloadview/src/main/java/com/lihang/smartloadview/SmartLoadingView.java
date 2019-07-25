@@ -760,7 +760,7 @@ public class SmartLoadingView extends View {
     }
 
     //按钮可点击
-    public void cannotClick() {
+    public void canClick() {
         if(!isCanClick){
             isCanClick = true;
             paint.setColor(normal_color);
