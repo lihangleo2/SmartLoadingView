@@ -759,6 +759,14 @@ public class SmartLoadingView extends View {
         invalidate();
     }
 
+    //按钮可点击
+    public void cannotClick() {
+        if(!isCanClick){
+            isCanClick = true;
+            paint.setColor(normal_color);
+            invalidate();
+        }
+    }
 
     private Handler mHandler = new Handler() {
         @Override
@@ -865,7 +873,7 @@ public class SmartLoadingView extends View {
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (followClickListener != null) {
+                if (followClickListener != null && isCanClick) {
                     //防止重复点击
                     if (!isAnimRuning) {
 
@@ -895,7 +903,7 @@ public class SmartLoadingView extends View {
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (loginClickListener != null) {
+                if (loginClickListener != null && isCanClick) {
                     //防止重复点击
                     if (!isAnimRuning) {
                         start();
