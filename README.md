@@ -102,6 +102,11 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
 
 <br>
 
+## 扫描二维体验效果(下载密码是：123456)
+![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/SmartLoadingView_.png)
+
+<br>
+
  # 自定义属性
  #### 按钮文案
  - android:text="自带dialog按钮"  使用了textView的text文字属性
