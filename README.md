@@ -71,19 +71,19 @@ smartLoadingView.setOnClickListener(new View.OnClickListener() {
 ```
 
 <br>
+
 点击按钮，联网开始时，启动动画
 ```java
 smartLoadingView.start();
 ```
 
 <br>
+
 这里我用了RxJava延迟了2s 模拟联网成功。你也可以用handler延迟实现这个功能,这里用了下lambda表达式，可以忽略，只要看下面代码。
 ```java
 //这样既可实现，从一个页面转场动画跳转到另外一个页面（注意这样跳转，第一个页面会被finish掉）。
 smartLoadingView.onSuccess(MainActivity.this, SecondActivity.class);
 ```
-
-
 
 <br>
 
