@@ -7,9 +7,9 @@
 
 ## 一、转场动画的使用
 
-|动画结束后自动跳转|自己监听动画实现逻辑|非圆角按钮|
+|动画结束后自动跳转|自己监听动画实现逻辑|
 |:---:|:---:|:---:|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_2.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/otherfollow.gif)
+|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_2.gif)
 
 
 
