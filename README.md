@@ -90,7 +90,7 @@ smartLoadingView.onSuccess(MainActivity.this, SecondActivity.class);
 <br>
 
 ### 1.2、自己监听动画实现逻辑
-前面和 1.1 都一样，不同的时，联网成功的时候，增加动画结束的监听
+前面点击事件和启动动画和 1.1 都一样，不同的时，联网成功的时候，增加动画结束的监听（这里逻辑都是自己处理，不会关闭和跳转任何页面）
 ```java
 smartLoadingView.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
                         @Override
