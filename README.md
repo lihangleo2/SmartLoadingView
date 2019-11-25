@@ -1,5 +1,7 @@
-## SmartLoadingView多效果按钮，先展示效果
-[我的博客,关于smartLoadingView的讲解](https://blog.csdn.net/leol_2/article/details/92564600)  
+## SmartLoadingView一个自带dialog的联网请求按钮
+* 支持在任何布局上使用
+* 支持转场动画（可用于登录）
+* 支持正常网络请求且带有多种酷炫效果
 
 |登录效果展示|关注效果展示|非圆角按钮|
 |:---:|:---:|:---:|
