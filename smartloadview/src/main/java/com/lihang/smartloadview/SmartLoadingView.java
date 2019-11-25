@@ -168,6 +168,8 @@ public class SmartLoadingView extends TextView {
     private int textColor;
     //当前字体透明度
     private int textAlpha;
+    //文字滚动速度
+    private int speed;
 
     //这是全屏动画
     private CirclBigView circlBigView;
@@ -211,7 +213,7 @@ public class SmartLoadingView extends TextView {
                 , getResources().getColor(R.color.guide_anim));
         obtainCircleAngle = (int) typedArray.getDimension(R.styleable.SmartLoadingView_cornerRaius, getResources().getDimension(R.dimen.default_corner));
         textScrollMode = typedArray.getInt(R.styleable.SmartLoadingView_textScrollMode, 1);
-
+        speed = typedArray.getInt(R.styleable.SmartLoadingView_speed, 400);
         int paddingTop = getPaddingTop() == 0 ? dip2px(7) : getPaddingTop();
         int paddingBottom = getPaddingBottom() == 0 ? dip2px(7) : getPaddingBottom();
         int paddingLeft = getPaddingLeft() == 0 ? dip2px(15) : getPaddingLeft();
@@ -453,7 +455,7 @@ public class SmartLoadingView extends TextView {
                 if (animator_text_scroll == null && !isLoading) {
                     //此时文字长度已经超过一行，进行文字滚动
                     animator_text_scroll = ValueAnimator.ofInt(textRect.left, (int) (textRect.left - textPaint.measureText(currentString) + (getWidth() - getPaddingLeft() - getPaddingRight())));
-                    animator_text_scroll.setDuration(currentString.length() * 400);
+                    animator_text_scroll.setDuration(currentString.length() * speed);
                     animator_text_scroll.setRepeatMode(ValueAnimator.REVERSE);
                     animator_text_scroll.setRepeatCount(-1);
                     animator_text_scroll.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -471,7 +473,7 @@ public class SmartLoadingView extends TextView {
                 if (animator_text_scroll == null && !isLoading) {
                     //此时文字长度已经超过一行，进行文字滚动
                     animator_text_scroll = ValueAnimator.ofInt(textRect.left, (int) (textRect.left - textPaint.measureText(currentString)));
-                    animator_text_scroll.setDuration(currentString.length() * 400);
+                    animator_text_scroll.setDuration(currentString.length() * speed);
                     animator_text_scroll.setInterpolator(new LinearInterpolator());
                     animator_text_scroll.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
@@ -486,7 +488,7 @@ public class SmartLoadingView extends TextView {
                                 }
                             }
                             if (animator_marque == null && !isLoading && drawTextStart <= (int) (textRect.left - textPaint.measureText(currentString) + (getWidth() - getPaddingLeft() - getPaddingRight()) - (getWidth() - getPaddingLeft() - getPaddingRight()) / 3)) {
-                                int duration = (int) (((currentString.length() * 400) * (textRect.right - textRect.left)) / textPaint.measureText(currentString));
+                                int duration = (int) (((currentString.length() * speed) * (textRect.right - textRect.left)) / textPaint.measureText(currentString));
                                 animator_marque = ValueAnimator.ofInt(textRect.right, textRect.left);
                                 animator_marque.setDuration(duration);
                                 animator_marque.setInterpolator(new LinearInterpolator());
@@ -722,6 +724,7 @@ public class SmartLoadingView extends TextView {
     }
 
     private Class clazz;
+
     //开启全屏动画，不需要监听动画，只需要传入值，即可实现跳转
     public void onSuccess(Activity activity, Class clazz) {
         //必须，点击了最开始的动画处于，加载状态，才能获得回调

@@ -16,7 +16,10 @@
             <enum name="normal" value="1" />
             <enum name="marquee" value="2" />
         </attr>
+        <!--        按钮是否可以点击状态-->
         <attr name="smart_clickable" format="boolean" />
+        <!--        文字滚动速度，只有文字滚动时生效。这里是每个文子滚动出屏幕外所需的时间-->
+        <attr name="speed" format="integer" />
 
 
     </declare-styleable>
