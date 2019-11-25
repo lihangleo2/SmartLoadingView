@@ -2,11 +2,14 @@ package com.lihang.smartloadview;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 
@@ -29,6 +32,24 @@ public class CirclBigView extends View {
 
     //最大能扩散到的半径
     private int maxRadius;
+
+
+    public CirclBigView(Context context) {
+        this(context, null);
+    }
+
+    public CirclBigView(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public CirclBigView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        showPaint = new Paint();
+        showPaint.setAntiAlias(true);
+        showPaint.setStyle(Paint.Style.FILL);
+        showPaint.setColor(getResources().getColor(R.color.guide_anim));
+    }
+
 
     public void setXY(int x, int y) {
         this.x = x;
@@ -72,23 +93,6 @@ public class CirclBigView extends View {
     }
 
 
-    public CirclBigView(Context context) {
-        this(context, null);
-    }
-
-    public CirclBigView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public CirclBigView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        showPaint = new Paint();
-        showPaint.setAntiAlias(true);
-        showPaint.setStyle(Paint.Style.FILL);
-        showPaint.setColor(getResources().getColor(R.color.guide_anim));
-    }
-
-
     public void setColorBg(int colorBg) {
         showPaint.setColor(colorBg);
     }
@@ -100,18 +104,69 @@ public class CirclBigView extends View {
         canvas.drawCircle(x, y + fatherRadius, myRadius, showPaint);
     }
 
-    Animator.AnimatorListener myAnimatorListener;
 
-    public void startShowAni(Animator.AnimatorListener circleEndListener) {
-        if (myAnimatorListener == null) {
-            myAnimatorListener = circleEndListener;
+    public void startShowAni(final SmartLoadingView.AnimationFullScreenListener animationFullScreenListener, final SmartLoadingView smartLoadingView) {
+
+        if (animationFullScreenListener != null) {
+            if (!animator_big.isRunning()) {
+                animator_big.start();
+            }
+            if (animationFullScreenListener != null) {
+                animator_big.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        animationFullScreenListener.animationFullScreenFinish();
+                        smartLoadingView.resetLater();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            }
+
         }
+    }
+
+
+    public void startShowAni(final Activity activity, final Class clazz) {
 
         if (!animator_big.isRunning()) {
             animator_big.start();
-        }
-        if (myAnimatorListener != null) {
-            animator_big.addListener(myAnimatorListener);
+            animator_big.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    activity.startActivity(new Intent(activity, clazz));
+                    activity.finish();
+                    activity.overridePendingTransition(R.anim.scale_test_home, R.anim.scale_test2);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
         }
     }
 

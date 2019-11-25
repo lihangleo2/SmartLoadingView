@@ -2,25 +2,45 @@ package com.lihang.smartloadview;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PathMeasure;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
+import android.text.method.SingleLineTransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
+import android.widget.TextView;
 
 
 /**
@@ -29,190 +49,128 @@ import android.view.animation.LinearInterpolator;
  * 2019.5.23
  */
 
-public class SmartLoadingView extends View {
+public class SmartLoadingView extends TextView {
 
-    /**
-     * view的宽度
-     */
+    //view的宽度
     private int width;
-    /**
-     * view的高度
-     */
+
+    //View的高度
     private int height;
-    /**
-     * 圆角半径
-     */
+
+    //圆角半径
     private int circleAngle;
+
     //从用户获得的圆角
     private int obtainCircleAngle;
-    /**
-     * 矩形2边需要缩短的距离
-     */
+
+    private int textScrollMode = 1;//文字滚动模式，默认为1：来回滚动
+
+    //矩形2边需要缩短的距离
     private int default_all_distance;
-    /**
-     * 当前矩形在x轴left的位置
-     */
+
+    //当前矩形在x轴left的位置
     private int current_left;
 
-    /**
-     * 动画执行时间
-     */
+    //动画执行时间
     private int duration = 500;
 
-    /**
-     * 圆角矩形画笔
-     */
+    //圆角矩形画笔
     private Paint paint;
-    /**
-     * 文字画笔
-     */
-    private Paint textPaint;
-    /**
-     * 对勾（√）画笔
-     */
+
+
+    //对勾（√）画笔
     private Paint okPaint;
 
-    /**
-     * 文字绘制所在矩形
-     */
+    //文字绘制所在矩形
     private Rect textRect = new Rect();
 
-    /**
-     * 根据view的大小设置成矩形
-     */
+    //根据view的大小设置成矩形
     private RectF rectf = new RectF();
-
-    /**
-     * 文字滚动2遍遮挡
-     */
-    private Paint paintOval;
 
     /**
      * 动画集
      */
-    private AnimatorSet animatorSet = new AnimatorSet();//这是开始的启动
+    //这是开始的启动
+    private AnimatorSet animatorSet = new AnimatorSet();
+    //这是网络错误的
+    private AnimatorSet animatorNetfail = new AnimatorSet();
 
-    private AnimatorSet animatorNetfail = new AnimatorSet();//这是网络错误的
-
-
-    /**
-     * 矩形到正方形过度的动画
-     */
+    //矩形到正方形过度的动画
     private ValueAnimator animator_rect_to_square;
 
-    /**
-     * 正方形到矩形动画
-     */
+    //正方形到矩形动画
     private ValueAnimator animator_squareToRect;
 
-    /**
-     * 矩形到圆角矩形过度的动画
-     */
+    //矩形到圆角矩形过度的动画
     private ValueAnimator animator_rect_to_angle;
 
-
-    /**
-     * 圆角矩形到矩形的动画
-     */
+    //圆角矩形到矩形的动画
     private ValueAnimator animator_angle_to_rect;
 
 
     /**
-     * 文字长度过长时，开启的文字滚动动画
+     * 以下是绘制对勾动画
      */
-    private ValueAnimator animator_text_scroll;
 
-
-    /**
-     * 是否开始绘制对勾
-     */
+    //是否开始绘制对勾
     private boolean startDrawOk = false;
 
-    /**
-     * 绘制对勾（√）的动画
-     */
+    //绘制对勾（√）的动画
     private ValueAnimator animator_draw_ok;
 
-    /**
-     * 对路径处理实现绘制动画效果
-     */
+    //对路径处理实现绘制动画效果
     private PathEffect effect;
 
-
-    /**
-     * 路径--用来获取对勾的路径
-     */
+    //路径--用来获取对勾的路径
     private Path path = new Path();
-    /**
-     * 取路径的长度
-     */
+
+    //取路径的长度
     private PathMeasure pathMeasure;
 
 
     /**
-     * 加载动画相关
+     * 加载loading动画相关
      */
+    //是否开始绘画，加载转圈动画
+    private boolean isDrawLoading = false;
+    //是否处于加载状态，注意，这里和上面是2个概念，只要点击按钮，没有走错误和走正确的都视为在加载状态下
     private boolean isLoading = false;
     private int startAngle = 0;
     private int progAngle = 30;
     private boolean isAdd = true;
 
 
-    /*
+    /**
      * 以下是自定义属性
-     * */
-    /**
-     * 不可点击的背景颜色
      */
+
+    //不可点击的背景颜色
     private int cannotclick_color;
-    /**
-     * 加载失败的背景颜色
-     */
+
+    //加载失败的背景颜色
     private int error_color;
 
-    /**
-     * 正常情况下view的背景颜色
-     */
+    //正常情况下view的背景颜色
     private int normal_color;
 
-    /**
-     * 字体颜色
-     */
+    //是否可以点击状态
+    private boolean smartClickable;
+
+
+    //按钮文字
+    private String normalString = getResources().getString(R.string.normalString);
+    private String errorString = getResources().getString(R.string.errorString);
+    private String currentString;//当前要绘画的TextStr
+
+    //获取文字绘画区域
+    private Rect mRect;
+    //当前字体颜色值
     private int textColor;
+    //当前字体透明度
+    private int textAlpha;
 
-
-    /**
-     * 字体大小
-     */
-    private int textSize;
-
-    /**
-     * 文字滚动速度
-     */
-    private int scrollSpeed;
-
-
-    /**
-     * 按钮文字字符串
-     */
-    private String buttonString = "点击联网";
-    private String normalString = "点击联网";
-    private String errorString = "网络错误";
-
-
-    /**
-     * 是否在加载状态中
-     */
-    public boolean isLoading() {
-        return isLoading;
-    }
-
-
-    /**
-     * 用于绘画文字
-     */
-    private Path textPath = new Path();
-    private boolean directionFlag = true;
+    //这是全屏动画
+    private CirclBigView circlBigView;
 
 
     public SmartLoadingView(Context context) {
@@ -225,81 +183,51 @@ public class SmartLoadingView extends View {
 
     public SmartLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        circlBigView = new CirclBigView(getContext());
+        mRect = new Rect();
         init(attrs);
         initPaint();
     }
 
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        height = measuredHeight(heightMeasureSpec);
-        width = measureWidth(widthMeasureSpec);
-        setMeasuredDimension(width, height);
-    }
-
-
-    /**
-     * 测量宽
-     * 这里看是什么模式，如果不是精准模式，那么久是wrap，则默认给个固定大小
-     */
-    private int measureWidth(int widthMeasureSpec) {
-        int result;
-        int specMode = MeasureSpec.getMode(widthMeasureSpec);
-        int specSize = MeasureSpec.getSize(widthMeasureSpec);
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else {//这是wrap的模式，给一个固定大小
-//            result = (int) getContext().getResources().getDimension(R.dimen.dp_150);
-            result = buttonString.length() * textSize + height * 5 / 3;
-            if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 测量高
-     */
-    private int measuredHeight(int heightMeasureSpec) {
-        int result;
-        int specMode = MeasureSpec.getMode(heightMeasureSpec);
-        int specSize = MeasureSpec.getSize(heightMeasureSpec);
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else {
-//           result = (int) getContext().getResources().getDimension(R.dimen.dp_35);
-            result = textSize + (int) getContext().getResources().getDimension(R.dimen.dp_20);
-            if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize);
-            }
-        }
-        return result;
-    }
-
-
-    public void init(AttributeSet attrs) {
+    private void init(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SmartLoadingView);
         // 设置title
-        String title = typedArray
-                .getString(R.styleable.SmartLoadingView_textStr);
-        normalString = title;
-        buttonString = normalString;
-        errorString = typedArray.getString(R.styleable.SmartLoadingView_errorStr);
+        if (TextUtils.isEmpty(getText())) {
+            currentString = normalString;
+        } else {
+            normalString = (String) getText();
+            currentString = normalString;
+        }
 
-        cannotclick_color = typedArray.getColor(R.styleable.SmartLoadingView_cannotclickBg, getResources().getColor(R.color.blackbb));
-        error_color = typedArray.getColor(R.styleable.SmartLoadingView_errorBg, getResources().getColor(R.color.remind_color));
-        normal_color = typedArray.getColor(R.styleable.SmartLoadingView_normalBg, getResources().getColor(R.color.guide_anim));
-        textColor = typedArray.getColor(R.styleable.SmartLoadingView_textColor, getResources().getColor(R.color.text_color));
+        String currentErrorString = typedArray.getString(R.styleable.SmartLoadingView_errorMsg);
+        if (!TextUtils.isEmpty(currentErrorString)) {
+            errorString = currentErrorString;
+        }
+        cannotclick_color = typedArray.getColor(R.styleable.SmartLoadingView_background_cannotClick, getResources().getColor(R.color.blackbb));
+        error_color = typedArray.getColor(R.styleable.SmartLoadingView_background_error, getResources().getColor(R.color.remind_color));
+        smartClickable = typedArray.getBoolean(R.styleable.SmartLoadingView_smart_clickable, true);
+        normal_color = typedArray.getColor(R.styleable.SmartLoadingView_background_normal
+                , getResources().getColor(R.color.guide_anim));
         obtainCircleAngle = (int) typedArray.getDimension(R.styleable.SmartLoadingView_cornerRaius, getResources().getDimension(R.dimen.default_corner));
-        textSize = (int) typedArray.getDimension(R.styleable.SmartLoadingView_textSize, getResources().getDimension(R.dimen.dp_14));
-        scrollSpeed = typedArray.getInteger(R.styleable.SmartLoadingView_scrollSpeed, 500);
+        textScrollMode = typedArray.getInt(R.styleable.SmartLoadingView_textScrollMode, 1);
+
+        int paddingTop = getPaddingTop() == 0 ? dip2px(7) : getPaddingTop();
+        int paddingBottom = getPaddingBottom() == 0 ? dip2px(7) : getPaddingBottom();
+        int paddingLeft = getPaddingLeft() == 0 ? dip2px(15) : getPaddingLeft();
+        int paddingRight = getPaddingRight() == 0 ? dip2px(15) : getPaddingRight();
+        setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+        setBackgroundColor(0);
+        setMaxLines(1);
+        setGravity(Gravity.CENTER);
     }
 
-    public int dip2px(Context context, float dipValue) {
-        float scale = context.getResources().getDisplayMetrics().density;
+
+    private int dip2px(float dipValue) {
+        float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
+
 
     /**
      * 初始化所有动画
@@ -310,31 +238,6 @@ public class SmartLoadingView extends View {
         animatorSet
                 .play(animator_rect_to_square).with(animator_rect_to_angle);
         animatorNetfail.play(animator_squareToRect).with(animator_angle_to_rect);
-        animatorNetfail.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
-                    isShowLongText = true;
-                } else {
-                    isShowLongText = false;
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
     }
 
 
@@ -352,17 +255,14 @@ public class SmartLoadingView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 current_left = (int) animation.getAnimatedValue();
-                if (current_left == default_all_distance) {
-                    isLoading = true;
-                }
-                int alpha = 255 - (current_left * 255) / default_all_distance;
 
-                if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
-                    textPaint.setAlpha(0);
-                } else {
-                    textPaint.setAlpha(alpha);
+                int nowAlpha = textAlpha / 2 - (current_left * textAlpha / default_all_distance) < 0 ? 0 : textAlpha / 2 - (current_left * textAlpha / default_all_distance);
+                textPaint.setColor(addAlpha(textColor, nowAlpha));
+                if (current_left == default_all_distance) {
+                    isDrawLoading = true;
                 }
                 invalidate();
+
             }
         });
 
@@ -384,20 +284,19 @@ public class SmartLoadingView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 current_left = (int) animation.getAnimatedValue();
+                //当控件扩展到一半时再显示文字，不然当文案过长时，会先显示文字。超过控件
+                if (current_left <= default_all_distance / 2) {
+                    int nowAlpha = (default_all_distance / 2 - current_left) * textAlpha / (default_all_distance / 2);
+                    textPaint.setColor(addAlpha(textColor, nowAlpha));
+                }
+                //错误动画全部走完之后，才能被点击
                 if (current_left == 0) {
-                    isCanClick = true;
+                    isLoading = false;
+                    setClickable(true);
                 }
-                isLoading = false;
+                isDrawLoading = false;
                 startDrawOk = false;
-                int alpha = 255 - (current_left * 255) / default_all_distance;
-                if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
-                    if (current_left == 0) {
-                        textPaint.setAlpha(255);
-                    }
-                } else {
-                    textPaint.setAlpha(alpha);
-                }
-                invalidate();
+                postInvalidate();
             }
         });
 
@@ -408,7 +307,7 @@ public class SmartLoadingView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 circleAngle = (int) animation.getAnimatedValue();
-                invalidate();
+                postInvalidate();
             }
         });
 
@@ -425,7 +324,7 @@ public class SmartLoadingView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 startDrawOk = true;
-                isLoading = false;
+                isDrawLoading = false;
                 float value = (Float) animation.getAnimatedValue();
                 effect = new DashPathEffect(new float[]{pathMeasure.getLength(), pathMeasure.getLength()}, value * pathMeasure.getLength());
                 okPaint.setPathEffect(effect);
@@ -442,21 +341,11 @@ public class SmartLoadingView extends View {
         paint.setStrokeWidth(4);
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
-        paint.setColor(normal_color);
-
-        paintOval = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintOval.setStrokeWidth(4);
-        paintOval.setStyle(Paint.Style.FILL);
-        paintOval.setAntiAlias(true);
-        paintOval.setColor(normal_color);
-
-
-        //文字画笔
-        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        textPaint.setTextSize(textSize);
-        textPaint.setColor(textColor);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setAntiAlias(true);
+        if (smartClickable) {
+            paint.setColor(normal_color);
+        } else {
+            paint.setColor(cannotclick_color);
+        }
 
 
         //打勾画笔
@@ -465,49 +354,185 @@ public class SmartLoadingView extends View {
         okPaint.setStyle(Paint.Style.STROKE);
         okPaint.setAntiAlias(true);
         okPaint.setStrokeCap(Paint.Cap.ROUND);
+
+
+        ColorStateList textColors = getTextColors();
+        final int[] drawableState = getDrawableState();
+        //获取textView默认颜色值
+        textColor = textColors.getColorForState(drawableState, 0);
         okPaint.setColor(textColor);
+        textAlpha = Color.alpha(textColor);
+
+
+        //文字画笔
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setTextSize(getTextSize());
+        textPaint.setColor(textColor);
+        textPaint.setAntiAlias(true);
     }
+
+
+    /*
+     * 不可点击的这块
+     * */
+    public void setSmartClickable(boolean clickable) {
+        super.setClickable(clickable);
+        smartClickable = clickable;
+        if (clickable) {
+            if (paint != null)
+                paint.setColor(normal_color);
+            postInvalidate();
+        } else {
+            if (paint != null)
+                paint.setColor(cannotclick_color);
+            postInvalidate();
+        }
+    }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
-        width = w;
-        height = h;
-        if (obtainCircleAngle > (height / 2)) {
-            obtainCircleAngle = height / 2;
+        if (width == 0) {
+            width = w;
+            height = h;
+            if (obtainCircleAngle > (height / 2)) {
+                obtainCircleAngle = height / 2;
+            }
+            circleAngle = obtainCircleAngle;
+            default_all_distance = (w - h) / 2;
+            initOk();
+            initAnimation();
+            //如果不是精准模式，我们代码里设置第一次的长宽，成为精准模式
+            //这样避免，更改文字内容时，总是会改变控件的长宽
+            setWidth(width);
+            setHeight(height);
+            setClickable(smartClickable);
         }
+    }
 
+    //给TextView字体设置透明度。
+    private int addAlpha(int color, int alpha) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
+    }
 
-        //如果设置的字体大小大于控件的四分之三高度，那么默认最大字体大小
-        if (textSize > (height * 3 / 4)) {
-            textSize = height * 3 / 4;
-            textPaint.setTextSize(textSize);
-        }
-        circleAngle = obtainCircleAngle;
-        default_all_distance = (w - h) / 2;
-        scrollSize = buttonString.length() * textSize - width + height * 2 / 3;
-        if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
-            isShowLongText = true;
+    //文字画笔
+    private Paint textPaint;
+    //文字超过一行时，进行的文字滚动动画
+    private ValueAnimator animator_text_scroll;//这只是模式之一
+    private ValueAnimator animator_marque;
+    private int drawTextStart;
+    private int drawMarqueTextStart;
+
+    private void drawText(final Canvas canvas) {
+        int sc = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
+        rectf.left = current_left + getPaddingLeft();
+        rectf.top = 0;
+        rectf.right = width - current_left - getPaddingRight();
+        rectf.bottom = height;
+        //画圆角矩形
+        canvas.drawRoundRect(rectf, circleAngle, circleAngle, paint);
+
+        //设置混合模式
+        textPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
+        textRect.left = getPaddingLeft();
+        textRect.top = 0;
+        textRect.right = width - getPaddingRight();
+        textRect.bottom = height;
+        Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
+        final int baseline = (textRect.bottom + textRect.top - fontMetrics.bottom - fontMetrics.top) / 2;
+        //这是测量文字的长度。
+        int myTotal = (int) (textPaint.measureText(currentString) + getPaddingRight() + getPaddingLeft());
+        if (myTotal > getWidth()) {
+            if (textScrollMode == 1) {
+                textPaint.setTextAlign(Paint.Align.LEFT);
+                if (animator_text_scroll == null && !isLoading) {
+                    //此时文字长度已经超过一行，进行文字滚动
+                    animator_text_scroll = ValueAnimator.ofInt(textRect.left, (int) (textRect.left - textPaint.measureText(currentString) + (getWidth() - getPaddingLeft() - getPaddingRight())));
+                    animator_text_scroll.setDuration(currentString.length() * 400);
+                    animator_text_scroll.setRepeatMode(ValueAnimator.REVERSE);
+                    animator_text_scroll.setRepeatCount(-1);
+                    animator_text_scroll.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            drawTextStart = (int) animation.getAnimatedValue();
+                            postInvalidate();
+                        }
+                    });
+                    animator_text_scroll.start();
+                }
+                canvas.drawText(currentString, drawTextStart, baseline, textPaint);
+            } else {
+                textPaint.setTextAlign(Paint.Align.LEFT);
+                if (animator_text_scroll == null && !isLoading) {
+                    //此时文字长度已经超过一行，进行文字滚动
+                    animator_text_scroll = ValueAnimator.ofInt(textRect.left, (int) (textRect.left - textPaint.measureText(currentString)));
+                    animator_text_scroll.setDuration(currentString.length() * 400);
+                    animator_text_scroll.setInterpolator(new LinearInterpolator());
+                    animator_text_scroll.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+
+                            drawTextStart = (int) animation.getAnimatedValue();
+                            postInvalidate();
+                            if (drawTextStart == textRect.left) {
+                                if (animator_marque != null) {
+                                    animator_marque.cancel();
+                                    animator_marque = null;
+                                }
+                            }
+                            if (animator_marque == null && !isLoading && drawTextStart <= (int) (textRect.left - textPaint.measureText(currentString) + (getWidth() - getPaddingLeft() - getPaddingRight()) - (getWidth() - getPaddingLeft() - getPaddingRight()) / 3)) {
+                                int duration = (int) (((currentString.length() * 400) * (textRect.right - textRect.left)) / textPaint.measureText(currentString));
+                                animator_marque = ValueAnimator.ofInt(textRect.right, textRect.left);
+                                animator_marque.setDuration(duration);
+                                animator_marque.setInterpolator(new LinearInterpolator());
+                                animator_marque.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                    @Override
+                                    public void onAnimationUpdate(ValueAnimator animation) {
+                                        drawMarqueTextStart = (int) animation.getAnimatedValue();
+                                        if (drawMarqueTextStart == textRect.left) {
+                                            mHandler.sendEmptyMessageDelayed(14, 1500);
+                                        }
+                                        postInvalidate();
+                                    }
+                                });
+                                animator_marque.start();
+                            }
+                        }
+                    });
+                    animator_text_scroll.start();
+                }
+                if (animator_marque != null) {
+                    canvas.drawText(currentString, drawMarqueTextStart, baseline, textPaint);
+                }
+                canvas.drawText(currentString, drawTextStart, baseline, textPaint);
+            }
+
         } else {
-            isShowLongText = false;
+            cancleScroll();
+            textPaint.setTextAlign(Paint.Align.CENTER);
+            drawTextStart = textRect.left;
+            canvas.drawText(currentString, textRect.centerX(), baseline, textPaint);
         }
-        initOk();
-        initAnimation();
 
+        // 还原混合模式
+        textPaint.setXfermode(null);
+        // 还原画布
+        canvas.restoreToCount(sc);
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        //绘制控件
         draw_oval_to_circle(canvas);
         drawText(canvas);
 
         //绘制加载进度
-        if (isLoading) {
+        if (isDrawLoading) {
             canvas.drawArc(new RectF(width / 2 - height / 2 + height / 4, height / 4, width / 2 + height / 2 - height / 4, height / 2 + height / 2 - height / 4), startAngle, progAngle, false, okPaint);
             startAngle += 6;
             if (progAngle >= 270) {
@@ -539,67 +564,9 @@ public class SmartLoadingView extends View {
         rectf.top = 0;
         rectf.right = width - current_left;
         rectf.bottom = height;
+
         //画圆角矩形
         canvas.drawRoundRect(rectf, circleAngle, circleAngle, paint);
-    }
-
-
-    private int scrollSize;
-    private boolean isShowLongText;//是否是长文字状态
-
-    /**
-     * 绘制文字
-     */
-    private void drawText(Canvas canvas) {
-        textRect.left = 0;
-        textRect.top = 0;
-        textRect.right = width;
-        textRect.bottom = height;
-        Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
-        int baseline = (textRect.bottom + textRect.top - fontMetrics.bottom - fontMetrics.top) / 2;
-        if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
-
-            textPath.reset();
-            textPath.moveTo(height / 3, baseline);
-            textPath.lineTo(width - height / 3, baseline);
-            textPaint.setTextAlign(Paint.Align.RIGHT);
-            canvas.drawTextOnPath(buttonString, textPath, scrollSize, 0, textPaint);
-            if (isShowLongText) {
-
-                canvas.drawRect(new Rect(width - height / 2 - textSize / 3, 0, width - height / 2, height), paintOval);
-                canvas.drawRect(new Rect(height / 2, 0, height / 2 + textSize / 3, height), paintOval);
-                //这里有个bug 有个小点-5  因画笔粗细产生
-                canvas.drawArc(new RectF(width - height, 0, width - 5, height), -90, 180, true, paintOval);
-                canvas.drawArc(new RectF(0, 0, height, height), 90, 180, true, paintOval);
-            }
-
-            if (animator_text_scroll == null) {
-                animator_text_scroll = ValueAnimator.ofInt(buttonString.length() * textSize - width + height * 2 / 3, -textSize);
-                animator_text_scroll.setDuration(buttonString.length() * scrollSpeed);
-                animator_text_scroll.setRepeatMode(ValueAnimator.REVERSE);
-                animator_text_scroll.setInterpolator(new LinearInterpolator());
-                animator_text_scroll.setRepeatCount(-1);
-                animator_text_scroll.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        scrollSize = (int) animation.getAnimatedValue();
-                        postInvalidate();
-                    }
-                });
-                animator_text_scroll.start();
-            }
-        } else {
-            isShowLongText = false;
-
-            /**
-             * 简单的绘制文字，没有考虑文字长度超过控件长度
-             * */
-            textPaint.setTextAlign(Paint.Align.CENTER);
-            //文字不超过控件长度
-            canvas.drawText(buttonString, textRect.centerX(), baseline, textPaint);
-        }
-
-
     }
 
 
@@ -614,149 +581,91 @@ public class SmartLoadingView extends View {
         pathMeasure = new PathMeasure(path, true);
     }
 
-    private boolean isCanClick = true;//是否可以被点击
 
-
-    private boolean isAnimRuning = false;
-
-    private int clickIndex = 1;//用于判断重复点击的时间
-
-    public boolean isCanRest() {
-        if (clickIndex % 2 == 0) {
-            return true;
-        } else {
-            return false;
+    //smartLoadingView 开启动画
+    public void start() {
+        //没有在loading的情况下才能点击（没有在请求网络的情况下）
+        if (!isLoading) {
+            cancleScroll();
+            startDrawOk = false;
+            currentString = normalString;
+            this.setClickable(false);
+            paint.setColor(normal_color);
+            isLoading = true;
+            animatorSet.start();
         }
     }
 
-    public boolean isAnimRuning() {
-        return isAnimRuning;
-    }
+    private void cancleScroll() {
+        if (animator_text_scroll != null) {
+            animator_text_scroll.cancel();
+            animator_text_scroll = null;
+        }
 
-    public boolean isCanClick() {
-        return isCanClick;
-    }
-
-
-    /**
-     * 点击启动动画，
-     * （这里是点击刚开始登录）
-     */
-    public void start() {
-        if (isCanClick) {
-            clickIndex++;
-            paint.setColor(normal_color);
-            paintOval.setColor(normal_color);
-            animatorSet.start();
-            isCanClick = false;
-            isAnimRuning = true;
-            if (animator_text_scroll != null) {
-                animator_text_scroll.cancel();
-                animator_text_scroll = null;
-            }
-            isShowLongText = false;
+        if (animator_marque != null) {
+            animator_marque.cancel();
+            animator_marque = null;
         }
     }
 
 
     //加载失败运行(默认加载失败文案)
     public void netFaile() {
-        paintOval.setColor(error_color);
-        buttonString = errorString;
-        paint.setColor(error_color);
-        animatorNetfail.start();
-        animatorNetfail.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                isAnimRuning = false;
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
+        if (isLoading) {
+            currentString = errorString;
+            paint.setColor(error_color);
+            animatorNetfail.start();
+        }
     }
+
 
     //加载失败运行(文案自定义)
     public void netFaile(String message) {
-        paintOval.setColor(error_color);
-        errorString = message;
-        buttonString = errorString;
-        paint.setColor(error_color);
-        animatorNetfail.start();
-        animatorNetfail.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+        if (isLoading) {
+            errorString = message;
+            currentString = errorString;
+            paint.setColor(error_color);
+            animatorNetfail.start();
+        }
+    }
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                isAnimRuning = false;
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
+    public void backToStart() {
+        if (isLoading) {
+            currentString = normalString;
+            paint.setColor(normal_color);
+            animatorNetfail.start();
+        }
     }
 
 
-    //重置所有状态
+    //立即重置状态
     public void reset() {
-        if (animator_draw_ok == null) {
-            return;
-        }
-        buttonString = normalString;
+        resetAll();
+    }
+
+    //用于，扩散动画，有可能不跳转。停留在当前页，1秒后重置状态
+    protected void resetLater() {
+        mHandler.sendEmptyMessageDelayed(13, 1000);
+    }
+
+    public void resetAll() {
+        setClickable(true);
+        currentString = normalString;
+        textPaint.setColor(textColor);
         circleAngle = obtainCircleAngle;
         paint.setColor(normal_color);
         current_left = 0;
-        isLoading = false;
-        isCanClick = true;
+        isDrawLoading = false;
         startDrawOk = false;
-        int alpha = 255;
-        textPaint.setAlpha(alpha);
-        paintOval.setColor(normal_color);
+        isLoading = false;
         invalidate();
 
         animator_draw_ok.cancel();
         animatorSet.cancel();
         animatorNetfail.cancel();
-        clickIndex++;
-        if ((buttonString.length() * textSize) > (width - height * 5 / 3)) {
-            isShowLongText = true;
-        } else {
-            isShowLongText = false;
-        }
-        scrollSize = buttonString.length() * textSize - width + height * 2 / 3;
         if (circlBigView != null) {
             circlBigView.setCircleR(0);
         }
-    }
-
-
-    //按钮不能被点击
-    public void cannotClick() {
-        isCanClick = false;
-        paint.setColor(cannotclick_color);
-        invalidate();
     }
 
 
@@ -764,148 +673,239 @@ public class SmartLoadingView extends View {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            if (circlBigView == null) {
+                return;
+            }
             switch (msg.what) {
                 case 11:
-                    Animator.AnimatorListener endListener = (Animator.AnimatorListener) msg.obj;
-                    toBigCircle(endListener);
+                    AnimationFullScreenListener animationFullScreenListener = (AnimationFullScreenListener) msg.obj;
+                    toBigCircle(animationFullScreenListener);
+                    break;
+                case 12:
+                    Activity activity = (Activity) msg.obj;
+                    Class temp = clazz;
+                    toBigCircle(activity, temp);
+                    clazz = null;
+                    break;
+
+                case 13:
+                    resetAll();
+                    break;
+
+                case 14:
+                    if (animator_text_scroll != null) {
+                        animator_text_scroll.cancel();
+                        animator_text_scroll = null;
+                        postInvalidate();
+                    }
                     break;
             }
         }
     };
 
-    /**
-     * mode:1
-     * 扩散全屏动画
-     */
-    public void loginSuccess(final Animator.AnimatorListener endListener) {
-        //按钮到圆的加载动画已经结束，才启动；否则，网络请求较快严重影响效果
-        if (!animatorSet.isRunning()) {
-            toBigCircle(endListener);
-        } else {
-            //当点击按钮的时候请求网络，加入动画执行时间大于网络请求时间，
-            //那么咱们默认，执行完加载动画后，立即执行加载成功动画
-            Message message = new Message();
-            message.what = 11;
-            message.obj = endListener;
-            mHandler.sendMessageDelayed(message, 1000);
+
+    //开启全屏动画，并且监听动画结束后，实现自己的逻辑
+    public void onSuccess(AnimationFullScreenListener animationFullScreenListener) {
+        //必须，点击了最开始的动画处于，加载状态，才能获得回调
+        if (isLoading) {
+            if (!animatorSet.isRunning()) {
+                toBigCircle(animationFullScreenListener);
+            } else {
+                //当点击按钮的时候请求网络，加入动画执行时间大于网络请求时间，
+                //那么咱们默认，执行完加载动画后，立即执行加载成功动画
+                Message message = new Message();
+                message.what = 11;
+                message.obj = animationFullScreenListener;
+                mHandler.sendMessageDelayed(message, 1000);
+            }
         }
     }
 
-    /**
-     * mode:2
-     * 绘制打勾动画
-     */
-    public void loginSuccess(final AnimationOKListener animationOKListener) {
-        //这个思路是对的，然后就是看clickindex是否一致
-        animator_draw_ok.cancel();
-        animator_draw_ok.start();
-        animator_draw_ok.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
+    private Class clazz;
+    //开启全屏动画，不需要监听动画，只需要传入值，即可实现跳转
+    public void onSuccess(Activity activity, Class clazz) {
+        //必须，点击了最开始的动画处于，加载状态，才能获得回调
+        if (isLoading) {
+            this.clazz = clazz;
+            if (!animatorSet.isRunning()) {
+                toBigCircle(activity, clazz);
+            } else {
+                //当点击按钮的时候请求网络，加入动画执行时间大于网络请求时间，
+                //那么咱们默认，执行完加载动画后，立即执行加载成功动画
+                Message message = new Message();
+                message.what = 12;
+                message.obj = activity;
+                mHandler.sendMessageDelayed(message, 1000);
             }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                animationOKListener.animationOKFinish();
-                isAnimRuning = false;
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-
+        }
     }
 
-    CirclBigView circlBigView = new CirclBigView(getContext());
+    //开启打勾模式
+    public void onSuccess(final AnimationOKListener animationOKListener) {
+        onSuccess(animationOKListener, OKAnimationType.NORMAL);
+    }
 
-    public void toBigCircle(Animator.AnimatorListener endListener) {
+    //开启打勾模式，打勾后，是否隐藏
+    public void onSuccess(final AnimationOKListener animationOKListener, final OKAnimationType okAnimationType) {
+        //这个思路是对的，然后就是看clickindex是否一致
+        //必须，点击了最开始的动画处于，加载状态，才能获得回调
+        if (isLoading) {
+            if (okAnimationType != OKAnimationType.TRANSLATION_CENTER) {
+                animator_draw_ok.cancel();
+                animator_draw_ok.start();
+                animator_draw_ok.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        animationOKListener.animationOKFinish();
+                        isLoading = false;
+                        setClickable(true);
+                        if (okAnimationType == OKAnimationType.HIDE) {
+                            //这里是隐藏的操作
+                            Animation animations = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_hide);
+                            setAnimation(animations);
+                            animations.start();
+                            setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            } else {
+                //如果是要移动到中间的模式的话
+                int[] location = new int[2];
+                SmartLoadingView.this.getLocationOnScreen(location);
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(height, height);
+                layoutParams.leftMargin = location[0] + (width / 2 - height / 2);
+                layoutParams.topMargin = location[1];
+
+                final OkView okView = new OkView(getContext());
+                okView.setLayoutParams(layoutParams);
+                okView.setCircleColor(normal_color);
+                okView.setOkColor(textColor);
+                okView.setRadius(height / 2);
+
+                final ViewGroup activityDecorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
+                activityDecorView.addView(okView);
+                okView.start(duration);
+                //初始真正的那个View
+                setVisibility(View.INVISIBLE);
+                reset();
+
+                //当前屏幕中心位置
+                int window_center_x = UIUtil.getWidth(getContext()) / 2;
+                int window_center_y = UIUtil.getHeight(getContext()) / 2;
+
+                //okView当前的中心点
+                int okView_center_x = location[0] + width / 2;
+                int okView_center_y = location[1] + height / 2;
+
+                ObjectAnimator translationY = ObjectAnimator.ofFloat(okView, "translationY", 0f, window_center_y - okView_center_y)
+                        .setDuration(duration);
+                ObjectAnimator translationX = ObjectAnimator.ofFloat(okView, "translationX", 0f, window_center_x - okView_center_x)
+                        .setDuration(duration);
+
+                ObjectAnimator toViewAnimatorX = ObjectAnimator.ofFloat(okView, "scaleX", 1f, 1.3f).setDuration(duration / 2);
+                toViewAnimatorX.setRepeatMode(ValueAnimator.REVERSE);
+                toViewAnimatorX.setRepeatCount(1);
+                toViewAnimatorX.setInterpolator(new AnticipateInterpolator());
+                ObjectAnimator toViewAnimatorY = ObjectAnimator.ofFloat(okView, "scaleY", 1f, 1.3f).setDuration(duration / 2);
+                toViewAnimatorY.setRepeatMode(ValueAnimator.REVERSE);
+                toViewAnimatorY.setRepeatCount(1);
+                toViewAnimatorY.setInterpolator(new AnticipateInterpolator());
+                AnimatorSet animatorScale = new AnimatorSet();
+                animatorScale.playTogether(toViewAnimatorX, toViewAnimatorY);
+
+                ObjectAnimator toViewAnimatorAlpha = ObjectAnimator.ofFloat(okView, "alpha", 1f, 0f).setDuration(duration);
+                //这里就用代码实现把
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.play(translationY).with(translationX).before(animatorScale).before(toViewAnimatorAlpha);
+                animatorSet.start();
+                animatorSet.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        animationOKListener.animationOKFinish();
+                        isLoading = false;
+                        setClickable(true);
+                        activityDecorView.removeView(okView);
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            }
+        }
+    }
+
+    public enum OKAnimationType {
+        NORMAL, HIDE, TRANSLATION_CENTER
+    }
+
+    private void toBigCircle(AnimationFullScreenListener animationFullScreenListener) {
         circlBigView.setRadius(this.getMeasuredHeight() / 2);
         circlBigView.setColorBg(normal_color);
         int[] location = new int[2];
         this.getLocationOnScreen(location);
         circlBigView.setXY(location[0] + this.getMeasuredWidth() / 2, location[1]);
-        if (circlBigView.getParent() == null) {
-            ViewGroup activityDecorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            activityDecorView.addView(circlBigView, layoutParams);
-        }
-        circlBigView.startShowAni(endListener);
-        isAnimRuning = false;
+        ViewGroup activityDecorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        activityDecorView.removeView(circlBigView);
+        activityDecorView.addView(circlBigView, layoutParams);
+        circlBigView.startShowAni(animationFullScreenListener, this);
     }
 
 
-    /**
-     * 绘制打勾动画的接口回调
-     */
-    public interface AnimationOKListener {
+    private void toBigCircle(Activity activity, Class clazz) {
+        circlBigView.setRadius(this.getMeasuredHeight() / 2);
+        circlBigView.setColorBg(normal_color);
+        int[] location = new int[2];
+        this.getLocationOnScreen(location);
+        circlBigView.setXY(location[0] + this.getMeasuredWidth() / 2, location[1]);
+        ViewGroup activityDecorView = (ViewGroup) ((Activity) getContext()).getWindow().getDecorView();
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        activityDecorView.removeView(circlBigView);
+        activityDecorView.addView(circlBigView, layoutParams);
+        circlBigView.startShowAni(activity, clazz);
+    }
 
-        /**
-         * 动画完成回调
-         */
+    //绘制打勾动画的接口
+    public interface AnimationOKListener {
         void animationOKFinish();
     }
 
-
-    /**
-     * 关注点击事件回调
-     */
-    public interface FollowClickListener {
-        void followClick();
+    //绘制全屏动画
+    public interface AnimationFullScreenListener {
+        void animationFullScreenFinish();
     }
 
-    public void setFollowClickListener(final FollowClickListener followClickListener) {
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (followClickListener != null) {
-                    //防止重复点击
-                    if (!isAnimRuning) {
-
-                        if (!isCanRest()) {
-                            start();
-                            followClickListener.followClick();
-                        } else {
-                            reset();
-                        }
-
-                    }
-
-                }
-            }
-        });
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        cancleScroll();
     }
-
-
-    /**
-     * 登录点击事件回调
-     */
-    public interface LoginClickListener {
-        void click();
-    }
-
-    public void setLoginClickListener(final LoginClickListener loginClickListener) {
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (loginClickListener != null) {
-                    //防止重复点击
-                    if (!isAnimRuning) {
-                        start();
-                        loginClickListener.click();
-                    }
-
-                }
-            }
-        });
-    }
-
-
 }
