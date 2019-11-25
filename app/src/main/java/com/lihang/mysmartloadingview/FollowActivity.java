@@ -27,21 +27,21 @@ public class FollowActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 11:
-                    //只有在动画还在runingd才能走(防止重复点击按钮操作)
-                    animButton.loginSuccess(new SmartLoadingView.AnimationOKListener() {
-                        @Override
-                        public void animationOKFinish() {
-                            Toast.makeText(FollowActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                    //只有在动画还在runingd才能走(防止重复点击按钮操作)
+//                    animButton.loginSuccess(new SmartLoadingView.AnimationOKListener() {
+//                        @Override
+//                        public void animationOKFinish() {
+//                            Toast.makeText(FollowActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                     break;
 
                 case 12:
-                    animButtonTwo.netFaile("关注成功");
+//                    animButtonTwo.netFaile("关注成功");
                     break;
 
                 case 13:
-                    animButtonThree.netFaile("关注成功关注成功关注成功关注成功关注成功关注成功关注成功关注成功");
+//                    animButtonThree.netFaile("关注成功关注成功关注成功关注成功关注成功关注成功关注成功关注成功");
                     break;
             }
         }
@@ -57,33 +57,33 @@ public class FollowActivity extends AppCompatActivity {
         animButtonTwo = findViewById(R.id.animButtonTwo);
         animButtonThree = findViewById(R.id.animButtonThree);
 
-        animButton.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
-            @Override
-            public void followClick() {
-                //按钮点击后去进行联网操作
-                //这里是模拟联网情况
-                mhandler.sendEmptyMessageDelayed(11, 2000);
-            }
-        });
+//        animButton.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
+//            @Override
+//            public void followClick() {
+//                //按钮点击后去进行联网操作
+//                //这里是模拟联网情况
+//                mhandler.sendEmptyMessageDelayed(11, 2000);
+//            }
+//        });
 
-        animButtonTwo.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
-            @Override
-            public void followClick() {
-                //按钮点击后去进行联网操作
-                //这里是模拟联网情况
-                mhandler.sendEmptyMessageDelayed(12, 2000);
-            }
-        });
+//        animButtonTwo.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
+//            @Override
+//            public void followClick() {
+//                //按钮点击后去进行联网操作
+//                //这里是模拟联网情况
+//                mhandler.sendEmptyMessageDelayed(12, 2000);
+//            }
+//        });
 
 
-        animButtonThree.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
-            @Override
-            public void followClick() {
-                //按钮点击后去进行联网操作
-                //这里是模拟联网情况
-                mhandler.sendEmptyMessageDelayed(13, 2000);
-            }
-        });
+//        animButtonThree.setFollowClickListener(new SmartLoadingView.FollowClickListener() {
+//            @Override
+//            public void followClick() {
+//                //按钮点击后去进行联网操作
+//                //这里是模拟联网情况
+//                mhandler.sendEmptyMessageDelayed(13, 2000);
+//            }
+//        });
 
 
     }

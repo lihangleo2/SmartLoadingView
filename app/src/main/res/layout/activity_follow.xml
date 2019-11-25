@@ -26,10 +26,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             app:cornerRaius="30dp"
-            app:normalBg="#08f2c7"
-            app:textColor="#fff"
-            app:textSize="12dp"
-            app:textStr="关注" />
+            app:background_normal="#08f2c7"
+            />
     </RelativeLayout>
 
 
@@ -54,11 +52,9 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             app:cornerRaius="30dp"
-            app:errorBg="#bbbbbb"
-            app:normalBg="#08f2c7"
-            app:textColor="#fff"
-            app:textSize="12dp"
-            app:textStr="关注" />
+            app:background_error="#bbbbbb"
+            app:background_normal="#08f2c7"
+            />
     </RelativeLayout>
 
 
@@ -82,11 +78,9 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             app:cornerRaius="5dp"
-            app:errorBg="#ff7e7e"
-            app:normalBg="#08f2c7"
-            app:textColor="#fff"
-            app:textSize="12dp"
-            app:textStr="关注失败" />
+            app:background_error="#ff7e7e"
+            app:background_normal="#08f2c7"
+            />
     </RelativeLayout>
 
 </RelativeLayout>

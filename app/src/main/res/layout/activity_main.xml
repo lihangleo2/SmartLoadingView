@@ -1,41 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@mipmap/main_bg"
-    android:orientation="vertical"
-    tools:context=".MainActivity"
-    android:fitsSystemWindows="true"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.lihang.smartloadview.SmartLoadingView
-        android:id="@+id/text_style_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cornerRaius="30dp"
-        app:normalBg="#fff"
-        app:textColor="#000"
-        app:textSize="14dp"
-        app:textStr="样式--1 （常见登录场景）"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="35dp"
-        />
+    <data>
 
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
 
-    <com.lihang.smartloadview.SmartLoadingView
-        android:id="@+id/text_style_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cornerRaius="30dp"
-        app:normalBg="#fff"
-        app:textColor="#000"
-        app:textSize="14dp"
-        app:textStr="样式--2"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/main_bg"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            tools:context=".MainActivity">
 
 
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:text="可用于登录，或者不需要dialog联网等"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_1_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:onClick="@{onClickListener}"
+                android:text="不监听动画结束状态，直接跳转"
+                android:textColor="#ff0000"
+                app:cornerRaius="30dp"
+                app:background_normal="#fff" />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_2_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="@{onClickListener}"
+                android:text="监听动画结束状态，实现逻辑"
+                app:cornerRaius="30dp"
+                app:background_normal="#03A9F4" />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_3_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="@{onClickListener}"
+                android:text="模拟联网失败，点击联网"
+                android:textColor="#fff"
+                app:cornerRaius="5dp"
+                app:errorMsg="连接超时，请稍后再试连接超时，请稍后再试连接超时，请稍后再试"
+                app:background_normal="#75B7DE" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="45dp"
+                android:gravity="center"
+                android:text="可用于关注，或者不需要dialog联网等"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_4_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:onClick="@{onClickListener}"
+                android:text="点击关注"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_error="#FBD56D"
+                app:background_normal="#6DFB80" />
+
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_5_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:onClick="@{onClickListener}"
+                android:layout_gravity="center_horizontal"
+                android:text="点击关注(正常模式)"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#6DFB80" />
+
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_hide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:onClick="@{onClickListener}"
+                android:text="点击关注(隐藏模式)"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#3E7144" />
+
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:onClick="@{onClickListener}"
+                android:text="点击关注,提醒模式,"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#FA2525" />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_6_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="@{onClickListener}"
+                android:text="模拟失败，回到初始状态"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#FF9800" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="45dp"
+                android:gravity="center"
+                android:text="文字长度大于控件长度，自动滚动"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_7_"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:onClick="@{onClickListener}"
+                android:text="来回滚动效果，当文案超过控件文字区域时，开启"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#0425B6"
+                app:errorMsg="联网超时"
+                app:textScrollMode="normal"
+                />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_8_"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:onClick="@{onClickListener}"
+                android:text="仿跑马灯效果，当文案超过控件文字区域时，开启"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#E8A912"
+                app:background_error="#E8A912"
+                app:errorMsg="仿跑马灯效果，当文案超过控件文字区域时，开启"
+                app:textScrollMode="marquee"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="45dp"
+                android:gravity="center"
+                android:text="设置按钮不可点击状态"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_9_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:onClick="@{onClickListener}"
+                android:text="点击，设置不可点击"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#5C88E8"
+                app:smart_clickable="true"
+                />
+
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="300dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

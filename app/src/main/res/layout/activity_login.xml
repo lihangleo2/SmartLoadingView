@@ -225,14 +225,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             app:cornerRaius="30dp"
-            app:normalBg="#08f2c7"
-            app:textColor="#fff"
-            app:textSize="14dp"
-            app:textStr="登录"
-            app:cannotclickBg="#bcb6b6"
-            app:errorBg="#f57676"
-            app:errorStr="错误信息"
-            app:scrollSpeed="500"
+            app:background_normal="#08f2c7"
+            app:background_cannotClick="#bcb6b6"
+            app:background_error="#f57676"
+            app:errorMsg="错误信息"
             />
 
 

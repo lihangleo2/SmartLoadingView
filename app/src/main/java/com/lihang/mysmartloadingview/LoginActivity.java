@@ -33,35 +33,35 @@ public class LoginActivity extends AppCompatActivity   implements View.OnClickLi
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case 11:
-                    animButton.loginSuccess(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        startActivity(new Intent(LoginActivity.this, SecondActivity.class));
-                        finish();
-                        overridePendingTransition(R.anim.scale_test_home, R.anim.scale_test2);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-                    break;
-
-                case 12:
-                    animButton.netFaile("登录失败");
-                    break;
+//                case 11:
+//                    animButton.loginSuccess(new Animator.AnimatorListener() {
+//                    @Override
+//                    public void onAnimationStart(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        startActivity(new Intent(LoginActivity.this, SecondActivity.class));
+//                        finish();
+//                        overridePendingTransition(R.anim.scale_test_home, R.anim.scale_test2);
+//                    }
+//
+//                    @Override
+//                    public void onAnimationCancel(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animator animation) {
+//
+//                    }
+//                });
+//                    break;
+//
+//                case 12:
+//                    animButton.netFaile("登录失败");
+//                    break;
             }
         }
     };
@@ -78,18 +78,18 @@ public class LoginActivity extends AppCompatActivity   implements View.OnClickLi
         relative_error.setOnClickListener(this);
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.init();
-        animButton.setLoginClickListener(new SmartLoadingView.LoginClickListener() {
-            @Override
-            public void click() {
-                //按钮点击后去进行联网操作
-                //这里模拟联网操作
-                if (isNormalNet){
-                    mhandler.sendEmptyMessageDelayed(11, 2000);
-                }else {
-                    mhandler.sendEmptyMessageDelayed(12, 2000);
-                }
-            }
-        });
+//        animButton.setLoginClickListener(new SmartLoadingView.LoginClickListener() {
+//            @Override
+//            public void click() {
+//                //按钮点击后去进行联网操作
+//                //这里模拟联网操作
+//                if (isNormalNet){
+//                    mhandler.sendEmptyMessageDelayed(11, 2000);
+//                }else {
+//                    mhandler.sendEmptyMessageDelayed(12, 2000);
+//                }
+//            }
+//        });
 
 
     }
