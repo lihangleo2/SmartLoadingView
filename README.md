@@ -19,7 +19,7 @@
  - app build.gradle添加如下
     ```java
    dependencies {
-	        implementation 'com.github.lihangleo2:SmartLoadingView:1.3.2'
+	        implementation 'com.github.lihangleo2:SmartLoadingView:2.0.1'
 	}
    ```
 
@@ -55,28 +55,42 @@
 
 <br>
 
- # 自定义属性说明
- ## ① 圆角属性
-  - app:cornerRaius="30dp"  按钮圆角大小
+ # 自定义属性
+ #### 按钮文案
+ - android:text="自带dialog按钮"  使用了textView的text文字属性
   
- ## ② 正常背景颜色值
-  - app:normalBg="#08f2c7"  按钮正常背景颜色值
+ #### 按钮文案颜色值
+ - android:textColor="#fff" 使用了textView的textColor颜色值属性
   
- ## ③ 按钮字体
- - app:textColor="#fff"  字体颜色
- - app:textSize="14dp"   字体大小
- - app:textStr="登录"    字体文案
-
- ## ④ 按钮不可点击状态下的背景颜色值（设置不可点击：smartLoadingView.cannotClick();）
- - app:cannotclickBg="#bcb6b6"    按钮不可点击状态背景颜色值
+ #### 按钮文案字体大小
+ - android:textSize="15dp" 使用了textView的字体大小
  
- ## ⑤ 按钮联网错误状态
- - app:errorBg="#f57676"    错误背景颜色值
- - app:errorStr="错误信息"   错误文案
+ #### 正常情况下的背景颜色值
+ - app:background_normal="#fff" 按钮正常的背景颜色值
 
- ## ⑥ 按钮文案过程的文字滚动速度
- - app:scrollSpeed="500"    文字滚动速度,每个文字滚动屏幕外所需的时间
+ #### 联网失败文案
+ - app:errorMsg="联网失败文案" 联网失败展示的文案，比如登录时，账号密码错误
  
- ## ⑦  想恢复所有初始值通过：
- - smartLoadingView.reset();   
+ #### 联网失败下的背景颜色值
+ - app:background_error="#ED7676" 联网失败时展示的背景颜色值，一般为殷红色
+
+ #### 不可点击状态下的背景颜色值
+ - app:background_cannotClick="#bbbbbb" 不可点击状态下的背景颜色值
+ 
+ #### 圆角属性
+ - app:cornerRaius="30dp" 背景的圆角属性
+ 
+ #### 文字滚动模式（文字超过一行时，文字自动滚动）
+ - app:textScrollMode="marquee" 比如联网失败后，失败文案太长了。文字自动滚动，这里有2种方式。1、normal来回滚动。 2、marquee跑马灯效果
+ 
+ #### 文字滚动速度
+ - app:speed="400" 文字的滚动速度。可以理解为一个文字滚动出屏幕外需要的时间
+ 
+ #### 按钮的点击状态
+ - app:smart_clickable="true" 不设置时，默认可以点击，为true。代码里也能通过 smartLoadingView9.setSmartClickable(false) 进行设置
+ 
+ 
+ 
+ 
+ 
 
