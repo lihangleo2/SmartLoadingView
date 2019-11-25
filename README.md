@@ -51,9 +51,26 @@
 
 ## 一、转场动画的使用
 
-|动画结束后自动跳转|自己监听动画实现逻辑|
+|1.1、动画结束后自动跳转|1.2、自己监听动画实现逻辑|
 |:---:|:---:|
 |![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_2.gif)
+
+### 1.1、动画结束后自动跳转
+这里点击事件和普通的控件点击事件一致。设置setOnClickListener()即可。
+```java
+binding.smartLoadingView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.smartLoadingView.start();
+                Observable.timer(2000, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
+                    binding.smartLoadingView.onSuccess(MainActivity.this, SecondActivity.class);
+                });
+            }
+        });
+```
+
+
 
 <br>
 
