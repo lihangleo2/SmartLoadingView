@@ -55,6 +55,8 @@
 |:---:|:---:|
 |![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_2.gif)
 
+<br>
+
 ### 1.1、动画结束后自动跳转
 这里点击事件和普通的控件点击事件一致。设置setOnClickListener()即可。
 ```java
@@ -83,6 +85,19 @@ smartLoadingView.start();
 ```java
 //这样既可实现，从一个页面转场动画跳转到另外一个页面（注意这样跳转，第一个页面会被finish掉）。
 smartLoadingView.onSuccess(MainActivity.this, SecondActivity.class);
+```
+
+<br>
+
+### 1.2、自己监听动画实现逻辑
+前面和 1.1 都一样，不同的时，联网成功的时候，增加动画结束的监听
+```java
+smartLoadingView.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
+                        @Override
+                        public void animationFullScreenFinish() {
+                            Toast.makeText(MainActivity.this, "监听动画结束", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 ```
 
 <br>
