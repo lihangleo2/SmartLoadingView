@@ -1,97 +1,44 @@
 package com.lihang.mysmartloadingview;
 
-import android.animation.Animator;
-import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.lihang.smartloadview.SmartLoadingView;
+import com.lihang.mysmartloadingview.databinding.ActivityLoginBinding;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by leo
  * on 2019/5/27.
  */
-public class LoginActivity extends AppCompatActivity   implements View.OnClickListener {
-    private EditText edit_phone;
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+    //是否联网成功
+    private boolean isNormalNet = true;
     //沉浸式状态栏
     protected ImmersionBar mImmersionBar;
-    private SmartLoadingView animButton;
-    private RelativeLayout relative_normal;
-    private RelativeLayout relative_error;
-    private boolean  isNormalNet = true;
-
-    private Handler mhandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-//                case 11:
-//                    animButton.loginSuccess(new Animator.AnimatorListener() {
-//                    @Override
-//                    public void onAnimationStart(Animator animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        startActivity(new Intent(LoginActivity.this, SecondActivity.class));
-//                        finish();
-//                        overridePendingTransition(R.anim.scale_test_home, R.anim.scale_test2);
-//                    }
-//
-//                    @Override
-//                    public void onAnimationCancel(Animator animation) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onAnimationRepeat(Animator animation) {
-//
-//                    }
-//                });
-//                    break;
-//
-//                case 12:
-//                    animButton.netFaile("登录失败");
-//                    break;
-            }
-        }
-    };
+    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        animButton = findViewById(R.id.animButton);
-        edit_phone = findViewById(R.id.edit_phone);
-        relative_normal = findViewById(R.id.relative_normal);
-        relative_normal.setOnClickListener(this);
-        relative_error = findViewById(R.id.relative_error);
-        relative_error.setOnClickListener(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        binding.setOnclickListener(this);
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.init();
-//        animButton.setLoginClickListener(new SmartLoadingView.LoginClickListener() {
-//            @Override
-//            public void click() {
-//                //按钮点击后去进行联网操作
-//                //这里模拟联网操作
-//                if (isNormalNet){
-//                    mhandler.sendEmptyMessageDelayed(11, 2000);
-//                }else {
-//                    mhandler.sendEmptyMessageDelayed(12, 2000);
-//                }
-//            }
-//        });
-
-
+        binding.relativeNormal.setSelected(true);
+        binding.editPhone.addTextChangedListener(this);
+        binding.editPassWord.addTextChangedListener(this);
     }
 
     @Override
@@ -102,31 +49,68 @@ public class LoginActivity extends AppCompatActivity   implements View.OnClickLi
 
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.relative_normal:
+                switchSelect();
+                break;
+            case R.id.relative_error:
+                switchSelect();
+                break;
+            case R.id.smartLoadingView_login:
+                if (isNormalNet) {
+                    binding.smartLoadingViewLogin.start();
+                    Observable.timer(2000, TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
+                        binding.smartLoadingViewLogin.onSuccess(LoginActivity.this, SecondActivity.class);
+                    });
+                } else {
+                    binding.smartLoadingViewLogin.start();
+                    Observable.timer(2000, TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
+                        binding.smartLoadingViewLogin.netFaile();
+                    });
+                }
+                break;
+        }
+    }
+
+    public void switchSelect() {
+        binding.relativeNormal.setSelected(!binding.relativeNormal.isSelected());
+        binding.relativeError.setSelected(!binding.relativeError.isSelected());
+        isNormalNet = binding.relativeNormal.isSelected();
+    }
+
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         //点击edittxt外，关闭软键盘
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             if (KeyBoardUtils.isShouldHideInput(v, ev)) {
-                KeyBoardUtils.closeKeybord(edit_phone, LoginActivity.this);
-                edit_phone.clearFocus();
+                KeyBoardUtils.closeKeybord(binding.editPhone, LoginActivity.this);
+                binding.editPhone.clearFocus();
             }
         }
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.relative_normal:
-                isNormalNet = true;
-                relative_normal.setSelected(true);
-                relative_error.setSelected(false);
-                break;
-            case R.id.relative_error:
-                isNormalNet = false;
-                relative_normal.setSelected(false);
-                relative_error.setSelected(true);
-                break;
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (!TextUtils.isEmpty(binding.editPhone.getText().toString().trim()) && !TextUtils.isEmpty(binding.editPassWord.getText().toString().trim())) {
+            binding.smartLoadingViewLogin.setSmartClickable(true);
+        } else {
+            binding.smartLoadingViewLogin.setSmartClickable(false);
         }
     }
 }

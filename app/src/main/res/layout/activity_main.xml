@@ -31,7 +31,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
-                android:text="可用于登录，或者不需要dialog联网等"
+                android:text="自带dialog的转场按钮，以下场景可用于登录等"
                 android:textColor="#fff"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -72,6 +72,17 @@
                 app:errorMsg="连接超时，请稍后再试连接超时，请稍后再试连接超时，请稍后再试"
                 app:background_normal="#75B7DE" />
 
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_6_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="@{onClickListener}"
+                android:text="模拟失败，回到初始状态"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#FF9800" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,7 +90,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="45dp"
                 android:gravity="center"
-                android:text="可用于关注，或者不需要dialog联网等"
+                android:text="自带dialog的联网请求按钮，以下可用于关注等"
                 android:textColor="#fff"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -136,18 +147,6 @@
                 app:cornerRaius="30dp"
                 app:background_normal="#FA2525" />
 
-            <com.lihang.smartloadview.SmartLoadingView
-                android:id="@+id/smartLoadingView_6_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:onClick="@{onClickListener}"
-                android:text="模拟失败，回到初始状态"
-                android:textColor="#fff"
-                app:cornerRaius="30dp"
-                app:background_normal="#FF9800" />
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -155,7 +154,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="45dp"
                 android:gravity="center"
-                android:text="文字长度大于控件长度，自动滚动"
+                android:text="文字长度超出一行，自动滚动(2种滚动方式)"
                 android:textColor="#fff"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -216,7 +215,40 @@
                 app:background_normal="#5C88E8"
                 app:smart_clickable="true"
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60dp"
+                android:gravity="center"
+                android:text="以下是作者目前用到的场景demo"
+                android:textColor="#ff0000"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_login_demo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:onClick="@{onClickListener}"
+                android:text="登录demo"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#6CBDF1" />
+
+            <com.lihang.smartloadview.SmartLoadingView
+                android:id="@+id/smartLoadingView_follow_demo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:onClick="@{onClickListener}"
+                android:text="关注demo"
+                android:textColor="#fff"
+                app:cornerRaius="30dp"
+                app:background_normal="#6CBDF1" />
 
             <TextView
                 android:layout_width="100dp"

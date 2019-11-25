@@ -161,6 +161,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "点击了", Toast.LENGTH_SHORT).show();
                 binding.smartLoadingView9.setSmartClickable(false);
                 break;
+
+            case R.id.smartLoadingView_login_demo:
+                binding.smartLoadingViewLoginDemo.start();
+                Observable.timer(2000, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
+                    binding.smartLoadingViewLoginDemo.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
+                        @Override
+                        public void animationFullScreenFinish() {
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            overridePendingTransition(R.anim.scale_test_home, R.anim.scale_test2);
+                        }
+                    });
+                });
+                break;
+            case R.id.smartLoadingView_follow_demo:
+                binding.smartLoadingViewFollowDemo.start();
+                Observable.timer(2000, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
+                    binding.smartLoadingViewFollowDemo.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
+                        @Override
+                        public void animationFullScreenFinish() {
+                            startActivity(new Intent(MainActivity.this, FollowActivity.class));
+                            overridePendingTransition(R.anim.scale_test_home, R.anim.scale_test2);
+                        }
+                    });
+                });
+                break;
         }
 
     }
