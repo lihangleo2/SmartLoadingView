@@ -120,6 +120,26 @@ smartLoadingView.netFaile();
 smartLoadingView.netFaile(msg);
 ```
 
+<br>
+
+### 2.2、请求失败，回到初始状态
+如果你们的需求是，失败文案显示在别的地方，或者只是弹一个toast,按钮箱回到初始状态，只需要这样
+```java
+smartLoadingView.backToStart();
+```
+
+<br>
+
+## 三、正常的联网请求（目前作者用于关注）
+
+|3.1、正常的联网，正常出结果|3.2、正常联网，打勾出结果|
+|:---:|:---:|
+|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_2.gif)
+|3.2、打勾出结果，打勾消失|3.4、打勾出结果，提醒用户|
+|:---:|:---:|
+|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_3.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_4.gif)
+
+
 ## 扫描二维体验效果(下载密码是：123456)
 ![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/SmartLoadingView_.png)
 
