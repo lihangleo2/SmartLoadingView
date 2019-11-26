@@ -141,6 +141,9 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
  #### 按钮的点击状态
  - app:smart_clickable="true" 不设置时，默认可以点击，为true。代码里也能通过 smartLoadingView9.setSmartClickable(false) 进行设置
  
+ #### 这里稍微说下长宽
+ 长宽都是用系统的layout_width和layout_height，包括设置padding。如果不设置，是有默认间距的
+ 
  <br>
  
  ## 关于作者。
