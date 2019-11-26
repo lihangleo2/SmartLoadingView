@@ -49,7 +49,7 @@
 
 # 效果展示（截图分辨率低，请扫描下文二维码体验效果）
 
-## 一、转场动画的使用
+## 一、开启动画和转场动画的使用
 
 |1.1、动画结束后自动跳转|1.2、自己监听动画实现逻辑|
 |:---:|:---:|
@@ -99,6 +99,14 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
                         }
                     });
 ```
+
+<br>
+
+## 二、联网请求失败的样式
+
+|2.1、请求失败，文案显示在控件上|2.2、请求失败，回到初始状态|
+|:---:|:---:|
+|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/error_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/error_2.gif)
 
 <br>
 
