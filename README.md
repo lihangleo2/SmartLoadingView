@@ -192,13 +192,14 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
 <br>
 
 ## 四、文字超出一行，文字自动滚动
+设计这个的初衷是因为，可能按钮的错误文案太长了，按钮放不下时使用的
 
 |4.1、文字来回滚动|4.2、仿跑马灯滚动|
 |:---:|:---:|
 |![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/scroll.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/scroll.gif)
 
 <br>
-设计这个的初衷是因为，可能按钮的错误文案太长了，按钮放不下时使用的
+
 ### 4.1、文字来回滚动
 只需要在xml里加上 app:textScrollMode="normal"。或者可以不加，因为默认滚动就是这种方式
 
@@ -206,6 +207,14 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
 
 ### 4.2、仿跑马灯滚动
 xml里只需要加上 app:textScrollMode="marquee"
+
+<br>
+
+## 五、设置不可点击状态
+
+|5.1、设置不可点击状态||
+|:---:|:---:|
+|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/cannot_click.gif)|![]()
 
 
 
