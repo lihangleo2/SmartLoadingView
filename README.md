@@ -216,6 +216,23 @@ xml里只需要加上 app:textScrollMode="marquee"
 |:---:|:---:|
 |![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/cannot_click.gif)|![]()
 
+<br>
+
+### 5.1、设置不可点击状态
+在xml里可以通过app:smart_clickable="false"进行设置。当然也能通过代码来设置
+```java
+smartLoadingView.setSmartClickable(false);
+```
+
+<br>
+
+## 六、这里作者还提供了2个小demo。登录demo和关注demo
+
+|6.1、登录demo|6.2、关注demo|
+|:---:|:---:|
+|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/demo_login.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/demo_follow.gif)
+
+可以下载demo自行查看
 
 
 ## 扫描二维体验效果(下载密码是：123456)
