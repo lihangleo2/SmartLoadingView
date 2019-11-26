@@ -135,8 +135,78 @@ smartLoadingView.backToStart();
 |3.1、正常的联网，正常出结果|3.2、正常联网，打勾出结果|
 |:---:|:---:|
 |![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_2.gif)
-|3.2、打勾出结果，打勾消失|3.4、打勾出结果，提醒用户|
+|3.3、打勾出结果，打勾消失|3.4、打勾出结果，提醒用户|
 |![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_3.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_4.gif)
+
+<br> 
+
+### 3.1、正常的联网，正常出结果
+这里点击事件和启动动画都和之前一样。正常出结果，只需要结合失败的方法去使用，失败文案，失败背景设置成关注成功的样式，调用只需要这样
+```java
+smartLoadingView.netFaile("关注成功");
+```
+再次点击后，回到初始状态。注意这里不能使用backToStart（）。因为backToStart（）是出结果时使用，即使你使用也不起效果，这里已经出了结果“关注成功”。所以此时，再次点击，需要如下
+```java
+smartLoadingView.reset();
+```
+
+<br>
+
+### 3.2、正常联网，打勾出结果
+前面都是一样的，只是出结果时，实现AnimationOKListener接口
+```java
+smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
+                            @Override
+                            public void animationOKFinish() {
+                                Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+```
+
+<br>
+
+### 3.3、打勾出结果，打勾消失
+如果想实现抖音那样，打勾后，打勾消失，只需要实现，添加一个模式就好了,OKAnimationType.HIDE。（当然上面就是默认的OKAnimationType.NORMAL）
+```java
+smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
+                        @Override
+                        public void animationOKFinish() {
+                            Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }, SmartLoadingView.OKAnimationType.HIDE);
+```
+
+<br>
+
+### 3.4、打勾出结果，提醒用户
+这个就有点类似提醒效果，不管你的控件在屏幕上的任何位置，最终都会运行到屏幕中间，提醒用户，成功了。也只需添加一个模式OKAnimationType.TRANSLATION_CENTER
+```java
+smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
+                        @Override
+                        public void animationOKFinish() {
+                            Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }, SmartLoadingView.OKAnimationType.TRANSLATION_CENTER);
+```
+
+<br>
+
+## 四、文字超出一行，文字自动滚动
+
+|4.1、文字来回滚动|4.2、仿跑马灯滚动|
+|:---:|:---:|
+|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/scroll.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/scroll.gif)
+
+<br>
+设计这个的初衷是因为，可能按钮的错误文案太长了，按钮放不下时使用的
+### 4.1、文字来回滚动
+只需要在xml里加上 app:textScrollMode="normal"。或者可以不加，因为默认滚动就是这种方式
+
+<br>
+
+### 4.2、仿跑马灯滚动
+xml里只需要加上 app:textScrollMode="marquee"
+
 
 
 ## 扫描二维体验效果(下载密码是：123456)
