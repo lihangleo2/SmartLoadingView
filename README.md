@@ -110,6 +110,16 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
 
 <br>
 
+### 2.1、请求失败，文案显示在控件上
+这里点击和启动动画都和上面一致。如果你xml里设置了失败文案的话，联网失败时，只需要调用
+```java
+smartLoadingView.netFaile();
+```
+当然，如果你再联网前并不知道失败文案也可以这样，带入当前失败的文案
+```java
+smartLoadingView.netFaile(msg);
+```
+
 ## 扫描二维体验效果(下载密码是：123456)
 ![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/SmartLoadingView_.png)
 
