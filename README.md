@@ -136,7 +136,6 @@ smartLoadingView.backToStart();
 |:---:|:---:|
 |![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_2.gif)
 |3.2、打勾出结果，打勾消失|3.4、打勾出结果，提醒用户|
-|:---:|:---:|
 |![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_3.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_4.gif)
 
 
