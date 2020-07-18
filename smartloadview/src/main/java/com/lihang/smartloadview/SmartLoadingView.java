@@ -598,6 +598,11 @@ public class SmartLoadingView extends TextView {
         }
     }
 
+    // 2020.07.19 add 改变当前文本,适合做角色变化时，显示不同的文字
+    public void resetText(String message) {
+        currentString = message;
+    }
+        
     private void cancleScroll() {
         if (animator_text_scroll != null) {
             animator_text_scroll.cancel();
