@@ -3,7 +3,6 @@ package com.lihang.smartloadview;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
@@ -23,23 +22,15 @@ import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.text.method.SingleLineTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.AnticipateInterpolator;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.TextView;
 
 
@@ -127,7 +118,6 @@ public class SmartLoadingView extends TextView {
     //取路径的长度
     private PathMeasure pathMeasure;
 
-
     /**
      * 加载loading动画相关
      */
@@ -174,6 +164,9 @@ public class SmartLoadingView extends TextView {
     //这是全屏动画
     private CirclBigView circlBigView;
 
+    private boolean isFollow;
+    private int clickType = 1;//关注的样式，默认是正常样式
+
 
     public SmartLoadingView(Context context) {
         this(context, null);
@@ -214,6 +207,8 @@ public class SmartLoadingView extends TextView {
         obtainCircleAngle = (int) typedArray.getDimension(R.styleable.SmartLoadingView_cornerRaius, getResources().getDimension(R.dimen.default_corner));
         textScrollMode = typedArray.getInt(R.styleable.SmartLoadingView_textScrollMode, 1);
         speed = typedArray.getInt(R.styleable.SmartLoadingView_speed, 400);
+        clickType = typedArray.getInt(R.styleable.SmartLoadingView_click_mode, 1);
+
         int paddingTop = getPaddingTop() == 0 ? dip2px(7) : getPaddingTop();
         int paddingBottom = getPaddingBottom() == 0 ? dip2px(7) : getPaddingBottom();
         int paddingLeft = getPaddingLeft() == 0 ? dip2px(15) : getPaddingLeft();
@@ -228,6 +223,105 @@ public class SmartLoadingView extends TextView {
     private int dip2px(float dipValue) {
         float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
+    }
+
+
+    public boolean isFollow() {
+        return isFollow;
+    }
+
+
+    public void setFollow(boolean follow) {
+        //不在loading的情况下生效
+        if (!isLoading) {
+
+            if (clickType == 4) {
+                isFollow = follow;
+                if (isFollow) {
+                    paint.setColor(error_color);
+                    currentString = errorString;
+                } else {
+                    paint.setColor(normal_color);
+                    currentString = normalString;
+                }
+                postInvalidate();
+            } else {
+                OKAnimationType okAnimationType = OKAnimationType.NORMAL;
+                if (clickType == 1) {
+                    okAnimationType = OKAnimationType.NORMAL;
+                } else if (clickType == 2) {
+                    okAnimationType = OKAnimationType.HIDE;
+                } else {
+                    okAnimationType = OKAnimationType.TRANSLATION_CENTER;
+                }
+                setFollow(follow, okAnimationType);
+            }
+
+        }
+
+
+    }
+
+    private void setFollow(final boolean follow, final OKAnimationType okAnimationType) {
+        if (!isLoading) {
+            if (getWidth() == 0 && getHeight() == 0) {
+
+                SmartLoadingView.this.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        isFollow = follow;
+                        if (isFollow) {
+                            current_left = default_all_distance;
+
+                            int nowAlpha = textAlpha / 2 - (current_left * textAlpha / default_all_distance) < 0 ? 0 : textAlpha / 2 - (current_left * textAlpha / default_all_distance);
+                            textPaint.setColor(addAlpha(textColor, nowAlpha));
+                            if (current_left == default_all_distance) {
+                                startDrawOk = true;
+                            }
+
+                            effect = new DashPathEffect(new float[]{pathMeasure.getLength(), pathMeasure.getLength()}, 0 * pathMeasure.getLength());
+                            okPaint.setPathEffect(effect);
+                            postInvalidate();
+
+                            if (okAnimationType == OKAnimationType.HIDE || okAnimationType == OKAnimationType.TRANSLATION_CENTER) {
+                                setVisibility(View.INVISIBLE);
+                            }
+
+                        } else {
+                            reset();
+                        }
+
+                    }
+                });
+            } else {
+
+                isFollow = follow;
+                if (isFollow) {
+                    current_left = default_all_distance;
+
+                    int nowAlpha = textAlpha / 2 - (current_left * textAlpha / default_all_distance) < 0 ? 0 : textAlpha / 2 - (current_left * textAlpha / default_all_distance);
+                    textPaint.setColor(addAlpha(textColor, nowAlpha));
+                    if (current_left == default_all_distance) {
+                        startDrawOk = true;
+                    }
+
+                    effect = new DashPathEffect(new float[]{pathMeasure.getLength(), pathMeasure.getLength()}, 0 * pathMeasure.getLength());
+                    okPaint.setPathEffect(effect);
+                    postInvalidate();
+
+                    if (okAnimationType == OKAnimationType.HIDE || okAnimationType == OKAnimationType.TRANSLATION_CENTER) {
+                        setVisibility(View.INVISIBLE);
+                    }
+                } else {
+
+                    reset();
+
+                }
+
+
+            }
+
+        }
     }
 
 
@@ -562,6 +656,7 @@ public class SmartLoadingView extends TextView {
 
 
     private void draw_oval_to_circle(Canvas canvas) {
+
         rectf.left = current_left;
         rectf.top = 0;
         rectf.right = width - current_left;
@@ -624,6 +719,7 @@ public class SmartLoadingView extends TextView {
     //加载失败运行(文案自定义)
     public void netFaile(String message) {
         if (isLoading) {
+            isFollow = true;
             errorString = message;
             currentString = errorString;
             paint.setColor(error_color);
@@ -651,6 +747,7 @@ public class SmartLoadingView extends TextView {
     }
 
     public void resetAll() {
+        isFollow = false;
         setClickable(true);
         currentString = normalString;
         textPaint.setColor(textColor);
@@ -668,6 +765,7 @@ public class SmartLoadingView extends TextView {
         if (circlBigView != null) {
             circlBigView.setCircleR(0);
         }
+        setVisibility(View.VISIBLE);
     }
 
 
@@ -743,19 +841,32 @@ public class SmartLoadingView extends TextView {
         }
     }
 
-    //开启打勾模式
-    public void onSuccess(final AnimationOKListener animationOKListener) {
-        onSuccess(animationOKListener, OKAnimationType.NORMAL);
-    }
+
+    private AnimationOKListener animationOKListener;
 
     //开启打勾模式，打勾后，是否隐藏
-    public void onSuccess(final AnimationOKListener animationOKListener, final OKAnimationType okAnimationType) {
+    public void onSuccess(AnimationOKListener animationOKListenerOkgo) {
+        this.animationOKListener = animationOKListenerOkgo;
+        OKAnimationType okAnimationType = OKAnimationType.NORMAL;
+        if (clickType == 4) {
+            return;
+        } else if (clickType == 1) {
+            okAnimationType = OKAnimationType.NORMAL;
+        } else if (clickType == 2) {
+            okAnimationType = OKAnimationType.HIDE;
+        } else if (clickType == 3) {
+            okAnimationType = OKAnimationType.TRANSLATION_CENTER;
+        }
+
+
         //这个思路是对的，然后就是看clickindex是否一致
         //必须，点击了最开始的动画处于，加载状态，才能获得回调
         if (isLoading) {
             if (okAnimationType != OKAnimationType.TRANSLATION_CENTER) {
-                animator_draw_ok.cancel();
+//                animator_draw_ok.cancel();
+                set_draw_ok_animation();
                 animator_draw_ok.start();
+                final OKAnimationType finalOkAnimationType = okAnimationType;
                 animator_draw_ok.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -764,10 +875,13 @@ public class SmartLoadingView extends TextView {
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        animationOKListener.animationOKFinish();
+                        if (animationOKListener != null) {
+                            animationOKListener.animationOKFinish();
+                        }
                         isLoading = false;
+                        isFollow = true;
                         setClickable(true);
-                        if (okAnimationType == OKAnimationType.HIDE) {
+                        if (finalOkAnimationType == OKAnimationType.HIDE) {
                             //这里是隐藏的操作
                             Animation animations = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_hide);
                             setAnimation(animations);
@@ -805,7 +919,7 @@ public class SmartLoadingView extends TextView {
                 okView.start(duration);
                 //初始真正的那个View
                 setVisibility(View.INVISIBLE);
-                reset();
+//                reset();
 
                 //当前屏幕中心位置
                 int window_center_x = UIUtil.getWidth(getContext()) / 2;

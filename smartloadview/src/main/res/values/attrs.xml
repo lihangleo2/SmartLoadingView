@@ -22,5 +22,17 @@
         <attr name="speed" format="integer" />
 
 
+        <attr name="click_mode">
+            <!-- 正常的样式 -->
+            <enum name="normal" value="1" />
+            <!-- 隐藏的样式 -->
+            <enum name="hide" value="2" />
+            <!-- 平移到中间的样式-->
+            <enum name="translate_center" value="3" />
+            <!-- 走失败模式的样式-->
+            <enum name="like_faile" value="4" />
+
+        </attr>
+
     </declare-styleable>
 </resources>

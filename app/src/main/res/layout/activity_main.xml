@@ -110,7 +110,10 @@
                 android:textColor="#fff"
                 app:background_error="#FBD56D"
                 app:background_normal="#6DFB80"
-                app:cornerRaius="30dp" />
+                app:cornerRaius="30dp"
+                app:errorMsg="关注成功"
+                app:click_mode="like_faile"
+                />
 
 
             <com.lihang.smartloadview.SmartLoadingView
@@ -123,7 +126,9 @@
                 android:text="点击关注(正常模式)"
                 android:textColor="#fff"
                 app:background_normal="#6DFB80"
-                app:cornerRaius="30dp" />
+                app:cornerRaius="30dp"
+                app:click_mode="normal"
+                />
 
 
             <com.lihang.smartloadview.SmartLoadingView
@@ -136,7 +141,9 @@
                 android:text="点击关注(隐藏模式)"
                 android:textColor="#fff"
                 app:background_normal="#3E7144"
-                app:cornerRaius="30dp" />
+                app:cornerRaius="30dp"
+                app:click_mode="hide"
+                />
 
 
             <com.lihang.smartloadview.SmartLoadingView
@@ -149,7 +156,9 @@
                 android:text="点击关注,提醒模式,"
                 android:textColor="#fff"
                 app:background_normal="#FA2525"
-                app:cornerRaius="30dp" />
+                app:cornerRaius="30dp"
+                app:click_mode="translate_center"
+                />
 
 
             <TextView

@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //沉浸式状态栏
     protected ImmersionBar mImmersionBar;
     ActivityMainBinding binding;
-    private int follow4Tag = 0;
-    private int follow5Tag = 0;
 
 
     @Override
@@ -36,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.init();
 
-
+        binding.smartLoadingView4.setFollow(true);
+        binding.smartLoadingView5.setFollow(true);
     }
 
     @Override
@@ -71,39 +70,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 break;
             case R.id.smartLoadingView_4_:
-                if (follow4Tag % 2 == 0) {
+
+
+                if (binding.smartLoadingView4.isFollow()) {
+                    //这里是模拟取消关注
+                    binding.smartLoadingView4.reset();
+                } else {
                     //这里是模拟关注
                     binding.smartLoadingView4.start();
                     Observable.timer(2000, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
                         binding.smartLoadingView4.netFaile("关注成功");
                     });
-                } else {
-                    //这里是模拟取消关注
-                    binding.smartLoadingView4.reset();
                 }
-                follow4Tag++;
 
                 break;
 
 
             case R.id.smartLoadingView_5_:
                 //不设置模式，那么默认为正常模式 SmartLoadingView.OKAnimationType.NORMAL
-                if (follow5Tag % 2 == 0) {
+
+                if (binding.smartLoadingView5.isFollow()) {
+                    binding.smartLoadingView5.reset();
+                } else {
                     binding.smartLoadingView5.start();
                     Observable.timer(2000, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
                         binding.smartLoadingView5.onSuccess(new SmartLoadingView.AnimationOKListener() {
                             @Override
                             public void animationOKFinish() {
+                                Log.e("我这里真的走了两次", " --------  ");
                                 Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                             }
                         });
                     });
-                } else {
-                    binding.smartLoadingView5.reset();
                 }
-                follow5Tag++;
+
+
                 break;
 
 
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void animationOKFinish() {
                             Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
-                    }, SmartLoadingView.OKAnimationType.HIDE);
+                    });
                 });
                 break;
 
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void animationOKFinish() {
                             Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
-                    }, SmartLoadingView.OKAnimationType.TRANSLATION_CENTER);
+                    });
                 });
                 break;
 

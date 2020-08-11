@@ -27,13 +27,11 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
     private ActivityFollowBinding binding;
     //沉浸式状态栏
     protected ImmersionBar mImmersionBar;
-    private int follow1Tag = 0;
-    private int follow2Tag = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_follow);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_follow);
         binding.setOnclickListener(this);
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.init();
@@ -44,23 +42,27 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.smartLoadingView_normal:
-                if (follow1Tag % 2 == 0) {
+                if (binding.smartLoadingViewNormal.isFollow()) {
+                    //这里是模拟取消关注
+                    binding.smartLoadingViewNormal.reset();
+                } else {
                     //这里是模拟关注
                     binding.smartLoadingViewNormal.start();
                     Observable.timer(2000, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
                         binding.smartLoadingViewNormal.netFaile("关注成功");
                     });
-                } else {
-                    //这里是模拟取消关注
-                    binding.smartLoadingViewNormal.reset();
                 }
-                follow1Tag++;
+
                 break;
 
 
             case R.id.smartLoadingView_ok:
-                if (follow2Tag % 2 == 0) {
+                if (binding.smartLoadingViewOk.isFollow()) {
+                    //这里是模拟取消关注
+                    binding.smartLoadingViewOk.reset();
+                } else {
+
                     //这里是模拟关注
                     binding.smartLoadingViewOk.start();
                     Observable.timer(2000, TimeUnit.MILLISECONDS)
@@ -72,11 +74,9 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                             }
                         });
                     });
-                } else {
-                    //这里是模拟取消关注
-                    binding.smartLoadingViewOk.reset();
+
                 }
-                follow2Tag++;
+
                 break;
 
             case R.id.smartLoadingView_ok_hide:
@@ -88,7 +88,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                         public void animationOKFinish() {
                             Toast.makeText(FollowActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
-                    }, SmartLoadingView.OKAnimationType.HIDE);
+                    });
                 });
                 break;
 
@@ -101,7 +101,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                         public void animationOKFinish() {
                             Toast.makeText(FollowActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
-                    }, SmartLoadingView.OKAnimationType.TRANSLATION_CENTER);
+                    });
                 });
                 break;
 
@@ -115,7 +115,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                         public void animationOKFinish() {
                             Toast.makeText(FollowActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
-                    }, SmartLoadingView.OKAnimationType.TRANSLATION_CENTER);
+                    });
                 });
                 break;
 
@@ -128,13 +128,11 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                         public void animationOKFinish() {
                             Toast.makeText(FollowActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
-                    }, SmartLoadingView.OKAnimationType.TRANSLATION_CENTER);
+                    });
                 });
                 break;
         }
     }
-
-
 
 
     @Override

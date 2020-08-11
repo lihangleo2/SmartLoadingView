@@ -45,6 +45,7 @@
                     app:cornerRaius="30dp"
                     app:errorMsg="已关注"
                     android:onClick="@{onclickListener}"
+                    app:click_mode="like_faile"
                     />
             </RelativeLayout>
 
@@ -73,6 +74,7 @@
                     app:background_normal="#08f2c7"
                     app:cornerRaius="30dp"
                     android:onClick="@{onclickListener}"
+                    app:click_mode="normal"
                     />
             </RelativeLayout>
 
@@ -101,6 +103,7 @@
                     app:background_normal="#08f2c7"
                     app:cornerRaius="30dp"
                     android:onClick="@{onclickListener}"
+                    app:click_mode="hide"
                     />
 
             </RelativeLayout>
@@ -130,6 +133,7 @@
                     app:background_normal="#FA2525"
                     app:cornerRaius="30dp"
                     android:onClick="@{onclickListener}"
+                    app:click_mode="translate_center"
                     />
             </RelativeLayout>
 
@@ -158,6 +162,7 @@
                     app:background_normal="#FA2525"
                     app:cornerRaius="30dp"
                     android:onClick="@{onclickListener}"
+                    app:click_mode="translate_center"
                     />
             </RelativeLayout>
 
@@ -186,6 +191,7 @@
                     app:background_normal="#FA2525"
                     app:cornerRaius="30dp"
                     android:onClick="@{onclickListener}"
+                    app:click_mode="translate_center"
                     />
             </RelativeLayout>
 
