@@ -263,42 +263,45 @@ smartLoadingView.setSmartClickable(false);
 <br>
 
  # 自定义属性
- #### 按钮文案
+ #### 1、按钮文案
  - android:text="自带dialog按钮"  使用了textView的text文字属性
   
- #### 按钮文案颜色值
+ #### 2、按钮文案颜色值
  - android:textColor="#fff" 使用了textView的textColor颜色值属性
   
- #### 按钮文案字体大小
+ #### 3、按钮文案字体大小
  - android:textSize="15dp" 使用了textView的字体大小
  
- #### 正常情况下的背景颜色值
+ #### 4、正常情况下的背景颜色值
  - app:background_normal="#fff" 按钮正常的背景颜色值
 
- #### 联网失败文案
+ #### 5、联网失败文案
  - app:errorMsg="联网失败文案" 联网失败展示的文案，比如登录时，账号密码错误
  
- #### 联网失败下的背景颜色值
+ #### 6、联网失败下的背景颜色值
  - app:background_error="#ED7676" 联网失败时展示的背景颜色值，一般为殷红色
 
- #### 不可点击状态下的背景颜色值
+ #### 7、不可点击状态下的背景颜色值
  - app:background_cannotClick="#bbbbbb" 不可点击状态下的背景颜色值
  
- #### 圆角属性
+ #### 8、圆角属性
  - app:cornerRaius="30dp" 背景的圆角属性
  
- #### 文字滚动模式（文字超过一行时，文字自动滚动）
+ #### 9、文字滚动模式（文字超过一行时，文字自动滚动）
  - app:textScrollMode="marquee" 比如联网失败后，失败文案太长了。文字自动滚动，这里有2种方式。1、normal来回滚动。 2、marquee跑马灯效果
  
- #### 文字滚动速度
+ #### 10、文字滚动速度
  - app:speed="400" 文字的滚动速度。可以理解为一个文字滚动出屏幕外需要的时间
  
- #### 按钮的点击状态
+ #### 11、按钮的点击状态
  - app:smart_clickable="true" 不设置时，默认可以点击，为true。代码里也能通过 smartLoadingView9.setSmartClickable(false) 进行设置
  
- #### 这里稍微说下长宽
+ #### 12、这里稍微说下长宽
  长宽都是用系统的layout_width和layout_height，包括设置padding。如果不设置，是有默认间距的
  
+ #### 13、click_mode关注方式
+ - 这里有四种模式，like_faile、normal、hide、translate_center；不管用哪种模式，xml一定要加上这个属性。like_faile：像联网失败的方式展示关注成功；normal：正常的关注打勾动画；hide：正常打勾关注后，按钮消失。translate_center：打勾关注后，移动到屏幕中心提醒。
+	
  <br>
  
  ## 关于作者。
