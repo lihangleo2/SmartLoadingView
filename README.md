@@ -19,7 +19,7 @@
  - app build.gradle添加如下
     ```java
    dependencies {
-	        implementation 'com.github.lihangleo2:SmartLoadingView:2.0.1'
+	        implementation 'com.github.lihangleo2:SmartLoadingView:2.0.2'
 	}
    ```
 
@@ -124,7 +124,7 @@ smartLoadingView.netFaile(msg);
 <br>
 
 ### 2.2、请求失败，回到初始状态
-如果你们的需求是，失败文案显示在别的地方，或者只是弹一个toast,按钮箱回到初始状态，只需要这样
+如果你们的需求是，失败文案显示在别的地方，或者只是弹一个toast,按钮箱回到初始状态，只需要这样（这里的意思是，控件还在转圈等待，网络回调后，动画平滑回到初始状态）
 ```java
 smartLoadingView.backToStart();
 ```
@@ -141,7 +141,23 @@ smartLoadingView.backToStart();
 
 <br> 
 
-### 3.1、正常的联网，正常出结果
+```java
+//2.0.2后把关注方式做成了属性，切记，如果你想用哪种方式，务必要在xml上写上
+ <attr name="click_mode">
+            <!-- 正常的样式 -->
+            <enum name="normal" value="1" />
+            <!-- 隐藏的样式 -->
+            <enum name="hide" value="2" />
+            <!-- 平移到中间的样式-->
+            <enum name="translate_center" value="3" />
+            <!-- 走失败模式的样式-->
+            <enum name="like_faile" value="4" />
+
+        </attr>
+```
+
+
+### 3.1、正常的联网，正常出结果 app:click_mode="like_faile"
 这里点击事件和启动动画都和之前一样。正常出结果，只需要结合失败的方法去使用，失败文案，失败背景设置成关注成功的样式，调用只需要这样
 ```java
 smartLoadingView.netFaile("关注成功");
@@ -153,7 +169,7 @@ smartLoadingView.reset();
 
 <br>
 
-### 3.2、正常联网，打勾出结果
+### 3.2、正常联网，打勾出结果 app:click_mode="normal"
 前面都是一样的，只是出结果时，实现AnimationOKListener接口
 ```java
 smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
@@ -166,7 +182,7 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
 
 <br>
 
-### 3.3、打勾出结果，打勾消失
+### 3.3、打勾出结果，打勾消失 app:click_mode="hide"
 如果想实现抖音那样，打勾后，打勾消失，只需要实现，添加一个模式就好了,OKAnimationType.HIDE。（当然上面就是默认的OKAnimationType.NORMAL）
 ```java
 smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
@@ -174,12 +190,12 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
                         public void animationOKFinish() {
                             Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
-                    }, SmartLoadingView.OKAnimationType.HIDE);
+                    });
 ```
 
 <br>
 
-### 3.4、打勾出结果，提醒用户
+### 3.4、打勾出结果，提醒用户 app:click_mode="translate_center"
 这个就有点类似提醒效果，不管你的控件在屏幕上的任何位置，最终都会运行到屏幕中间，提醒用户，成功了。也只需添加一个模式OKAnimationType.TRANSLATION_CENTER
 ```java
 smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
@@ -187,9 +203,14 @@ smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
                         public void animationOKFinish() {
                             Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                         }
-                    }, SmartLoadingView.OKAnimationType.TRANSLATION_CENTER);
+                    });
 ```
+<br>
 
+### 3.5、上个版本很多朋友说，没有默认选中的状态。在xml里写上你的click_mode后，只需一句代码
+```java
+binding.smartLoadingViewNormal.setFollow(true);
+```
 <br>
 
 ## 四、文字超出一行，文字自动滚动
