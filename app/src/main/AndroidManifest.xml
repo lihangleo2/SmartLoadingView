@@ -35,6 +35,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitlescreen"
             />
+
+        <!--多渠道打包需要配置-->
+        <meta-data
+            android:name="ATMAN_CHANNEL"
+            android:value="${ATMAN_CHANNEL_VALUE}" />
     </application>
 
 </manifest>
