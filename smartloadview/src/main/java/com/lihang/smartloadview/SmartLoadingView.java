@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,6 +218,17 @@ public class SmartLoadingView extends TextView {
         setBackgroundColor(0);
         setMaxLines(1);
         setGravity(Gravity.CENTER);
+    }
+
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, type);
+//        private BufferType mBufferType = BufferType.NORMAL;
+        errorString = (String) text;
+        normalString = (String) text;
+        currentString = (String) text;
+        postInvalidate();
     }
 
 

@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.init();
 
-        binding.smartLoadingView4.setFollow(true);
-        binding.smartLoadingView5.setFollow(true);
     }
 
     @Override

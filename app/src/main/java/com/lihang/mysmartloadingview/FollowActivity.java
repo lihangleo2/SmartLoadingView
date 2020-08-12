@@ -36,6 +36,8 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.init();
 
+        binding.smartLoadingViewNormal.setFollow(true);
+
     }
 
     @Override
@@ -50,7 +52,7 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
                     binding.smartLoadingViewNormal.start();
                     Observable.timer(2000, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
-                        binding.smartLoadingViewNormal.netFaile("关注成功");
+                        binding.smartLoadingViewNormal.netFaile("已关注");
                     });
                 }
 
@@ -58,6 +60,8 @@ public class FollowActivity extends AppCompatActivity implements View.OnClickLis
 
 
             case R.id.smartLoadingView_ok:
+
+
                 if (binding.smartLoadingViewOk.isFollow()) {
                     //这里是模拟取消关注
                     binding.smartLoadingViewOk.reset();
