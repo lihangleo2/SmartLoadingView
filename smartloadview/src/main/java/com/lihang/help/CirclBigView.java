@@ -1,4 +1,4 @@
-package com.lihang.smartloadview;
+package com.lihang.help;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -9,8 +9,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
+
+import com.lihang.SmartLoadingView;
+import com.lihang.smartloadview.R;
 
 
 /**
@@ -121,7 +123,7 @@ public class CirclBigView extends View {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         animationFullScreenListener.animationFullScreenFinish();
-                        smartLoadingView.resetLater();
+//                        smartLoadingView.resetLater();
                     }
 
                     @Override

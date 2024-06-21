@@ -38,7 +38,7 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_1_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 app:cornerRaius="30dp"
                 />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_2_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 android:background="#03A9F4"
                 app:cornerRaius="30dp" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_3_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                 app:cornerRaius="5dp"
                 app:errorMsg="连接超时，请稍后再试连接超时，请稍后再试连接超时，请稍后再试" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_6_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_4_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                 />
 
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_5_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                 />
 
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_hide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
                 />
 
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_7_"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
@@ -189,7 +189,7 @@
                 app:errorMsg="联网超时"
                 app:textScrollMode="normal" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_8_"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_9_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_login_demo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -255,7 +255,7 @@
                 android:background="#6CBDF1"
                 app:cornerRaius="30dp" />
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_follow_demo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

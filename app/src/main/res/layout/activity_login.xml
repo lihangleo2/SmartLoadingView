@@ -229,7 +229,7 @@
             </LinearLayout>
 
 
-            <com.lihang.smartloadview.SmartLoadingView
+            <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_login"
                 android:layout_width="120dp"
                 android:layout_height="30dp"

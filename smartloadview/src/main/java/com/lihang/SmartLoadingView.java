@@ -1,4 +1,4 @@
-package com.lihang.smartloadview;
+package com.lihang;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -35,6 +35,11 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
+
+import com.lihang.help.CirclBigView;
+import com.lihang.help.OkView;
+import com.lihang.smartloadview.R;
+import com.lihang.help.UIUtil;
 
 
 /**
@@ -738,10 +743,6 @@ public class SmartLoadingView extends AppCompatTextView {
         resetAll();
     }
 
-    //用于，扩散动画，有可能不跳转。停留在当前页，1秒后重置状态
-    protected void resetLater() {
-        mHandler.sendEmptyMessageDelayed(13, 1000);
-    }
 
     public void resetAll() {
         isFollow = false;
@@ -783,10 +784,6 @@ public class SmartLoadingView extends AppCompatTextView {
                     Class temp = clazz;
                     toBigCircle(activity, temp);
                     clazz = null;
-                    break;
-
-                case 13:
-                    resetAll();
                     break;
 
                 case 14:

@@ -1,4 +1,4 @@
-package com.lihang.smartloadview;
+package com.lihang.help;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

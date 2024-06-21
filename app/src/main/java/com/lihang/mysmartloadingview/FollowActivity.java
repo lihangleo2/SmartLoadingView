@@ -2,8 +2,6 @@ package com.lihang.mysmartloadingview;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,7 +9,7 @@ import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.lihang.mysmartloadingview.databinding.ActivityFollowBinding;
-import com.lihang.smartloadview.SmartLoadingView;
+import com.lihang.SmartLoadingView;
 
 import java.util.concurrent.TimeUnit;
 

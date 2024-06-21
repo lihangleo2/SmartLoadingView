@@ -33,7 +33,7 @@
                     android:layout_centerHorizontal="true"
                     android:src="@mipmap/girl_head" />
 
-                <com.lihang.smartloadview.SmartLoadingView
+                <com.lihang.SmartLoadingView
                     android:id="@+id/smartLoadingView_normal"
                     android:layout_width="100dp"
                     android:layout_height="25dp"
@@ -64,7 +64,7 @@
                     android:layout_centerHorizontal="true"
                     android:src="@mipmap/girl_head" />
 
-                <com.lihang.smartloadview.SmartLoadingView
+                <com.lihang.SmartLoadingView
                     android:id="@+id/smartLoadingView_ok"
                     android:layout_width="100dp"
                     android:layout_height="25dp"
@@ -93,7 +93,7 @@
                     android:layout_centerHorizontal="true"
                     android:src="@mipmap/girl_head" />
 
-                <com.lihang.smartloadview.SmartLoadingView
+                <com.lihang.SmartLoadingView
                     android:id="@+id/smartLoadingView_ok_hide"
                     android:layout_width="100dp"
                     android:layout_height="25dp"
@@ -122,7 +122,7 @@
                     android:layout_centerHorizontal="true"
                     android:src="@mipmap/girl_head" />
 
-                <com.lihang.smartloadview.SmartLoadingView
+                <com.lihang.SmartLoadingView
                     android:id="@+id/smartLoadingView_ok_remind"
                     android:layout_width="100dp"
                     android:layout_height="25dp"
@@ -151,7 +151,7 @@
                     android:layout_centerHorizontal="true"
                     android:src="@mipmap/girl_head" />
 
-                <com.lihang.smartloadview.SmartLoadingView
+                <com.lihang.SmartLoadingView
                     android:id="@+id/smartLoadingView_ok_remind_2"
                     android:layout_width="100dp"
                     android:layout_height="25dp"
@@ -180,7 +180,7 @@
                     android:layout_centerHorizontal="true"
                     android:src="@mipmap/girl_head" />
 
-                <com.lihang.smartloadview.SmartLoadingView
+                <com.lihang.SmartLoadingView
                     android:id="@+id/smartLoadingView_ok_remind_3"
                     android:layout_width="100dp"
                     android:layout_height="25dp"

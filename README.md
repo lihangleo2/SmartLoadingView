@@ -28,7 +28,7 @@
 ## 使用（下方有属性说明）
 
 ```xml
-<com.lihang.smartloadview.SmartLoadingView
+<com.lihang.SmartLoadingView
         android:id="@+id/smartLoadingView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
