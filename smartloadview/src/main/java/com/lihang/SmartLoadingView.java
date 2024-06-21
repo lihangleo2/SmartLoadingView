@@ -59,11 +59,6 @@ public class SmartLoadingView extends AppCompatTextView {
     //圆角半径
     private int circleAngle;
 
-    //从用户获得的圆角
-    private int obtainCircleAngle;
-
-    private int textScrollMode = 1;//文字滚动模式，默认为1：来回滚动
-
     //矩形2边需要缩短的距离
     private int default_all_distance;
 
@@ -148,6 +143,15 @@ public class SmartLoadingView extends AppCompatTextView {
     //不可点击的背景颜色
     private int unEnabled_backgroundColor;
 
+    //从用户获得的圆角
+    private int corners_radius;
+
+    //文字省略模模式；reverse--1：来回滚动 marquee--2：跑马灯效果
+    private int ellipsize = 1;
+
+    //文字省略模式下，文字的滚动速度（只有文字滚动时生效）
+    private int ellipsize_speed;
+
     /***************************************** 重构中 *******************************************/
 
     //加载失败的背景颜色
@@ -164,8 +168,6 @@ public class SmartLoadingView extends AppCompatTextView {
     private int textColor;
     //当前字体透明度
     private int textAlpha;
-    //文字滚动速度
-    private int speed;
 
     //这是全屏动画
     private CirclBigView circlBigView;
@@ -214,9 +216,9 @@ public class SmartLoadingView extends AppCompatTextView {
         if (background instanceof ColorDrawable) {
             backgroundColor = ((ColorDrawable) background).getColor();
         }
-        obtainCircleAngle = (int) typedArray.getDimension(R.styleable.SmartLoadingView_cornerRaius, getResources().getDimension(R.dimen.default_corner));
-        textScrollMode = typedArray.getInt(R.styleable.SmartLoadingView_textScrollMode, 1);
-        speed = typedArray.getInt(R.styleable.SmartLoadingView_speed, 400);
+        corners_radius = (int) typedArray.getDimension(R.styleable.SmartLoadingView_hl_corners_radius, getResources().getDimension(R.dimen.slv_default_corner));
+        ellipsize = typedArray.getInt(R.styleable.SmartLoadingView_hl_ellipsize, 1);
+        ellipsize_speed = typedArray.getInt(R.styleable.SmartLoadingView_hl_ellipsize_speed, 400);
         clickType = typedArray.getInt(R.styleable.SmartLoadingView_click_mode, 1);
 
         int paddingTop = getPaddingTop() == 0 ? dip2px(7) : getPaddingTop();
@@ -384,7 +386,7 @@ public class SmartLoadingView extends AppCompatTextView {
         });
 
 
-        animator_rect_to_angle = ValueAnimator.ofInt(obtainCircleAngle, height / 2);
+        animator_rect_to_angle = ValueAnimator.ofInt(corners_radius, height / 2);
         animator_rect_to_angle.setDuration(duration);
         animator_rect_to_angle.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -418,7 +420,7 @@ public class SmartLoadingView extends AppCompatTextView {
         });
 
 
-        animator_angle_to_rect = ValueAnimator.ofInt(height / 2, obtainCircleAngle);
+        animator_angle_to_rect = ValueAnimator.ofInt(height / 2, corners_radius);
         animator_angle_to_rect.setDuration(duration);
         animator_angle_to_rect.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -494,10 +496,10 @@ public class SmartLoadingView extends AppCompatTextView {
         if (width == 0) {
             width = w;
             height = h;
-            if (obtainCircleAngle > (height / 2)) {
-                obtainCircleAngle = height / 2;
+            if (corners_radius > (height / 2)) {
+                corners_radius = height / 2;
             }
-            circleAngle = obtainCircleAngle;
+            circleAngle = corners_radius;
             default_all_distance = (w - h) / 2;
             initOk();
             initAnimation();
@@ -546,12 +548,12 @@ public class SmartLoadingView extends AppCompatTextView {
         //这是测量文字的长度。
         int myTotal = (int) (textPaint.measureText(currentString) + getPaddingRight() + getPaddingLeft());
         if (myTotal > getWidth()) {
-            if (textScrollMode == 1) {
+            if (ellipsize == 1) {
                 textPaint.setTextAlign(Paint.Align.LEFT);
                 if (animator_text_scroll == null && !isLoading) {
                     //此时文字长度已经超过一行，进行文字滚动
                     animator_text_scroll = ValueAnimator.ofInt(textRect.left, (int) (textRect.left - textPaint.measureText(currentString) + (getWidth() - getPaddingLeft() - getPaddingRight())));
-                    animator_text_scroll.setDuration(currentString.length() * speed);
+                    animator_text_scroll.setDuration(currentString.length() * ellipsize_speed);
                     animator_text_scroll.setRepeatMode(ValueAnimator.REVERSE);
                     animator_text_scroll.setRepeatCount(-1);
                     animator_text_scroll.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -569,7 +571,7 @@ public class SmartLoadingView extends AppCompatTextView {
                 if (animator_text_scroll == null && !isLoading) {
                     //此时文字长度已经超过一行，进行文字滚动
                     animator_text_scroll = ValueAnimator.ofInt(textRect.left, (int) (textRect.left - textPaint.measureText(currentString)));
-                    animator_text_scroll.setDuration(currentString.length() * speed);
+                    animator_text_scroll.setDuration(currentString.length() * ellipsize_speed);
                     animator_text_scroll.setInterpolator(new LinearInterpolator());
                     animator_text_scroll.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
@@ -584,7 +586,7 @@ public class SmartLoadingView extends AppCompatTextView {
                                 }
                             }
                             if (animator_marque == null && !isLoading && drawTextStart <= (int) (textRect.left - textPaint.measureText(currentString) + (getWidth() - getPaddingLeft() - getPaddingRight()) - (getWidth() - getPaddingLeft() - getPaddingRight()) / 3)) {
-                                int duration = (int) (((currentString.length() * speed) * (textRect.right - textRect.left)) / textPaint.measureText(currentString));
+                                int duration = (int) (((currentString.length() * ellipsize_speed) * (textRect.right - textRect.left)) / textPaint.measureText(currentString));
                                 animator_marque = ValueAnimator.ofInt(textRect.right, textRect.left);
                                 animator_marque.setDuration(duration);
                                 animator_marque.setInterpolator(new LinearInterpolator());
@@ -749,7 +751,7 @@ public class SmartLoadingView extends AppCompatTextView {
         setClickable(true);
         currentString = normalString;
         textPaint.setColor(textColor);
-        circleAngle = obtainCircleAngle;
+        circleAngle = corners_radius;
         paint.setColor(backgroundColor);
         current_left = 0;
         isDrawLoading = false;

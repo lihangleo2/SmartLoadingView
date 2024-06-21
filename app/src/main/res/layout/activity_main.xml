@@ -48,7 +48,7 @@
                 android:text="不监听动画结束状态，直接跳转"
                 android:textColor="#ff0000"
                 android:background="#ffffff"
-                app:cornerRaius="30dp"
+                app:hl_corners_radius="30dp"
                 />
 
             <com.lihang.SmartLoadingView
@@ -60,7 +60,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="监听动画结束状态，实现逻辑"
                 android:background="#03A9F4"
-                app:cornerRaius="30dp" />
+                app:hl_corners_radius="30dp" />
 
             <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_3_"
@@ -72,7 +72,7 @@
                 android:text="模拟联网失败，点击联网"
                 android:textColor="#fff"
                 android:background="#75B7DE"
-                app:cornerRaius="5dp"
+                app:hl_corners_radius="5dp"
                 app:errorMsg="连接超时，请稍后再试连接超时，请稍后再试连接超时，请稍后再试" />
 
             <com.lihang.SmartLoadingView
@@ -85,7 +85,7 @@
                 android:text="模拟失败，回到初始状态"
                 android:textColor="#fff"
                 android:background="#FF9800"
-                app:cornerRaius="30dp" />
+                app:hl_corners_radius="30dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
                 android:textColor="#fff"
                 app:background_error="#FBD56D"
                 android:background="#6DFB80"
-                app:cornerRaius="30dp"
+                app:hl_corners_radius="30dp"
                 app:errorMsg="关注成功"
                 app:click_mode="like_faile"
                 />
@@ -127,7 +127,7 @@
                 android:text="点击关注(正常模式)"
                 android:textColor="#fff"
                 android:background="#6DFB80"
-                app:cornerRaius="30dp"
+                app:hl_corners_radius="30dp"
                 app:click_mode="normal"
                 />
 
@@ -142,7 +142,7 @@
                 android:text="点击关注(隐藏模式)"
                 android:textColor="#fff"
                 android:background="#3E7144"
-                app:cornerRaius="30dp"
+                app:hl_corners_radius="30dp"
                 app:click_mode="hide"
                 />
 
@@ -157,7 +157,7 @@
                 android:text="点击关注,提醒模式,"
                 android:textColor="#fff"
                 android:background="#FA2525"
-                app:cornerRaius="30dp"
+                app:hl_corners_radius="30dp"
                 app:click_mode="translate_center"
                 />
 
@@ -185,9 +185,9 @@
                 android:text="来回滚动效果，当文案超过控件文字区域时，开启"
                 android:textColor="#fff"
                 android:background="#0425B6"
-                app:cornerRaius="30dp"
+                app:hl_corners_radius="30dp"
                 app:errorMsg="联网超时"
-                app:textScrollMode="normal" />
+                app:hl_ellipsize="reverse" />
 
             <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_8_"
@@ -200,9 +200,9 @@
                 android:textColor="#fff"
                 app:background_error="#E8A912"
                 android:background="#E8A912"
-                app:cornerRaius="30dp"
+                app:hl_corners_radius="30dp"
                 app:errorMsg="仿跑马灯效果，当文案超过控件文字区域时，开启"
-                app:textScrollMode="marquee" />
+                app:hl_ellipsize="marquee" />
 
 
             <TextView
@@ -228,7 +228,7 @@
                 android:text="点击，设置不可点击"
                 android:textColor="#fff"
                 android:background="#5C88E8"
-                app:cornerRaius="30dp"
+                app:hl_corners_radius="30dp"
                 android:enabled="true"
                 />
 
@@ -253,7 +253,7 @@
                 android:text="登录demo"
                 android:textColor="#fff"
                 android:background="#6CBDF1"
-                app:cornerRaius="30dp" />
+                app:hl_corners_radius="30dp" />
 
             <com.lihang.SmartLoadingView
                 android:id="@+id/smartLoadingView_follow_demo"
@@ -265,7 +265,7 @@
                 android:text="关注demo"
                 android:textColor="#fff"
                 android:background="#6CBDF1"
-                app:cornerRaius="30dp" />
+                app:hl_corners_radius="30dp" />
 
             <TextView
                 android:layout_width="100dp"

@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SmartLoadingView">
-        <!-- android:background="#ff00ff" 背景色（只支持颜色,不设置或者设置错误会走蓝色底）-->
+        <!-- 背景色（只支持颜色,不设置或者设置错误会走蓝色底） -->
+        <!-- android:background="#ff00ff" -->
 
-        <!-- android:enabled="true" 是否可被点击-->
+        <!-- 是否可被点击 -->
+        <!-- android:enabled="true"-->
+
         <!-- 不可点击状态下背景色 -->
         <attr name="hl_unEnabled_background" format="color" />
+
+        <!-- 圆角属性 -->
+        <attr name="hl_corners_radius" format="dimension" />
+
+        <!-- 文字滚动模式 -->
+        <attr name="hl_ellipsize">
+            <enum name="reverse" value="1" />
+            <enum name="marquee" value="2" />
+        </attr>
+
+        <!-- 文字滚动速度，只有文字滚动时生效。这里是每个文子滚动出屏幕外所需的时间 -->
+        <attr name="hl_ellipsize_speed" format="integer" />
 
         <!-- ***************************************** 重构中 ******************************************* -->
 
@@ -13,17 +28,6 @@
         <attr name="errorMsg" format="string" />
         <!--        错误背景颜色-->
         <attr name="background_error" format="color" />
-
-        <!--        圆角属性-->
-        <attr name="cornerRaius" format="dimension" />
-        <!--        设置文字来回滚动模式-->
-        <attr name="textScrollMode">
-            <enum name="normal" value="1" />
-            <enum name="marquee" value="2" />
-        </attr>
-
-        <!--        文字滚动速度，只有文字滚动时生效。这里是每个文子滚动出屏幕外所需的时间-->
-        <attr name="speed" format="integer" />
 
 
         <attr name="click_mode">
