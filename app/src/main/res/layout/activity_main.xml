@@ -47,8 +47,9 @@
                 android:onClick="@{onClickListener}"
                 android:text="不监听动画结束状态，直接跳转"
                 android:textColor="#ff0000"
-                app:background_normal="#fff"
-                app:cornerRaius="30dp" />
+                android:background="#ffffff"
+                app:cornerRaius="30dp"
+                />
 
             <com.lihang.smartloadview.SmartLoadingView
                 android:id="@+id/smartLoadingView_2_"
@@ -58,7 +59,7 @@
                 android:layout_marginTop="20dp"
                 android:onClick="@{onClickListener}"
                 android:text="监听动画结束状态，实现逻辑"
-                app:background_normal="#03A9F4"
+                android:background="#03A9F4"
                 app:cornerRaius="30dp" />
 
             <com.lihang.smartloadview.SmartLoadingView
@@ -70,7 +71,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="模拟联网失败，点击联网"
                 android:textColor="#fff"
-                app:background_normal="#75B7DE"
+                android:background="#75B7DE"
                 app:cornerRaius="5dp"
                 app:errorMsg="连接超时，请稍后再试连接超时，请稍后再试连接超时，请稍后再试" />
 
@@ -83,7 +84,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="模拟失败，回到初始状态"
                 android:textColor="#fff"
-                app:background_normal="#FF9800"
+                android:background="#FF9800"
                 app:cornerRaius="30dp" />
 
             <TextView
@@ -109,7 +110,7 @@
                 android:text="点击关注"
                 android:textColor="#fff"
                 app:background_error="#FBD56D"
-                app:background_normal="#6DFB80"
+                android:background="#6DFB80"
                 app:cornerRaius="30dp"
                 app:errorMsg="关注成功"
                 app:click_mode="like_faile"
@@ -125,7 +126,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="点击关注(正常模式)"
                 android:textColor="#fff"
-                app:background_normal="#6DFB80"
+                android:background="#6DFB80"
                 app:cornerRaius="30dp"
                 app:click_mode="normal"
                 />
@@ -140,7 +141,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="点击关注(隐藏模式)"
                 android:textColor="#fff"
-                app:background_normal="#3E7144"
+                android:background="#3E7144"
                 app:cornerRaius="30dp"
                 app:click_mode="hide"
                 />
@@ -155,7 +156,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="点击关注,提醒模式,"
                 android:textColor="#fff"
-                app:background_normal="#FA2525"
+                android:background="#FA2525"
                 app:cornerRaius="30dp"
                 app:click_mode="translate_center"
                 />
@@ -183,7 +184,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="来回滚动效果，当文案超过控件文字区域时，开启"
                 android:textColor="#fff"
-                app:background_normal="#0425B6"
+                android:background="#0425B6"
                 app:cornerRaius="30dp"
                 app:errorMsg="联网超时"
                 app:textScrollMode="normal" />
@@ -198,7 +199,7 @@
                 android:text="仿跑马灯效果，当文案超过控件文字区域时，开启"
                 android:textColor="#fff"
                 app:background_error="#E8A912"
-                app:background_normal="#E8A912"
+                android:background="#E8A912"
                 app:cornerRaius="30dp"
                 app:errorMsg="仿跑马灯效果，当文案超过控件文字区域时，开启"
                 app:textScrollMode="marquee" />
@@ -226,9 +227,10 @@
                 android:onClick="@{onClickListener}"
                 android:text="点击，设置不可点击"
                 android:textColor="#fff"
-                app:background_normal="#5C88E8"
+                android:background="#5C88E8"
                 app:cornerRaius="30dp"
-                app:smart_clickable="true" />
+                android:enabled="true"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -250,7 +252,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="登录demo"
                 android:textColor="#fff"
-                app:background_normal="#6CBDF1"
+                android:background="#6CBDF1"
                 app:cornerRaius="30dp" />
 
             <com.lihang.smartloadview.SmartLoadingView
@@ -262,7 +264,7 @@
                 android:onClick="@{onClickListener}"
                 android:text="关注demo"
                 android:textColor="#fff"
-                app:background_normal="#6CBDF1"
+                android:background="#6CBDF1"
                 app:cornerRaius="30dp" />
 
             <TextView

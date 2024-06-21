@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.smartLoadingView_9_:
                 Toast.makeText(MainActivity.this, "点击了", Toast.LENGTH_SHORT).show();
-                binding.smartLoadingView9.setSmartClickable(false);
+                binding.smartLoadingView9.setEnabled(false);
                 break;
 
             case R.id.smartLoadingView_login_demo:

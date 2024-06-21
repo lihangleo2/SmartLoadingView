@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SmartLoadingView">
-        <!--        正常情况下背景颜色值-->
-        <attr name="background_normal" format="color" />
+        <!-- android:background="#ff00ff" 背景色（只支持颜色,不设置或者设置错误会走蓝色底）-->
+
+        <!-- android:enabled="true" 是否可被点击-->
+        <!-- 不可点击状态下背景色 -->
+        <attr name="hl_unEnabled_background" format="color" />
+
+        <!-- ***************************************** 重构中 ******************************************* -->
+
         <!--        错误文案-->
         <attr name="errorMsg" format="string" />
         <!--        错误背景颜色-->
         <attr name="background_error" format="color" />
-        <!--        不可点击状态下，背景颜色值(不建议修改)-->
-        <attr name="background_cannotClick" format="color" />
+
         <!--        圆角属性-->
         <attr name="cornerRaius" format="dimension" />
         <!--        设置文字来回滚动模式-->
@@ -16,8 +21,7 @@
             <enum name="normal" value="1" />
             <enum name="marquee" value="2" />
         </attr>
-        <!--        按钮是否可以点击状态-->
-        <attr name="smart_clickable" format="boolean" />
+
         <!--        文字滚动速度，只有文字滚动时生效。这里是每个文子滚动出屏幕外所需的时间-->
         <attr name="speed" format="integer" />
 

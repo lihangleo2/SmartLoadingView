@@ -108,9 +108,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void afterTextChanged(Editable s) {
         if (!TextUtils.isEmpty(binding.editPhone.getText().toString().trim()) && !TextUtils.isEmpty(binding.editPassWord.getText().toString().trim())) {
-            binding.smartLoadingViewLogin.setSmartClickable(true);
+            binding.smartLoadingViewLogin.setEnabled(true);
         } else {
-            binding.smartLoadingViewLogin.setSmartClickable(false);
+            binding.smartLoadingViewLogin.setEnabled(false);
         }
     }
 }

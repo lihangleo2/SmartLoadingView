@@ -19,8 +19,11 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -32,16 +35,15 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 
 /**
- * 登录加载按钮
- * By leo
- * 2019.5.23
+ * @Author leo
+ * @Address https://github.com/lihangleo2
+ * @Date 2024/6/21 重构
  */
 
-public class SmartLoadingView extends TextView {
+public class SmartLoadingView extends AppCompatTextView {
 
     //view的宽度
     private int width;
@@ -135,18 +137,16 @@ public class SmartLoadingView extends TextView {
      * 以下是自定义属性
      */
 
+    //按钮背景色
+    private int backgroundColor;
+
     //不可点击的背景颜色
-    private int cannotclick_color;
+    private int unEnabled_backgroundColor;
+
+    /***************************************** 重构中 *******************************************/
 
     //加载失败的背景颜色
     private int error_color;
-
-    //正常情况下view的背景颜色
-    private int normal_color;
-
-    //是否可以点击状态
-    private boolean smartClickable;
-
 
     //按钮文字
     private String normalString = getResources().getString(R.string.normalString);
@@ -195,16 +195,20 @@ public class SmartLoadingView extends TextView {
             normalString = (String) getText();
             currentString = normalString;
         }
+        Log.e("当前是否初始化init",isEnabled()+"===---");
 
         String currentErrorString = typedArray.getString(R.styleable.SmartLoadingView_errorMsg);
         if (!TextUtils.isEmpty(currentErrorString)) {
             errorString = currentErrorString;
         }
-        cannotclick_color = typedArray.getColor(R.styleable.SmartLoadingView_background_cannotClick, getResources().getColor(R.color.blackbb));
+        unEnabled_backgroundColor = typedArray.getColor(R.styleable.SmartLoadingView_hl_unEnabled_background, getResources().getColor(R.color.blackbb));
         error_color = typedArray.getColor(R.styleable.SmartLoadingView_background_error, getResources().getColor(R.color.remind_color));
-        smartClickable = typedArray.getBoolean(R.styleable.SmartLoadingView_smart_clickable, true);
-        normal_color = typedArray.getColor(R.styleable.SmartLoadingView_background_normal
-                , getResources().getColor(R.color.guide_anim));
+        //赋予背景色默认颜色值
+        backgroundColor = getResources().getColor(R.color.guide_anim);
+        Drawable background = getBackground();
+        if (background instanceof ColorDrawable) {
+            backgroundColor = ((ColorDrawable) background).getColor();
+        }
         obtainCircleAngle = (int) typedArray.getDimension(R.styleable.SmartLoadingView_cornerRaius, getResources().getDimension(R.dimen.default_corner));
         textScrollMode = typedArray.getInt(R.styleable.SmartLoadingView_textScrollMode, 1);
         speed = typedArray.getInt(R.styleable.SmartLoadingView_speed, 400);
@@ -253,7 +257,7 @@ public class SmartLoadingView extends TextView {
                     paint.setColor(error_color);
                     currentString = errorString;
                 } else {
-                    paint.setColor(normal_color);
+                    paint.setColor(backgroundColor);
                     currentString = normalString;
                 }
                 postInvalidate();
@@ -449,12 +453,12 @@ public class SmartLoadingView extends TextView {
         paint.setStrokeWidth(4);
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
-        if (smartClickable) {
-            paint.setColor(normal_color);
-        } else {
-            paint.setColor(cannotclick_color);
-        }
 
+        if (isEnabled()) {
+            paint.setColor(backgroundColor);
+        } else {
+            paint.setColor(unEnabled_backgroundColor);
+        }
 
         //打勾画笔
         okPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -479,25 +483,6 @@ public class SmartLoadingView extends TextView {
         textPaint.setAntiAlias(true);
     }
 
-
-    /*
-     * 不可点击的这块
-     * */
-    public void setSmartClickable(boolean clickable) {
-        super.setClickable(clickable);
-        smartClickable = clickable;
-        if (clickable) {
-            if (paint != null)
-                paint.setColor(normal_color);
-            postInvalidate();
-        } else {
-            if (paint != null)
-                paint.setColor(cannotclick_color);
-            postInvalidate();
-        }
-    }
-
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -515,7 +500,7 @@ public class SmartLoadingView extends TextView {
             //这样避免，更改文字内容时，总是会改变控件的长宽
             setWidth(width);
             setHeight(height);
-            setClickable(smartClickable);
+//            setEnabled(isEnabled());
         }
     }
 
@@ -699,7 +684,7 @@ public class SmartLoadingView extends TextView {
             startDrawOk = false;
             currentString = normalString;
             this.setClickable(false);
-            paint.setColor(normal_color);
+            paint.setColor(backgroundColor);
             isLoading = true;
             animatorSet.start();
         }
@@ -742,7 +727,7 @@ public class SmartLoadingView extends TextView {
     public void backToStart() {
         if (isLoading) {
             currentString = normalString;
-            paint.setColor(normal_color);
+            paint.setColor(backgroundColor);
             animatorNetfail.start();
         }
     }
@@ -764,7 +749,7 @@ public class SmartLoadingView extends TextView {
         currentString = normalString;
         textPaint.setColor(textColor);
         circleAngle = obtainCircleAngle;
-        paint.setColor(normal_color);
+        paint.setColor(backgroundColor);
         current_left = 0;
         isDrawLoading = false;
         startDrawOk = false;
@@ -922,7 +907,7 @@ public class SmartLoadingView extends TextView {
 
                 final OkView okView = new OkView(getContext());
                 okView.setLayoutParams(layoutParams);
-                okView.setCircleColor(normal_color);
+                okView.setCircleColor(backgroundColor);
                 okView.setOkColor(textColor);
                 okView.setRadius(height / 2);
 
@@ -997,7 +982,7 @@ public class SmartLoadingView extends TextView {
 
     private void toBigCircle(AnimationFullScreenListener animationFullScreenListener) {
         circlBigView.setRadius(this.getMeasuredHeight() / 2);
-        circlBigView.setColorBg(normal_color);
+        circlBigView.setColorBg(backgroundColor);
         int[] location = new int[2];
         this.getLocationOnScreen(location);
         circlBigView.setXY(location[0] + this.getMeasuredWidth() / 2, location[1]);
@@ -1011,7 +996,7 @@ public class SmartLoadingView extends TextView {
 
     private void toBigCircle(Activity activity, Class clazz) {
         circlBigView.setRadius(this.getMeasuredHeight() / 2);
-        circlBigView.setColorBg(normal_color);
+        circlBigView.setColorBg(backgroundColor);
         int[] location = new int[2];
         this.getLocationOnScreen(location);
         circlBigView.setXY(location[0] + this.getMeasuredWidth() / 2, location[1]);
@@ -1036,5 +1021,19 @@ public class SmartLoadingView extends TextView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         cancleScroll();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (enabled) {
+            if (paint != null)
+                paint.setColor(backgroundColor);
+            postInvalidate();
+        } else {
+            if (paint != null)
+                paint.setColor(unEnabled_backgroundColor);
+            postInvalidate();
+        }
     }
 }

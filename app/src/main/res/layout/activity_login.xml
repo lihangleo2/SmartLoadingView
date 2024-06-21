@@ -239,11 +239,11 @@
                 android:text="登录"
                 android:textColor="#fff"
                 app:background_error="#f57676"
-                app:background_normal="#08f2c7"
+                android:background="#08f2c7"
                 app:cornerRaius="30dp"
                 app:errorMsg="连接超时，请稍后再试"
-                app:smart_clickable="false"
                 app:textScrollMode="marquee"
+                android:enabled="false"
                 />
 
 
