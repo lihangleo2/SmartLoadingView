@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SmartLoadingView">
+
+        <!-- 文案内容 -->
+        <!-- android:text="文案"-->
+
+        <!--  动画结束文案/选中文案（isSelected = true）：注意！不设置则为android:text=""文案 -->
+        <attr name="hl_selected_text" format="string" />
+
+        <!-- 文案颜色-->
+        <!-- android:textColor="#ff0000"-->
+
+        <!-- 文案字体大小 -->
+        <!-- android:textSize="18sp"-->
+
         <!-- 背景色（只支持颜色,不设置或者设置错误会走蓝色底） -->
         <!-- android:background="#ff00ff" -->
+
+        <!-- 动画结束背景色/选中背景色（isSelected = true）：注意！不设置则为 android:background=""颜色值 -->
+        <attr name="hl_selected_background" format="color" />
+
+        <!-- 圆角属性 -->
+        <attr name="hl_corners_radius" format="dimension" />
 
         <!-- 是否可被点击 -->
         <!-- android:enabled="true"-->
 
         <!-- 不可点击状态下背景色 -->
         <attr name="hl_unEnabled_background" format="color" />
-
-        <!-- 圆角属性 -->
-        <attr name="hl_corners_radius" format="dimension" />
 
         <!-- 文字滚动模式 -->
         <attr name="hl_ellipsize">
@@ -23,12 +39,6 @@
         <attr name="hl_ellipsize_speed" format="integer" />
 
         <!-- ***************************************** 重构中 ******************************************* -->
-
-        <!--        错误文案-->
-        <attr name="errorMsg" format="string" />
-        <!--        错误背景颜色-->
-        <attr name="background_error" format="color" />
-
 
         <attr name="click_mode">
             <!-- 正常的样式 -->

@@ -10,268 +10,30 @@
             type="android.view.View.OnClickListener" />
 
     </data>
+<!--    android:background="@mipmap/main_bg"-->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/main_bg"
         android:overScrollMode="never">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            android:orientation="vertical"
-            tools:context=".MainActivity">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="15dp"
-                android:gravity="center"
-                android:text="自带dialog的转场按钮，以下场景可用于登录等"
-                android:textColor="#fff"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+            android:layout_height="match_parent">
 
             <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_1_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:onClick="@{onClickListener}"
-                android:text="不监听动画结束状态，直接跳转"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="150dp"
+                android:text="文案"
                 android:textColor="#ff0000"
-                android:background="#ffffff"
-                app:hl_corners_radius="30dp"
+                android:textSize="16sp"
                 />
 
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_2_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:onClick="@{onClickListener}"
-                android:text="监听动画结束状态，实现逻辑"
-                android:background="#03A9F4"
-                app:hl_corners_radius="30dp" />
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_3_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:onClick="@{onClickListener}"
-                android:text="模拟联网失败，点击联网"
-                android:textColor="#fff"
-                android:background="#75B7DE"
-                app:hl_corners_radius="5dp"
-                app:errorMsg="连接超时，请稍后再试连接超时，请稍后再试连接超时，请稍后再试" />
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_6_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:onClick="@{onClickListener}"
-                android:text="模拟失败，回到初始状态"
-                android:textColor="#fff"
-                android:background="#FF9800"
-                app:hl_corners_radius="30dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginRight="15dp"
-                android:gravity="center"
-                android:text="自带dialog的联网请求按钮，以下可用于关注等"
-                android:textColor="#fff"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_4_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:onClick="@{onClickListener}"
-                android:text="点击关注"
-                android:textColor="#fff"
-                app:background_error="#FBD56D"
-                android:background="#6DFB80"
-                app:hl_corners_radius="30dp"
-                app:errorMsg="关注成功"
-                app:click_mode="like_faile"
-                />
-
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_5_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:onClick="@{onClickListener}"
-                android:text="点击关注(正常模式)"
-                android:textColor="#fff"
-                android:background="#6DFB80"
-                app:hl_corners_radius="30dp"
-                app:click_mode="normal"
-                />
-
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_hide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:onClick="@{onClickListener}"
-                android:text="点击关注(隐藏模式)"
-                android:textColor="#fff"
-                android:background="#3E7144"
-                app:hl_corners_radius="30dp"
-                app:click_mode="hide"
-                />
-
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:onClick="@{onClickListener}"
-                android:text="点击关注,提醒模式,"
-                android:textColor="#fff"
-                android:background="#FA2525"
-                app:hl_corners_radius="30dp"
-                app:click_mode="translate_center"
-                />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginRight="15dp"
-                android:gravity="center"
-                android:text="文字长度超出一行，自动滚动(2种滚动方式)"
-                android:textColor="#fff"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_7_"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:onClick="@{onClickListener}"
-                android:text="来回滚动效果，当文案超过控件文字区域时，开启"
-                android:textColor="#fff"
-                android:background="#0425B6"
-                app:hl_corners_radius="30dp"
-                app:errorMsg="联网超时"
-                app:hl_ellipsize="reverse" />
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_8_"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:onClick="@{onClickListener}"
-                android:text="仿跑马灯效果，当文案超过控件文字区域时，开启"
-                android:textColor="#fff"
-                app:background_error="#E8A912"
-                android:background="#E8A912"
-                app:hl_corners_radius="30dp"
-                app:errorMsg="仿跑马灯效果，当文案超过控件文字区域时，开启"
-                app:hl_ellipsize="marquee" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginRight="15dp"
-                android:gravity="center"
-                android:text="设置按钮不可点击状态"
-                android:textColor="#fff"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_9_"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:onClick="@{onClickListener}"
-                android:text="点击，设置不可点击"
-                android:textColor="#fff"
-                android:background="#5C88E8"
-                app:hl_corners_radius="30dp"
-                android:enabled="true"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="60dp"
-                android:gravity="center"
-                android:text="以下是作者目前用到的场景demo"
-                android:textColor="#ff0000"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_login_demo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:onClick="@{onClickListener}"
-                android:text="登录demo"
-                android:textColor="#fff"
-                android:background="#6CBDF1"
-                app:hl_corners_radius="30dp" />
-
-            <com.lihang.SmartLoadingView
-                android:id="@+id/smartLoadingView_follow_demo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="25dp"
-                android:onClick="@{onClickListener}"
-                android:text="关注demo"
-                android:textColor="#fff"
-                android:background="#6CBDF1"
-                app:hl_corners_radius="30dp" />
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="300dp" />
-
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
 </layout>

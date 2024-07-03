@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="slv_default_corner">0dp</dimen>
+    <dimen name="slv_padding_horizontal">14dp</dimen>
+    <dimen name="slv_padding_vertical">7dp</dimen>
 </resources>

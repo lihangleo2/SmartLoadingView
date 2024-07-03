@@ -152,18 +152,15 @@ public class SmartLoadingView extends AppCompatTextView {
     //文字省略模式下，文字的滚动速度（只有文字滚动时生效）
     private int ellipsize_speed;
 
-    /***************************************** 重构中 *******************************************/
 
-    //加载失败的背景颜色
-    private int error_color;
+    //动画结束背景色/选中背景色（isSelected = true）
+    private int selected_backgroundColor;
 
     //按钮文字
     private String normalString = getResources().getString(R.string.normalString);
-    private String errorString = getResources().getString(R.string.errorString);
+    private String mSelectedText = normalString;
     private String currentString;//当前要绘画的TextStr
 
-    //获取文字绘画区域
-    private Rect mRect;
     //当前字体颜色值
     private int textColor;
     //当前字体透明度
@@ -187,7 +184,6 @@ public class SmartLoadingView extends AppCompatTextView {
     public SmartLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         circlBigView = new CirclBigView(getContext());
-        mRect = new Rect();
         init(attrs);
         initPaint();
     }
@@ -202,14 +198,14 @@ public class SmartLoadingView extends AppCompatTextView {
             normalString = (String) getText();
             currentString = normalString;
         }
-        Log.e("当前是否初始化init",isEnabled()+"===---");
+        Log.e("当前是否初始化init", isEnabled() + "===---");
 
-        String currentErrorString = typedArray.getString(R.styleable.SmartLoadingView_errorMsg);
-        if (!TextUtils.isEmpty(currentErrorString)) {
-            errorString = currentErrorString;
+        String selectedText = typedArray.getString(R.styleable.SmartLoadingView_hl_selected_text);
+        if (!TextUtils.isEmpty(selectedText)) {
+            mSelectedText = selectedText;
         }
         unEnabled_backgroundColor = typedArray.getColor(R.styleable.SmartLoadingView_hl_unEnabled_background, getResources().getColor(R.color.blackbb));
-        error_color = typedArray.getColor(R.styleable.SmartLoadingView_background_error, getResources().getColor(R.color.remind_color));
+        selected_backgroundColor = typedArray.getColor(R.styleable.SmartLoadingView_hl_selected_background, getResources().getColor(R.color.remind_color));
         //赋予背景色默认颜色值
         backgroundColor = getResources().getColor(R.color.guide_anim);
         Drawable background = getBackground();
@@ -221,10 +217,12 @@ public class SmartLoadingView extends AppCompatTextView {
         ellipsize_speed = typedArray.getInt(R.styleable.SmartLoadingView_hl_ellipsize_speed, 400);
         clickType = typedArray.getInt(R.styleable.SmartLoadingView_click_mode, 1);
 
-        int paddingTop = getPaddingTop() == 0 ? dip2px(7) : getPaddingTop();
-        int paddingBottom = getPaddingBottom() == 0 ? dip2px(7) : getPaddingBottom();
-        int paddingLeft = getPaddingLeft() == 0 ? dip2px(15) : getPaddingLeft();
-        int paddingRight = getPaddingRight() == 0 ? dip2px(15) : getPaddingRight();
+        int padding_horizontal = (int) getResources().getDimension(R.dimen.slv_padding_horizontal);
+        int padding_vertical = (int) getResources().getDimension(R.dimen.slv_padding_vertical);
+        int paddingTop = getPaddingTop() == 0 ? padding_vertical : getPaddingTop();
+        int paddingBottom = getPaddingBottom() == 0 ? padding_vertical : getPaddingBottom();
+        int paddingLeft = getPaddingLeft() == 0 ? padding_horizontal : getPaddingLeft();
+        int paddingRight = getPaddingRight() == 0 ? padding_horizontal : getPaddingRight();
         setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
         setBackgroundColor(0);
         setMaxLines(1);
@@ -235,17 +233,12 @@ public class SmartLoadingView extends AppCompatTextView {
     @Override
     public void setText(CharSequence text, BufferType type) {
         super.setText(text, type);
-//        private BufferType mBufferType = BufferType.NORMAL;
-        errorString = (String) text;
+        //private BufferType mBufferType = BufferType.NORMAL;
+        //mSelectedText = (String) text;
         normalString = (String) text;
         currentString = (String) text;
+        //
         postInvalidate();
-    }
-
-
-    private int dip2px(float dipValue) {
-        float scale = getContext().getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
     }
 
 
@@ -261,8 +254,8 @@ public class SmartLoadingView extends AppCompatTextView {
             if (clickType == 4) {
                 isFollow = follow;
                 if (isFollow) {
-                    paint.setColor(error_color);
-                    currentString = errorString;
+                    paint.setColor(selected_backgroundColor);
+                    currentString = mSelectedText;
                 } else {
                     paint.setColor(backgroundColor);
                     currentString = normalString;
@@ -713,8 +706,8 @@ public class SmartLoadingView extends AppCompatTextView {
     //加载失败运行(默认加载失败文案)
     public void netFaile() {
         if (isLoading) {
-            currentString = errorString;
-            paint.setColor(error_color);
+            currentString = mSelectedText;
+            paint.setColor(selected_backgroundColor);
             animatorNetfail.start();
         }
     }
@@ -724,9 +717,9 @@ public class SmartLoadingView extends AppCompatTextView {
     public void netFaile(String message) {
         if (isLoading) {
             isFollow = true;
-            errorString = message;
-            currentString = errorString;
-            paint.setColor(error_color);
+            mSelectedText = message;
+            currentString = mSelectedText;
+            paint.setColor(selected_backgroundColor);
             animatorNetfail.start();
         }
     }
