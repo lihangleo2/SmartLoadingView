@@ -581,21 +581,6 @@ public class SmartLoadingView extends AppCompatTextView {
         cancleScroll();
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        if (enabled) {
-            if (paint != null)
-                paint.setColor(backgroundColor);
-            postInvalidate();
-        } else {
-            if (paint != null)
-                paint.setColor(unEnabled_backgroundColor);
-            postInvalidate();
-        }
-    }
-
-
 
     //给TextView字体设置透明度。
     private int addAlpha(int color, int alpha) {
@@ -631,6 +616,21 @@ public class SmartLoadingView extends AppCompatTextView {
         currentString = (String) text;
         postInvalidate();
     }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (enabled) {
+            if (paint != null)
+                paint.setColor(backgroundColor);
+            postInvalidate();
+        } else {
+            if (paint != null)
+                paint.setColor(unEnabled_backgroundColor);
+            postInvalidate();
+        }
+    }
+
 
     //smartLoadingView 开启动画
     public void startLoading() {
@@ -929,10 +929,7 @@ public class SmartLoadingView extends AppCompatTextView {
                 }
                 setFollow(follow, okAnimationType);
             }
-
         }
-
-
     }
 
     private void setFollow(final boolean follow, final OKAnimationType okAnimationType) {
@@ -1032,9 +1029,11 @@ public class SmartLoadingView extends AppCompatTextView {
 
     // -------------- 开始 ----------------
     // -- startLoading
+    //
     // -------------- 扩散动画 ----------------
     // -- 1.界面圆圈扩散动画，callback方式
     // -- 2.界面圆圈扩散动画，快捷方式，clazz
+    //
     // -------------- follow动画 ----------------
     // -- 1.follow打勾关注
     // -- 2.follow打勾关注并消失

@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mImmersionBar!!.init()
 
         mBinding.smartLoadingView.setOnClickListener {
+            mBinding.smartLoadingView.startLoading()
 //            mBinding.smartLoadingView.isSelected = true
 //            mBinding.smartLoadingView.startLoading()
 //            mBinding.smartLoadingView.onSuccess(object :AnimationFullScreenListener{
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //                    Log.e("测试当前动画结束","finish")
 //                }
 //            })
-            mBinding.smartLoadingView.isFollow = true
+//            mBinding.smartLoadingView.isFollow = true
         }
     }
 

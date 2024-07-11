@@ -30,6 +30,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginTop="150dp"
                 android:text="文案"
+                app:hl_animaled_text="动画后文案"
                 android:textColor="#ff0000"
                 android:textSize="16sp"
                 app:click_mode="like_faile"
