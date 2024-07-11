@@ -3,8 +3,10 @@ package com.lihang.mysmartloadingview
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.gyf.barlibrary.ImmersionBar
+import com.lihang.SmartLoadingView.AnimationFullScreenListener
 import com.lihang.mysmartloadingview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -18,6 +20,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mImmersionBar = ImmersionBar.with(this)
         mImmersionBar!!.init()
 
+        mBinding.smartLoadingView.setOnClickListener {
+//            mBinding.smartLoadingView.isSelected = true
+//            mBinding.smartLoadingView.startLoading()
+//            mBinding.smartLoadingView.onSuccess(object :AnimationFullScreenListener{
+//                override fun animationFullScreenFinish() {
+//                    Log.e("测试当前动画结束","finish")
+//                }
+//            })
+            mBinding.smartLoadingView.isFollow = true
+        }
     }
 
     override fun onClick(v: View) {}

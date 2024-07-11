@@ -5,8 +5,8 @@
         <!-- 文案内容 -->
         <!-- android:text="文案"-->
 
-        <!--  动画结束文案/选中文案（isSelected = true）：注意！不设置则为android:text=""文案 -->
-        <attr name="hl_selected_text" format="string" />
+        <!--  动画结束文案，注意！不设置则为android:text=""文案 -->
+        <attr name="hl_animaled_text" format="string" />
 
         <!-- 文案颜色-->
         <!-- android:textColor="#ff0000"-->
@@ -17,8 +17,8 @@
         <!-- 背景色（只支持颜色,不设置或者设置错误会走蓝色底） -->
         <!-- android:background="#ff00ff" -->
 
-        <!-- 动画结束背景色/选中背景色（isSelected = true）：注意！不设置则为 android:background=""颜色值 -->
-        <attr name="hl_selected_background" format="color" />
+        <!-- 动画结束背景色，注意！不设置则为 android:background=""颜色值 -->
+        <attr name="hl_animaled_background" format="color" />
 
         <!-- 圆角属性 -->
         <attr name="hl_corners_radius" format="dimension" />
@@ -35,7 +35,7 @@
             <enum name="marquee" value="2" />
         </attr>
 
-        <!-- 文字滚动速度，只有文字滚动时生效。这里是每个文子滚动出屏幕外所需的时间 -->
+        <!-- 文字滚动速度，只有文字滚动时生效。这里是每个文字滚动出屏幕外所需的时间 -->
         <attr name="hl_ellipsize_speed" format="integer" />
 
         <!-- ***************************************** 重构中 ******************************************* -->
