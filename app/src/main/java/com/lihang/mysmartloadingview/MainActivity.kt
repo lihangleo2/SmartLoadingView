@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.gyf.barlibrary.ImmersionBar
 import com.lihang.SmartLoadingView.AnimationFullScreenListener
+import com.lihang.SmartLoadingView.AnimationOKListener
 import com.lihang.mysmartloadingview.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -22,6 +24,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         mBinding.smartLoadingView.setOnClickListener {
             mBinding.smartLoadingView.startLoading()
+
+            mBinding.smartLoadingView.onSuccess(object :AnimationOKListener{
+                override fun animationOKFinish() {
+                    Toast.makeText(this@MainActivity,"完成了",Toast.LENGTH_SHORT).show()
+                }
+            })
 //            mBinding.smartLoadingView.isSelected = true
 //            mBinding.smartLoadingView.startLoading()
 //            mBinding.smartLoadingView.onSuccess(object :AnimationFullScreenListener{

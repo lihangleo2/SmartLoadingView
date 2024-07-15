@@ -47,6 +47,12 @@ import com.lihang.help.UIUtil;
  */
 
 public class SmartLoadingView extends AppCompatTextView {
+    private static int SMART_TICK = 1;
+    private static int SMART_TICK_HIDE = 2;
+    private static int SMART_TICK_CENTER_HIDE = 3;
+    private static int SMART_BUTTON = 4;
+    private static int SMART_FULL_SCREEN = 5;
+
 
     //view的宽度
     private int width;
@@ -179,7 +185,9 @@ public class SmartLoadingView extends AppCompatTextView {
     private CirclBigView circlBigView;
 
     private boolean isFollow;
-    private int clickType = 1;//关注的样式，默认是正常样式
+
+    //SmartLoadingView模式
+    private int mButtonType = SMART_FULL_SCREEN;//关注的样式，默认是正常样式
 
 
     public SmartLoadingView(Context context) {
@@ -229,7 +237,7 @@ public class SmartLoadingView extends AppCompatTextView {
         corners_radius = (int) typedArray.getDimension(R.styleable.SmartLoadingView_hl_corners_radius, getResources().getDimension(R.dimen.slv_default_corner));
         ellipsize = typedArray.getInt(R.styleable.SmartLoadingView_hl_ellipsize, 1);
         ellipsize_speed = typedArray.getInt(R.styleable.SmartLoadingView_hl_ellipsize_speed, 400);
-        clickType = typedArray.getInt(R.styleable.SmartLoadingView_click_mode, 1);
+        mButtonType = typedArray.getInt(R.styleable.SmartLoadingView_hl_button_type, SMART_FULL_SCREEN);
 
         int padding_horizontal = (int) getResources().getDimension(R.dimen.slv_padding_horizontal);
         int padding_vertical = (int) getResources().getDimension(R.dimen.slv_padding_vertical);
@@ -631,8 +639,6 @@ public class SmartLoadingView extends AppCompatTextView {
         }
     }
 
-
-    //smartLoadingView 开启动画
     public void startLoading() {
         //没有在loading的情况下才能点击（没有在请求网络的情况下）
         if (!isLoading) {
@@ -644,6 +650,42 @@ public class SmartLoadingView extends AppCompatTextView {
             isLoading = true;
             animatorSet.start();
         }
+    }
+
+    /*
+     * 真的重构
+     * */
+
+    public void finishLoading() {
+
+    }
+
+    public void finishLoading(boolean success) {
+
+    }
+
+    public void finishLoading(LoadingListener listener) {
+
+    }
+
+    public void finishLoading(boolean success, LoadingListener listener) {
+        if (mButtonType == SMART_FULL_SCREEN) {
+
+        }
+    }
+
+    /**
+     * FullScreen api. 只给全屏跳转使用。
+     * 如当前模式，不为全屏模式，则抛出异常，规范使用。
+     */
+    public void finishLoadingWithFullScreen() {
+
+    }
+
+
+    protected interface LoadingListener {
+        void loadingFinish(boolean success);
+
     }
 
     /*
@@ -706,6 +748,10 @@ public class SmartLoadingView extends AppCompatTextView {
      * --------------------- 7.11 重构 -----------------------------
      * */
 
+    /**
+     * 成功动画之
+     * 全屏动画
+     */
     //开启全屏动画，并且监听动画结束后，实现自己的逻辑
     public void onSuccess(final AnimationFullScreenListener animationFullScreenListener) {
         //必须，点击了最开始的动画处于，加载状态，才能获得回调
@@ -725,13 +771,15 @@ public class SmartLoadingView extends AppCompatTextView {
         }
     }
 
-    private Class clazz;
+    /**
+     * 成功动画之
+     * 全屏动画：clazz全屏跳转
+     */
 
     //开启全屏动画，不需要监听动画，只需要传入值，即可实现跳转
     public void onSuccess(final Activity activity, final Class clazz) {
         //必须，点击了最开始的动画处于，加载状态，才能获得回调
         if (isLoading) {
-            this.clazz = clazz;
             if (!animatorSet.isRunning()) {
                 toBigCircle(activity, clazz);
             } else {
@@ -750,21 +798,39 @@ public class SmartLoadingView extends AppCompatTextView {
 
     private AnimationOKListener animationOKListener;
 
-    //开启打勾模式，打勾后，是否隐藏
+    /**
+     * 成功动画之
+     * 打勾动画：normal,打勾  hide,打勾消失  translate_center,打勾去屏幕中心（除：fail样式）
+     */
     public void onSuccess(AnimationOKListener animationOKListenerOkgo) {
         this.animationOKListener = animationOKListenerOkgo;
         OKAnimationType okAnimationType = OKAnimationType.NORMAL;
-        if (clickType == 4) {
+        if (mButtonType == 4) {
             return;
-        } else if (clickType == 1) {
+        } else if (mButtonType == 1) {
             okAnimationType = OKAnimationType.NORMAL;
-        } else if (clickType == 2) {
+        } else if (mButtonType == 2) {
             okAnimationType = OKAnimationType.HIDE;
-        } else if (clickType == 3) {
+        } else if (mButtonType == 3) {
             okAnimationType = OKAnimationType.TRANSLATION_CENTER;
         }
 
+        if (animatorSet.isRunning()) {
+            final OKAnimationType finalOkAnimationType = okAnimationType;
+            this.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goWhatAnimal(finalOkAnimationType);
+                }
+            }, 1000);
+        } else {
+            goWhatAnimal(okAnimationType);
+        }
 
+    }
+
+    //
+    private void goWhatAnimal(OKAnimationType okAnimationType) {
         //这个思路是对的，然后就是看clickindex是否一致
         //必须，点击了最开始的动画处于，加载状态，才能获得回调
         if (isLoading) {
@@ -824,7 +890,7 @@ public class SmartLoadingView extends AppCompatTextView {
                 okView.start(duration);
                 //初始真正的那个View
                 setVisibility(View.INVISIBLE);
-//                reset();
+                //reset();
 
                 //当前屏幕中心位置
                 int window_center_x = UIUtil.getWidth(getContext()) / 2;
@@ -884,6 +950,7 @@ public class SmartLoadingView extends AppCompatTextView {
         }
     }
 
+
     public enum OKAnimationType {
         NORMAL, HIDE, TRANSLATION_CENTER
     }
@@ -908,7 +975,7 @@ public class SmartLoadingView extends AppCompatTextView {
         //不在loading的情况下生效
         if (!isLoading) {
 
-            if (clickType == 4) {
+            if (mButtonType == 4) {
                 isFollow = follow;
                 if (isFollow) {
                     paint.setColor(animaled_backgroundColor);
@@ -920,9 +987,9 @@ public class SmartLoadingView extends AppCompatTextView {
                 postInvalidate();
             } else {
                 OKAnimationType okAnimationType = OKAnimationType.NORMAL;
-                if (clickType == 1) {
+                if (mButtonType == 1) {
                     okAnimationType = OKAnimationType.NORMAL;
-                } else if (clickType == 2) {
+                } else if (mButtonType == 2) {
                     okAnimationType = OKAnimationType.HIDE;
                 } else {
                     okAnimationType = OKAnimationType.TRANSLATION_CENTER;
@@ -1024,27 +1091,8 @@ public class SmartLoadingView extends AppCompatTextView {
 
 
     /*
-    * ----------------------------------------------------------------------------------------------
-    * */
-
-    // -------------- 开始 ----------------
-    // -- startLoading
-    //
-    // -------------- 扩散动画 ----------------
-    // -- 1.界面圆圈扩散动画，callback方式
-    // -- 2.界面圆圈扩散动画，快捷方式，clazz
-    //
-    // -------------- follow动画 ----------------
-    // -- 1.follow打勾关注
-    // -- 2.follow打勾关注并消失
-    // -- 3.follow打勾移动到中间提示消失
-    // -- 4.正常错误回调，返回动画提示。
-
-
-
-
-
-
+     * ----------------------------------------------------------------------------------------------
+     * */
 
 
 }

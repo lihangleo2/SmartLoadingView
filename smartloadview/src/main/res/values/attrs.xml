@@ -40,15 +40,29 @@
 
         <!-- ***************************************** 重构中 ******************************************* -->
 
-        <attr name="click_mode">
-            <!-- 正常的样式 -->
-            <enum name="normal" value="1" />
-            <!-- 隐藏的样式 -->
-            <enum name="hide" value="2" />
-            <!-- 平移到中间的样式-->
-            <enum name="translate_center" value="3" />
-            <!-- 走失败模式的样式-->
-            <enum name="like_faile" value="4" />
+<!--        <attr name="click_mode">-->
+<!--            &lt;!&ndash; 正常的样式 &ndash;&gt;-->
+<!--            <enum name="normal" value="1" />-->
+<!--            &lt;!&ndash; 隐藏的样式 &ndash;&gt;-->
+<!--            <enum name="hide" value="2" />-->
+<!--            &lt;!&ndash; 平移到中间的样式&ndash;&gt;-->
+<!--            <enum name="translate_center" value="3" />-->
+<!--            &lt;!&ndash; 走失败模式的样式&ndash;&gt;-->
+<!--            <enum name="like_faile" value="4" />-->
+
+<!--        </attr>-->
+
+        <attr name="hl_button_type">
+            <!-- 关注模式之一：打勾样式 -->
+            <enum name="smart_tick" value="1" />
+            <!-- 关注模式之一：打勾样式 -> 隐藏 -->
+            <enum name="smart_tick_hide" value="2" />
+            <!-- 关注模式之一：打勾样式 -> 移动到中间 -> 隐藏 -->
+            <enum name="smart_tick_center_hide" value="3" />
+            <!-- 关注模式之一：按钮样式 -->
+            <enum name="smart_button" value="4" />
+            <!-- 不支持关注：全屏扩散特效 -->
+            <enum name="smart_full_screen" value="5" />
 
         </attr>
 
