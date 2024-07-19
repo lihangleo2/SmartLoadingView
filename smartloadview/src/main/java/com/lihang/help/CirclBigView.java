@@ -107,13 +107,13 @@ public class CirclBigView extends View {
     }
 
 
-    public void startShowAni(final SmartLoadingView.AnimationFullScreenListener animationFullScreenListener, final SmartLoadingView smartLoadingView) {
+    public void startShowAni(final SmartLoadingView.LoadingListener listener, final SmartLoadingView smartLoadingView) {
 
-        if (animationFullScreenListener != null) {
+        if (listener != null) {
             if (!animator_big.isRunning()) {
                 animator_big.start();
             }
-            if (animationFullScreenListener != null) {
+            if (listener != null) {
                 animator_big.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -122,8 +122,7 @@ public class CirclBigView extends View {
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        animationFullScreenListener.animationFullScreenFinish();
-//                        smartLoadingView.resetLater();
+                        listener.loadingFinish(true);
                     }
 
                     @Override

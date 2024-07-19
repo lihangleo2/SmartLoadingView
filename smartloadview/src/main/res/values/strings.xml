@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">smartloadview</string>
-    <string name="normalString">默认文案</string>
-    <string name="errorString">错误文案</string>
 </resources>

@@ -11,13 +11,16 @@
         <!-- 文案颜色-->
         <!-- android:textColor="#ff0000"-->
 
+        <!-- 动画结束文字颜色，注意！不设置则为 textColor的颜色值 -->
+        <attr name="hl_animaled_textColor" format="color" />
+
         <!-- 文案字体大小 -->
         <!-- android:textSize="18sp"-->
 
         <!-- 背景色（只支持颜色,不设置或者设置错误会走蓝色底） -->
         <!-- android:background="#ff00ff" -->
 
-        <!-- 动画结束背景色，注意！不设置则为 android:background=""颜色值 -->
+        <!-- 动画结束背景色，注意！不设置则为 background的颜色值 -->
         <attr name="hl_animaled_background" format="color" />
 
         <!-- 圆角属性 -->
