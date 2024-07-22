@@ -27,16 +27,22 @@
 
 ## 效果展示
 为录制流畅，截图分辨率模糊。可下载apk查看真机效果
-* ### smart_full_screen模式，全屏扩散动画（不支持关注）
+* ### smart_full_screen模式：全屏扩散动画（不支持关注）
 |全屏扩散页面跳转|加载失败|失败文案在按钮上|
 |:---:|:---:|:---:|
 |<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen_fail_toast.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen_fail_show.gif" alt="Sample"  width="100%">
 <br/>
 
-* ### smart_button模式，正常按钮动画（支持动画）
+* ### smart_button模式：正常按钮动画（支持关注）
 |关注并加载成功|关注失败|不带动画关注|
 |:---:|:---:|:---:|
 |<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartButton.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartButton_fail.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartButton_noAnimal.gif" alt="Sample"  width="100%">
+<br/>
+
+* ### smart_tick模式：仿抖音打勾关注（支持关注）；smart_tick_hide模式：打勾隐藏（支持关注）；smart_tick_center_hide模式：打勾隐藏，并移至中间提醒（支持关注）。
+|smart_tick|smart_tick_hide|smart_tick_center_hide|
+|:---:|:---:|:---:|
+|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick_hide.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick_hide_center.gif" alt="Sample"  width="100%">
 <br/>
 
 ## 添加依赖
