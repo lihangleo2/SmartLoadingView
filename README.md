@@ -27,10 +27,16 @@
 
 ## 效果展示
 为录制流畅，截图分辨率模糊。可下载apk查看真机效果
-* ### smart_full_screen模式，功能展示（不支持关注）
+* ### smart_full_screen模式，全屏扩散动画（不支持关注）
 |全屏扩散页面跳转|加载失败|失败文案在按钮上|
 |:---:|:---:|:---:|
 |<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen_fail_toast.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen_fail_show.gif" alt="Sample"  width="100%">
+<br/>
+
+* ### smart_button模式，正常按钮动画（支持动画）
+|关注并加载成功|关注失败|不带动画关注|
+|:---:|:---:|:---:|
+|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartButton.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartButton_fail.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartButton_noAnimal.gif" alt="Sample"  width="100%">
 <br/>
 
 ## 添加依赖
