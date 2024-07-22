@@ -1,9 +1,22 @@
+# SmartLoadingView - 一个自带dialog的联网请求按钮
 [![](https://jitpack.io/v/lihangleo2/SmartLoadingView.svg)](https://jitpack.io/#lihangleo2/SmartLoadingView)
+[![](https://img.shields.io/badge/license-MIT-green)](https://github.com/lihangleo2/SmartLoadingView/blob/master/LICENSE)
 
-## SmartLoadingView一个自带dialog的联网请求按钮
-* 支持在任何布局上使用
-* 支持转场动画（可用于登录）
-* 支持正常网络请求且带有多种酷炫效果
+
+## 特点功能
+任何view被包裹后即可享受阴影，以及系统shape,selector功能（清空项目drawable文件夹）。具体介绍如下：
+```
+    1. 支持在任何布局上使用
+    2. smart_full_screen模式：全屏扩散跳转动画，让你的按钮和跳转页面更有活力
+    3. smart_tick模式：仿抖音，关注按钮及动画
+    4. smart_tick_hide模式：打勾动画及隐藏
+    5. smart_tick_center_hide模式：打勾隐藏，及移动到屏幕中间提醒模式
+    6. smart_button模式：正常关注和取消关注
+```
+
+
+## SmartLoadingView动态
+* [ShadowLayout成长史](https://github.com/lihangleo2/ShadowLayout/wiki)  
 
 <br>
 
