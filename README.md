@@ -25,6 +25,14 @@
 ![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/SmartLoadingView_.png)
 <br/>
 
+## 效果展示
+为录制流畅，截图分辨率模糊。可下载apk查看真机效果
+* ### smart_full_screen模式，功能展示（不支持关注）
+|全屏扩散页面跳转|加载失败|失败文案在按钮上|
+|:---:|:---:|:---:|
+|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen_fail_toast.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/fullScreen_fail_show.gif" alt="Sample"  width="100%">
+<br/>
+
 ## 添加依赖
  - 项目build.gradle添加如下
    ```java
