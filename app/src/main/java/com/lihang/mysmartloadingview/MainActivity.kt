@@ -3,6 +3,7 @@ package com.lihang.mysmartloadingview
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import com.blankj.utilcode.util.ActivityUtils
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         supportActionBar?.title = "SmartLoadingView的使用"
+        ToastUtils.setGravity(Gravity.CENTER,0,0)
         //
         mBinding.run {
             /**
