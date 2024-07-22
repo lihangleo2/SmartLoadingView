@@ -90,6 +90,11 @@ class MainActivity : AppCompatActivity() {
                 }, 2000)
             }
 
+            //不带动画的 ”关注“ 和 ”取消关注“
+            smartButtonNoanimal.setOnClickListener {
+                smartButtonNoanimal.isFinished = !smartButtonNoanimal.isFinished
+            }
+
 
             /**
              * 3.smart_tick

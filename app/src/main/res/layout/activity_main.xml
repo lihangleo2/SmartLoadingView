@@ -131,6 +131,24 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/smart_button_success" />
 
+            <com.lihang.SmartLoadingView
+                android:id="@+id/smart_button_noanimal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="#F44336"
+                android:text="点击关注，不带动画"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                app:hl_animaled_background="#A6A6A6"
+                app:hl_animaled_text="关注成功"
+                app:hl_animaled_textColor="#ffffff"
+                app:hl_button_type="smart_button"
+                app:hl_corners_radius="30dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/smart_button_fail" />
+
 
             <TextView
                 android:id="@+id/txt_smarttick_title"
@@ -142,7 +160,7 @@
                 android:textColor="#0353F4"
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/smart_button_fail"
+                app:layout_constraintTop_toBottomOf="@+id/smart_button_noanimal"
                 />
 
 

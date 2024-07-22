@@ -95,6 +95,16 @@ public class MainJavaActivity extends AppCompatActivity {
         });
 
 
+        //不带动画的 ”关注“ 和 ”取消关注“
+        mBinding.smartButtonNoanimal.setOnClickListener(it->{
+            if (!mBinding.smartButtonNoanimal.isFinished()){
+                mBinding.smartButtonNoanimal.setFinished(true);
+            }else {
+                mBinding.smartButtonNoanimal.setFinished(false);
+            }
+        });
+
+
         /**
          * 3.smart_tick
          * 支持关注模式
