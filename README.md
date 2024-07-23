@@ -253,7 +253,7 @@ smartLoadingView.setFinished(true);
 ## 方法表格（Method）
 |name|format|description|
 |:---:|:---:|:---:|
-|startLoading()|boolean|开启加载loading|
+|startLoading()|void|开启加载loading|
 |setFinished()|boolean|不带动画设置控件结束状态|
 |finishLoading()|boolean|带动画设置控件结束状态|
 <br/>
