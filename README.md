@@ -204,6 +204,18 @@ smartLoadingView.setFinished(true);
 |name|format|description|系统api|
 |:---:|:---:|:---:|:---:|
 |android:text|string|文案内容|是|
+|app:hl_animaled_text|string|动画结束文案,默认为text|否|
+|android:textColor|color|文案颜色|是|
+|app:hl_animaled_textColor|color|动画结束文字颜色,默认为textColor|否|
+|android:textSize|dimension|文案字体大小|是|
+|android:background|color|背景色|是|
+|app:hl_animaled_background|color|动画结束背景色,默认为background颜色值|否|
+|app:hl_corners_radius|dimension|圆角属性|否|
+|android:enabled|boolean|是否可被点击|是|
+|app:hl_unEnabled_background|color|不可点击状态下背景色|否|
+|app:hl_ellipsize|enum|reverse:来回滚动；marquee：跑马灯。需文字大于空间宽度生效|否|
+|app:hl_ellipsize_speed|integer|文字滚动速度|否|
+|app:hl_button_type|enum|5种buttonType样式|否|
 <br/>
 
 
