@@ -127,6 +127,35 @@ smartLoadingView.finishLoading(false, success -> {
 ```
 <br>
 
+##### 1.3 如果联网结果失败,你想将错误信息显示在按钮上可以这样
+xml如下：
+```xml
+            <com.lihang.SmartLoadingView
+                android:id="@+id/smart_loading_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#3776C3"
+                android:text="点击加载，展示失败文案"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                app:hl_animaled_background="#f54949"
+                app:hl_animaled_text="网络异常，请稍后再试噢"
+                app:hl_animaled_textColor="#ffffff"
+                app:hl_button_type="smart_full_screen"
+                app:hl_corners_radius="30dp" />
+```
+<br>
+
+调用如下即可。
+```java
+//如果想自定义错误文案，在调用finishLoading前，设置文案
+//smartLoadingView.setAnimaledText("我是自定义错误文案")
+smartLoadingView.finishLoading(false)
+
+```
+
+
+
 
 ## 使用（下方有属性说明）
 
