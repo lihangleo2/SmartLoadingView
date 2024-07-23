@@ -157,7 +157,7 @@ smartLoadingView.finishLoading(false)
 
 #### 二、正常模式：smart_button（支持关注）
 特别说明：smart_button、smart_tick、smart_tick_hide、smart_tick_center_hide 这四种模式，用法一致。所以这里以smart_button 讲解为主
-##### 1.1 如果我们有个按钮，初始状态显示"点击关注"，点击按钮进行网络请求，成功了显示"关注成功"；此时再点击，进行网络请求，成功后，又显示"点击关注"
+##### 2.1 这里我们用一个关注功能来说：如果我们有个按钮，初始状态显示"点击关注"，点击按钮进行网络请求，成功了显示"关注成功"；此时再点击，进行网络请求，成功后再显示"点击关注"
 
 
 
