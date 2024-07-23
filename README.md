@@ -67,8 +67,39 @@
 <br/>
 
 ## 基本使用
-#### 一、全屏模式：smart_full_screen（注意：此模式不支持关注）
-##### 1.1 全屏扩散及页面跳转：smartLoadingView.finishLoadingWithFullScreen(Activity activity, Class clazz)
+#### 一、简单使用
+xml设置如下，注意app:hl_button_type="smart_button"
+```xml
+            <com.lihang.SmartLoadingView
+                android:id="@+id/smart_loading_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#37B3C3"
+                android:text="点击关注"
+		app:hl_animaled_text="关注成功"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                app:hl_button_type="smart_button"
+                app:hl_corners_radius="30dp" />
+```
+<br>
+
+使用如下：没看错就这么简单（5种buttonType均如此）
+```java
+//1.1 设置点击事件，点击调用加载loading
+smartLoadingView.startLoading()
+
+//1.2 联网成功，关注成功调用如下代码
+smartLoadingView.finishLoading()
+
+//1.3 联网失败，调用如下代码
+smartLoadingView.finishLoading(false)
+
+```
+<br>
+
+#### 二、全屏模式：smart_full_screen（注意：此模式不支持关注）
+##### 2.1 全屏扩散及页面跳转：smartLoadingView.finishLoadingWithFullScreen(Activity activity, Class clazz)
 xml如下：
 ```xml
             <com.lihang.SmartLoadingView
@@ -112,7 +143,7 @@ smartLoadingView.finishLoading(true, success -> {
 ```
 <br>
 
-##### 1.2 如果联网结果失败fail时
+##### 2.2 如果联网结果失败fail时
 执行完，就会平滑回到初始状态
 ```java
 //kotlin使用如下：
@@ -127,7 +158,7 @@ smartLoadingView.finishLoading(false, success -> {
 ```
 <br>
 
-##### 1.3 如果联网结果失败,你想将错误信息显示在按钮上可以这样
+##### 2.3 如果联网结果失败,你想将错误信息显示在按钮上可以这样
 xml如下：
 ```xml
             <com.lihang.SmartLoadingView
@@ -155,9 +186,9 @@ smartLoadingView.finishLoading(false)
 ```
 <br>
 
-#### 二、正常模式：smart_button（支持关注）
+#### 三、正常模式：smart_button（支持关注）
 特别说明：smart_button、smart_tick、smart_tick_hide、smart_tick_center_hide 这四种模式，用法一致。所以这里以smart_button 讲解为主
-##### 2.1 这里我们用一个关注功能来说：如果我们有个按钮，初始状态显示"点击关注"，点击按钮进行网络请求，成功了显示"关注成功"；此时再点击，进行网络请求，成功后再显示"点击关注"
+##### 3.1 这里我们用一个关注功能来说：如果我们有个按钮，初始状态显示"点击关注"，点击按钮进行网络请求，成功了显示"关注成功"；此时再点击，进行网络请求，成功后再显示"点击关注"
 当点击按钮时， 我们要判断当前是什么状态，来进行接下来的逻辑：
 ```java
 if (!smartLoadingView.isFinished) {
@@ -173,7 +204,7 @@ if (!smartLoadingView.isFinished) {
 ```
 <br>
 
-##### 2.2 联网出结果，成功 or 失败同样调用如下
+##### 3.2 联网出结果，成功 or 失败同样调用如下
 ```java
 //true则走成功，false则走失败
 //kotlin使用
@@ -188,7 +219,7 @@ smartLoadingView.finishLoading(true, success -> {
 ```
 <br>
 
-##### 2.3 如果你不想使用动画，可以调用如下api。
+##### 3.3 如果你不想使用动画，可以调用如下api。
 ```java
 //kotlin使用
 smartLoadingView.isFinished = true
