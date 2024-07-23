@@ -96,10 +96,11 @@ smartLoadingView.startLoading()
 ```java
 smartLoadingView.finishLoadingWithFullScreen(this, SecondActivity::class.java)
 ```
-<br/>
+<br>
 
 如果你不想用封装的api,想再扩散动画结束后自己操作，你可以使用如下方法：
 ```java
+//kotlin使用如下：
 smartLoadingView.finishLoading(true) {
 	//处理自定义逻辑
 }
@@ -109,14 +110,23 @@ smartLoadingView.finishLoading(true, success -> {
 	//处理自定义逻辑
 });
 ```
-<br/>
+<br>
 
 ##### 1.2 如果联网结果失败fail时
+执行完，就会平滑回到初始状态
 ```java
-smartFullscreenFail.finishLoading(false) {
+//kotlin使用如下：
+smartLoadingView.finishLoading(false) {
     ToastUtils.showShort("加载失败")
 }
+
+//java使用如下：
+smartLoadingView.finishLoading(false, success -> {
+    ToastUtils.showShort("加载失败")
+});
 ```
+<br>
+
 
 ## 使用（下方有属性说明）
 
