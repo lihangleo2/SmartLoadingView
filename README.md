@@ -82,6 +82,7 @@ xml如下：
                 app:hl_button_type="smart_full_screen"
                 app:hl_corners_radius="30dp" />
 ```
+<br>
 
 当点击按钮时，开启加载loading
 <br>
@@ -91,12 +92,31 @@ smartLoadingView.startLoading()
 ```
 <br>
 
-当得到联网结果时，且需要跳转页面时调用如下：
+当得到联网结果为success，且需要跳转页面时调用如下：
 ```java
-smartFullscreenAuto.finishLoadingWithFullScreen(this, SecondActivity::class.java)
+smartLoadingView.finishLoadingWithFullScreen(this, SecondActivity::class.java)
 ```
-
 <br/>
+
+如果你不想用封装的api,想再扩散动画结束后自己操作，你可以使用如下方法：
+```java
+smartLoadingView.finishLoading(true) {
+	//处理自定义逻辑
+}
+
+//java使用如下：
+smartLoadingView.finishLoading(true, success -> {
+	//处理自定义逻辑
+});
+```
+<br/>
+
+##### 1.2 如果联网结果失败fail时
+```java
+smartFullscreenFail.finishLoading(false) {
+    ToastUtils.showShort("加载失败")
+}
+```
 
 ## 使用（下方有属性说明）
 
