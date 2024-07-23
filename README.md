@@ -16,7 +16,7 @@
 
 
 ## SmartLoadingView动态
-* [ShadowLayout成长史](https://github.com/lihangleo2/SmartLoadingView/wiki)  
+* [SmartLoadingView成长史](https://github.com/lihangleo2/SmartLoadingView/wiki)  
 
 
 ## Demo
@@ -45,7 +45,9 @@
 |<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick_hide.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick_hide_center.gif" alt="Sample"  width="100%">
 <br/>
 
+
 ## 添加依赖
+
  - 项目build.gradle添加如下
    ```java
    allprojects {
@@ -57,11 +59,28 @@
  - app build.gradle添加如下
     ```java
    dependencies {
-	        implementation 'com.github.lihangleo2:SmartLoadingView:2.0.2'
+    
+		implementation 'com.github.lihangleo2:SmartLoadingView:3.0.0'
+
 	}
    ```
+<br/>
 
-<br>
+## 基本使用
+* #### 一、全屏模式：smart_full_screen
+```xml
+            <com.lihang.SmartLoadingView
+                android:id="@+id/smart_fullscreen_auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#37B3C3"
+                android:text="点击加载，2s后加载成功并跳转"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                app:hl_button_type="smart_full_screen"
+                app:hl_corners_radius="30dp" />
+```
+<br/>
 
 ## 使用（下方有属性说明）
 
