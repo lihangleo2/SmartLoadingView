@@ -40,7 +40,7 @@
 <br/>
 
 * ### smart_tick模式：仿抖音打勾关注（支持关注）；smart_tick_hide模式：打勾隐藏（支持关注）；smart_tick_center_hide模式：打勾隐藏，并移至中间提醒（支持关注）。
-|smart_tick|smart_tick_hide|smart_tick_center_hide|
+|仿抖音打勾关注|打勾隐藏|打勾隐藏，移至中间|
 |:---:|:---:|:---:|
 |<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick_hide.gif" alt="Sample"  width="100%">|<img src="https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/smartTick_hide_center.gif" alt="Sample"  width="100%">
 <br/>
