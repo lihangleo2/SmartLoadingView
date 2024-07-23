@@ -230,7 +230,7 @@ smartLoadingView.setFinished(true);
 <br>
 
 ## 属性表格（Attributes）
-因为SmartLoadingView就是TextView的拓展空间。部分属性延用了系统属性
+因为SmartLoadingView就是TextView的拓展控件。部分属性延用了系统属性
 
 |name|format|description|系统api|
 |:---:|:---:|:---:|:---:|
