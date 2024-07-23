@@ -158,7 +158,44 @@ smartLoadingView.finishLoading(false)
 #### 二、正常模式：smart_button（支持关注）
 特别说明：smart_button、smart_tick、smart_tick_hide、smart_tick_center_hide 这四种模式，用法一致。所以这里以smart_button 讲解为主
 ##### 2.1 这里我们用一个关注功能来说：如果我们有个按钮，初始状态显示"点击关注"，点击按钮进行网络请求，成功了显示"关注成功"；此时再点击，进行网络请求，成功后再显示"点击关注"
+当点击按钮时， 我们要判断当前是什么状态，来进行接下来的逻辑：
+```java
+if (!smartLoadingView.isFinished) {
+    //当前不时结束，状态，开启加载loading
+    smartLoadingView.startLoading()
+} else {
+    //当前结束时，再次点击回到初始状态
+    //kotlin使用
+    smartLoadingView.isFinished = false
+    //java使用
+    //smartLoadingView.setFinished(false);
+}
+```
+<br>
 
+##### 2.2 联网出结果，成功 or 失败同样调用如下
+```java
+//true则走成功，false则走失败
+//kotlin使用
+smartLoadingView.finishLoading(true) {
+	
+}
+
+//java使用
+smartLoadingView.finishLoading(true, success -> {
+    
+});
+```
+<br>
+
+##### 2.3 如果你不想使用动画，可以调用如下api。
+```java
+    //kotlin使用
+    smartLoadingView.isFinished = true
+
+    //java使用
+    //smartLoadingView.setFinished(true);
+```
 
 
 ## 使用（下方有属性说明）
