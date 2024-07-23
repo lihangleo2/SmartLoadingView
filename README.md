@@ -213,11 +213,19 @@ smartLoadingView.setFinished(true);
 |app:hl_corners_radius|dimension|圆角属性|否|
 |android:enabled|boolean|是否可被点击|是|
 |app:hl_unEnabled_background|color|不可点击状态下背景色|否|
-|app:hl_ellipsize|enum|reverse:来回滚动；marquee：跑马灯。需文字大于空间宽度生效|否|
+|app:hl_ellipsize|enum|reverse:来回滚动；marquee：跑马灯。需文字大于控件宽度生效|否|
 |app:hl_ellipsize_speed|integer|文字滚动速度|否|
 |app:hl_button_type|enum|5种buttonType样式|否|
 <br/>
 
+
+## 方法表格（Method）
+|name|format|description|
+|:---:|:---:|:---:|
+|startLoading()|boolean|开启加载loading|
+|setFinished()|boolean|不带动画设置控件结束状态|
+|finishLoading()|boolean|带动画设置控件结束状态|
+<br/>
 
 ## 赞赏
 
