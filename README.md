@@ -67,7 +67,7 @@
 <br/>
 
 ## 基本使用
-#### 一、全屏模式：smart_full_screen
+#### 一、全屏模式：smart_full_screen（注意：此模式不支持关注）
 ##### 1.1 全屏扩散及页面跳转：smartLoadingView.finishLoadingWithFullScreen(Activity activity, Class clazz)
 xml如下：
 ```xml
@@ -153,7 +153,11 @@ xml如下：
 smartLoadingView.finishLoading(false)
 
 ```
+<br>
 
+#### 二、正常模式：smart_button（支持关注）
+特别说明：smart_button、smart_tick、smart_tick_hide、smart_tick_center_hide 这四种模式，用法一致。所以这里以smart_button 讲解为主
+##### 1.1 如果我们有个按钮，初始状态显示"点击关注"，点击按钮进行网络请求，成功了显示"关注成功"；此时再点击，进行网络请求，成功后，又显示"点击关注"
 
 
 
