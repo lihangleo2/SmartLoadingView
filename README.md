@@ -190,11 +190,11 @@ smartLoadingView.finishLoading(true, success -> {
 
 ##### 2.3 如果你不想使用动画，可以调用如下api。
 ```java
-    //kotlin使用
-    smartLoadingView.isFinished = true
+//kotlin使用
+smartLoadingView.isFinished = true
 
-    //java使用
-    //smartLoadingView.setFinished(true);
+//java使用
+smartLoadingView.setFinished(true);
 ```
 
 
