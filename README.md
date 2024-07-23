@@ -196,293 +196,44 @@ smartLoadingView.isFinished = true
 //java使用
 smartLoadingView.setFinished(true);
 ```
-
-
-## 使用（下方有属性说明）
-
-```xml
-<com.lihang.SmartLoadingView
-        android:id="@+id/smartLoadingView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="自带dialog按钮"
-        android:textColor="#fff"
-        android:textSize="15dp"
-        app:background_normal="#fff"
-        app:errorMsg="联网失败文案"
-        app:background_error="#ED7676"
-        app:background_cannotClick="#bbbbbb"
-        app:cornerRaius="30dp"
-        app:textScrollMode="marquee"
-        app:smart_clickable="true"
-        app:speed="400"
-        />
-```
-
 <br>
 
-# 效果展示（截图分辨率低，请扫描下文二维码体验效果）
+## 属性表格（Attributes）
 
-## 一、开启动画和转场动画的使用
-
-|1.1、动画结束后自动跳转|1.2、自己监听动画实现逻辑|
-|:---:|:---:|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/loading_2.gif)
-
-<br>
-
-### 1.1、动画结束后自动跳转
-这里点击事件和普通的控件点击事件一致。设置setOnClickListener()即可。
-```java
-smartLoadingView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                smartLoadingView.start();
-                Observable.timer(2000, TimeUnit.MILLISECONDS)
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(along -> {
-                    smartLoadingView.onSuccess(MainActivity.this, SecondActivity.class);
-                });
-            }
-        });
-```
-
-<br>
-
-点击按钮，联网开始时，启动动画
-```java
-smartLoadingView.start();
-```
-
-<br>
-
-这里我用了RxJava延迟了2s 模拟联网成功。你也可以用handler延迟实现这个功能,这里用了下lambda表达式，可以忽略，只要看下面代码。
-```java
-//这样既可实现，从一个页面转场动画跳转到另外一个页面（注意这样跳转，第一个页面会被finish掉）。
-smartLoadingView.onSuccess(MainActivity.this, SecondActivity.class);
-```
-
-<br>
-
-### 1.2、自己监听动画实现逻辑
-前面点击事件和启动动画和 1.1 都一样，不同的时，联网成功的时候，增加动画结束的监听（这里逻辑都是自己处理，不会关闭和跳转任何页面）
-```java
-smartLoadingView.onSuccess(new SmartLoadingView.AnimationFullScreenListener() {
-                        @Override
-                        public void animationFullScreenFinish() {
-                            Toast.makeText(MainActivity.this, "监听动画结束", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-```
-
-<br>
-
-## 二、联网请求失败的样式
-
-|2.1、请求失败，文案显示在控件上|2.2、请求失败，回到初始状态|
-|:---:|:---:|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/error_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/error_2.gif)
-
-<br>
-
-### 2.1、请求失败，文案显示在控件上
-这里点击和启动动画都和上面一致。如果你xml里设置了失败文案的话，联网失败时，只需要调用
-```java
-smartLoadingView.netFaile();
-```
-当然，如果你再联网前并不知道失败文案也可以这样，带入当前失败的文案
-```java
-smartLoadingView.netFaile(msg);
-```
-
-<br>
-
-### 2.2、请求失败，回到初始状态
-如果你们的需求是，失败文案显示在别的地方，或者只是弹一个toast,按钮箱回到初始状态，只需要这样（这里的意思是，控件还在转圈等待，网络回调后，动画平滑回到初始状态）
-```java
-smartLoadingView.backToStart();
-```
-
-<br>
-
-## 三、正常的联网请求（目前作者用于关注）
-
-|3.1、正常的联网，正常出结果|3.2、正常联网，打勾出结果|
-|:---:|:---:|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_1.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_2.gif)
-|3.3、打勾出结果，打勾消失|3.4、打勾出结果，提醒用户|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_3.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/follow_4.gif)
-
-<br> 
-
-```java
-//2.0.2后把关注方式做成了属性，切记，如果你想用哪种方式，务必要在xml上写上
- <attr name="click_mode">
-            <!-- 正常的样式 -->
-            <enum name="normal" value="1" />
-            <!-- 隐藏的样式 -->
-            <enum name="hide" value="2" />
-            <!-- 平移到中间的样式-->
-            <enum name="translate_center" value="3" />
-            <!-- 走失败模式的样式-->
-            <enum name="like_faile" value="4" />
-
-        </attr>
-```
+|name|format|description|
+|:---:|:---:|:---:|
+|android:text|string|文案内容|
+<br/>
 
 
-### 3.1、正常的联网，正常出结果 app:click_mode="like_faile"
-这里点击事件和启动动画都和之前一样。正常出结果，只需要结合失败的方法去使用，失败文案，失败背景设置成关注成功的样式，调用只需要这样
-```java
-smartLoadingView.netFaile("关注成功");
-```
-再次点击后，回到初始状态。注意这里不能使用backToStart（）。因为backToStart（）是出结果时使用，即使你使用也不起效果，这里已经出了结果“关注成功”。所以此时，再次点击，需要如下
-```java
-smartLoadingView.reset();
-```
+## 赞赏
 
-<br>
+如果你喜欢 SmartLoadingView 的功能，感觉 SmartLoadingView 帮助到了你，可以点右上角 "Star" 支持一下 谢谢！ ^_^
+你也还可以扫描下面的二维码~ 请作者喝一杯咖啡。或者遇到工作中比较难实现的需求请作者帮忙。
 
-### 3.2、正常联网，打勾出结果 app:click_mode="normal"
-前面都是一样的，只是出结果时，实现AnimationOKListener接口
-```java
-smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
-                            @Override
-                            public void animationOKFinish() {
-                                Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-```
-
-<br>
-
-### 3.3、打勾出结果，打勾消失 app:click_mode="hide"
-如果想实现抖音那样，打勾后，打勾消失，只需要实现，添加一个模式就好了,OKAnimationType.HIDE。（当然上面就是默认的OKAnimationType.NORMAL）
-```java
-smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
-                        @Override
-                        public void animationOKFinish() {
-                            Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-```
-
-<br>
-
-### 3.4、打勾出结果，提醒用户 app:click_mode="translate_center"
-这个就有点类似提醒效果，不管你的控件在屏幕上的任何位置，最终都会运行到屏幕中间，提醒用户，成功了。也只需添加一个模式OKAnimationType.TRANSLATION_CENTER
-```java
-smartLoadingView.onSuccess(new SmartLoadingView.AnimationOKListener() {
-                        @Override
-                        public void animationOKFinish() {
-                            Toast.makeText(MainActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-```
-<br>
-
-### 3.5、上个版本很多朋友说，没有默认选中的状态。在xml里写上你的click_mode后，只需一句代码
-```java
-binding.smartLoadingViewNormal.setFollow(true);
-```
-<br>
-
-## 四、文字超出一行，文字自动滚动
-设计这个的初衷是因为，可能按钮的错误文案太长了，按钮放不下时使用的
-
-|4.1、文字来回滚动|4.2、仿跑马灯滚动|
-|:---:|:---:|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/scroll.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/scroll.gif)
-
-<br>
-
-### 4.1、文字来回滚动
-只需要在xml里加上 app:textScrollMode="normal"。或者可以不加，因为默认滚动就是这种方式
-
-<br>
-
-### 4.2、仿跑马灯滚动
-xml里只需要加上 app:textScrollMode="marquee"
-
-<br>
-
-## 五、设置不可点击状态
-
-|5.1、设置不可点击状态||
-|:---:|:---:|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/cannot_click.gif)|![]()
-
-<br>
-
-### 5.1、设置不可点击状态
-在xml里可以通过app:smart_clickable="false"进行设置。当然也能通过代码来设置
-```java
-smartLoadingView.setSmartClickable(false);
-```
-
-<br>
-
-## 六、这里作者还提供了2个小demo。登录demo和关注demo
-
-|6.1、登录demo|6.2、关注demo|
-|:---:|:---:|
-|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/demo_login.gif)|![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/demo_follow.gif)
-
-可以下载demo自行查看
+![](https://github.com/lihangleo2/ShadowLayout/blob/master/showImages/pay_ali.png) ![](https://github.com/lihangleo2/ShadowLayout/blob/master/showImages/pay_wx.png)
 
 
-## 扫描二维体验效果(下载密码是：123456)
-![](https://github.com/lihangleo2/SmartLoadingView/blob/master/gif/SmartLoadingView_.png)
+如果在捐赠留言中备注名称，将会被记录到列表中~ 如果你也是github开源作者，捐赠时可以留下github项目地址或者个人主页地址，链接将会被添加到列表中
+### [捐赠列表](https://github.com/lihangleo2/ShadowLayout/blob/master/showImages/friend.md)
+<br/>
 
-<br>
 
- # 自定义属性
- #### 1、按钮文案
- - android:text="自带dialog按钮"  使用了textView的text文字属性
-  
- #### 2、按钮文案颜色值
- - android:textColor="#fff" 使用了textView的textColor颜色值属性
-  
- #### 3、按钮文案字体大小
- - android:textSize="15dp" 使用了textView的字体大小
+## 其他作品
+[万能ViewPager2适配器SmartViewPager2Adapter](https://github.com/lihangleo2/ViewPager2Demo)  
+[RichEditTextCopyToutiao](https://github.com/lihangleo2/RichEditTextCopyToutiao)  
+[mPro](https://github.com/lihangleo2/mPro)  
+[SmartLoadingView](https://github.com/lihangleo2/SmartLoadingView)  
+
+<br/>
+
+
  
- #### 4、正常情况下的背景颜色值
- - app:background_normal="#fff" 按钮正常的背景颜色值
-
- #### 5、联网失败文案
- - app:errorMsg="联网失败文案" 联网失败展示的文案，比如登录时，账号密码错误
- 
- #### 6、联网失败下的背景颜色值
- - app:background_error="#ED7676" 联网失败时展示的背景颜色值，一般为殷红色
-
- #### 7、不可点击状态下的背景颜色值
- - app:background_cannotClick="#bbbbbb" 不可点击状态下的背景颜色值
- 
- #### 8、圆角属性
- - app:cornerRaius="30dp" 背景的圆角属性
- 
- #### 9、文字滚动模式（文字超过一行时，文字自动滚动）
- - app:textScrollMode="marquee" 比如联网失败后，失败文案太长了。文字自动滚动，这里有2种方式。1、normal来回滚动。 2、marquee跑马灯效果
- 
- #### 10、文字滚动速度
- - app:speed="400" 文字的滚动速度。可以理解为一个文字滚动出屏幕外需要的时间
- 
- #### 11、按钮的点击状态
- - app:smart_clickable="true" 不设置时，默认可以点击，为true。代码里也能通过 smartLoadingView9.setSmartClickable(false) 进行设置
- 
- #### 12、这里稍微说下长宽
- 长宽都是用系统的layout_width和layout_height，包括设置padding。如果不设置，是有默认间距的
- 
- #### 13、click_mode关注方式
- - 这里有四种模式，like_faile、normal、hide、translate_center；不管用哪种模式，xml一定要加上这个属性。like_faile：像联网失败的方式展示关注成功；normal：正常的关注打勾动画；hide：正常打勾关注后，按钮消失。translate_center：打勾关注后，移动到屏幕中心提醒。
-	
- <br>
- 
- ## 关于作者。
-Android工作多年了，一直向往大厂。在前进的道路上是孤独的。如果你在学习的路上也感觉孤独，请和我一起。让我们在学习道路上少些孤独
-* [关于我的经历](https://mp.weixin.qq.com/s?__biz=MzAwMDA3MzU2Mg==&mid=2247483667&idx=1&sn=1a575ea2c636980e5f4c579d3a73d8ab&chksm=9aefcb26ad98423041c61ad7cbad77f0534495d11fc0a302b9fdd3a3e6b84605cad61d192959&mpshare=1&scene=23&srcid=&sharer_sharetime=1572505105563&sharer_shareid=97effcbe7f9d69e6067a40da3e48344a#rd)
- * QQ群： 209010674 <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=5e29576e7d2ebf08fa37d8953a0fea3b5eafdff2c488c1f5c152223c228f1d11"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="android交流群" title="android交流群"></a>（点击图标，可以直接加入）
- 
-<br>
+## 关于作者。
+Android工作多年了。前进的道路上是孤独的。如果你在学习的路上也感觉孤独，请和我一起。让我们在学习道路上少些孤独
+<!-- * [关于我的经历](https://mp.weixin.qq.com/s?__biz=MzAwMDA3MzU2Mg==&mid=2247483667&idx=1&sn=1a575ea2c636980e5f4c579d3a73d8ab&chksm=9aefcb26ad98423041c61ad7cbad77f0534495d11fc0a302b9fdd3a3e6b84605cad61d192959&mpshare=1&scene=23&srcid=&sharer_sharetime=1572505105563&sharer_shareid=97effcbe7f9d69e6067a40da3e48344a#rd) -->
+ * QQ群： 209010674 <a target="_blank" href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=C5RJFvVexskcqccqO1ORpLID9dBxlbIM&authKey=aax93zJjnA2San0TA0VEIc%2BLU9RDtstZ7BD7pz3FPdJRjlOu8%2Ffb%2BDNSX0Cz6hbr&noverify=0&group_code=209010674"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="android交流群" title="android交流群"></a>（点击图标，可以直接加入）
+<br/>
 
 ## LICENSE
 
