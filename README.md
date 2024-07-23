@@ -1,4 +1,4 @@
-# SmartLoadingView - 一个自带dialog的联网请求按钮
+# SmartLoadingView - 一个自带loading的联网请求按钮
 [![](https://jitpack.io/v/lihangleo2/SmartLoadingView.svg)](https://jitpack.io/#lihangleo2/SmartLoadingView)
 [![](https://img.shields.io/badge/license-MIT-green)](https://github.com/lihangleo2/SmartLoadingView/blob/master/LICENSE)
 
@@ -67,10 +67,12 @@
 <br/>
 
 ## 基本使用
-* #### 一、全屏模式：smart_full_screen
+#### 一、全屏模式：smart_full_screen
+##### 1.1 全屏扩散及页面跳转：smartLoadingView.finishLoadingWithFullScreen(Activity activity, Class clazz)
+xml如下：
 ```xml
             <com.lihang.SmartLoadingView
-                android:id="@+id/smart_fullscreen_auto"
+                android:id="@+id/smart_loading_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#37B3C3"
@@ -80,6 +82,20 @@
                 app:hl_button_type="smart_full_screen"
                 app:hl_corners_radius="30dp" />
 ```
+
+当点击按钮时，开启加载loading
+<br>
+
+```java
+smartLoadingView.startLoading()
+```
+<br>
+
+当得到联网结果时，且需要跳转页面时调用如下：
+```java
+smartFullscreenAuto.finishLoadingWithFullScreen(this, SecondActivity::class.java)
+```
+
 <br/>
 
 ## 使用（下方有属性说明）
